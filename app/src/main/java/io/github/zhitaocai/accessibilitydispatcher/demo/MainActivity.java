@@ -7,6 +7,8 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.zhitaocai.accessibilitydispatcher.AccessibilityDispatcher;
@@ -16,6 +18,8 @@ import io.github.zhitaocai.accessibilitydispatcher.businss.vpn.VpnTarget;
 
 public class MainActivity extends AppCompatActivity {
 	
+	private final static int REQ_AUTO_CONFIG_VPN = 1;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -23,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 		ButterKnife.bind(this);
 		
 		// 开启调试log
-		AccessibilityDispatcher.debugLog(true).withEventSourceLog(true);
+		AccessibilityDispatcher.debugLog(true).withEventSourceLog(false).withClassNameInTag(false);
 	}
 	
 	@OnClick(R.id.btn_open_accessibility)
@@ -31,51 +35,101 @@ public class MainActivity extends AppCompatActivity {
 		startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
 	}
 	
-	@OnClick(R.id.btn_open_vpn_settings)
-	protected void openVpnSettings() {
-		
+	@OnClick(R.id.btn_create_vpn1)
+	protected void createVpn1() {
 		// 在打开VPN界面之前，设置我们需要自动操作的内容
-		//
-		// e.g.
-		//
-		// 需要自动创建两个VPN配置并且输入用户信息，其中，
-		//
-		// VPN1 为新建VPN配置，如果存在在不处理
-		// VPN2 为新建或者更新VPN配置，如果之前已经存在这个VPN配置的话，就更新它的VPN配置和用户信息
-		VpnHelper.getInstance().addTarget(
-				new VpnTarget.Builder().setAction(VpnTarget.ACTION_CREATE_VPN_CONFIG | VpnTarget.ACTION_CREATE_USER_CONFIG)
-				                       .setVpnName("VPN1")
-				                       .setVpnType(VpnTarget.VpnType.PPTP)
-				                       .setVpnServerAddr("1.1.1.1")
-				                       .setPPPEncryption(true)
-				                       .setDnsSearchDomain("8.8.8.8")
-				                       .setUserName("username1")
-				                       .setPassword("123456")
-				                       .setSaveAccountInfo(true)
-				                       .build(),
-				new VpnTarget.Builder().setAction(VpnTarget.ACTION_CREATE_VPN_CONFIG | VpnTarget.ACTION_UPDATE_VPN_CONFIG |
-				                                  VpnTarget.ACTION_CREATE_USER_CONFIG | VpnTarget.ACTION_UPDATE_USER_CONFIG)
-				                       .setVpnName("VPN2")
-				                       .setVpnType(VpnTarget.VpnType.PPTP)
-				                       .setVpnServerAddr("2.2.2.2")
-				                       .setPPPEncryption(true)
-				                       .setDnsSearchDomain("8.8.8.8")
-				                       .setUserName("username2-" + System.currentTimeMillis())
-				                       .setPassword("123456")
-				                       .setSaveAccountInfo(true)
-				                       .build()
-		).addCallBack(new OnVpnCallBackAdapter() {
-			/**
-			 * 开始配置VPN信息时回调
-			 *
-			 * @param vpnConfig 当前在配置的vpn信息
-			 */
-			@Override
-			public void onVpnConfigStart(VpnTarget.VpnConfig vpnConfig) {
-				Toast.makeText(MainActivity.this, "开始配置VPN" + System.currentTimeMillis(), Toast.LENGTH_SHORT).show();
-				VpnHelper.getInstance().removeCallBack(this).active();
-			}
-		}).setEnable(true).active();
+		
+		VpnHelper.getInstance()
+		
+		         // 创建一个PPTP连接
+		         .setTarget(new VpnTarget.Builder().setVpnName("PPTP VPN Demo")
+		                                           .setAction(VpnTarget.ACTION_CREATE_VPN_CONFIG |
+		                                                      VpnTarget.ACTION_INPUT_USER_CONFIG)
+		                                           .setVpnType(VpnTarget.VpnType.PPTP)
+		                                           .setVpnServerAddr("1.2.3.4")
+		                                           .setDnsSearchDomain("8.8.8.8")
+		                                           .setDnsServers("8.8.8.8")
+		                                           .setForwardingRoutes("10.0.0.0/8")
+		                                           .setUserName("username")
+		                                           .setPassword("password")
+		                                           .setSaveAccountInfo(true)
+		                                           .build())
+		         //
+		         // // 添加一个L2TP IPSec PSK连接
+		         // .addTarget(new VpnTarget.Builder().setVpnName("L2TP VPN Demo")
+		         //                                   .setAction(VpnTarget.ACTION_CREATE_VPN_CONFIG |
+		         //                                              VpnTarget.ACTION_INPUT_USER_CONFIG)
+		         //                                   .setVpnType(VpnTarget.VpnType.L2TP_IPSec_PSK)
+		         //                                   .setVpnServerAddr("1.2.3.4")
+		         //                                   .setL2TPSecret("L2TPSecret-test")
+		         //                                   .setIPSecIdentifier("IPSecIdentifier-test")
+		         //                                   .setIPSecPreSharedKey("IPSecPreSharedKey-test")
+		         //                                   .setDnsSearchDomain("8.8.8.8")
+		         //                                   .setDnsServers("8.8.8.8")
+		         //                                   .setForwardingRoutes("10.0.0.0/8")
+		         //                                   .setUserName("username")
+		         //                                   .setPassword("password")
+		         //                                   .setSaveAccountInfo(true)
+		         //                                   .build())
+		
+		         .setCallBack(new OnVpnCallBackAdapter() {
+			
+			         /**
+			          * 开始配置VPN信息时回调
+			          *
+			          * @param vpnTarget 当前在配置的VPN
+			          */
+			         @Override
+			         public void onVpnConfigStart(VpnTarget vpnTarget) {
+				         Toast.makeText(
+						         MainActivity.this,
+						         String.format(Locale.getDefault(), "%1$tH:%1$tM:%1$tS 进入VPN配置", System.currentTimeMillis()),
+						         Toast.LENGTH_SHORT
+				         ).show();
+			         }
+			
+			         /**
+			          * 配置VPN信息结束时回调
+			          *
+			          * @param vpnTarget 当前在配置的VPN
+			          */
+			         @Override
+			         public void onVpnConfigFinish(VpnTarget vpnTarget) {
+				         Toast.makeText(
+						         MainActivity.this,
+						         String.format(Locale.getDefault(), "%1$tH:%1$tM:%1$tS 完成VPN配置", System.currentTimeMillis()),
+						         Toast.LENGTH_SHORT
+				         ).show();
+			         }
+			
+			         /**
+			          * 开始配置用户信息时回调
+			          *
+			          * @param vpnTarget 当前在配置的VPN
+			          */
+			         @Override
+			         public void onUserConfigStart(VpnTarget vpnTarget) {
+				         Toast.makeText(
+						         MainActivity.this,
+						         String.format(Locale.getDefault(), "%1$tH:%1$tM:%1$tS 进入用户配置", System.currentTimeMillis()),
+						         Toast.LENGTH_SHORT
+				         ).show();
+			         }
+			
+			         /**
+			          * 配置用户信息结束时回调
+			          *
+			          * @param vpnTarget 当前在配置的VPN
+			          */
+			         @Override
+			         public void onUserConfigFinish(VpnTarget vpnTarget) {
+				         Toast.makeText(
+						         MainActivity.this,
+						         String.format(Locale.getDefault(), "%1$tH:%1$tM:%1$tS 完成用户配置", System.currentTimeMillis()),
+						         Toast.LENGTH_SHORT
+				         ).show();
+			         }
+		         }).setEnable(true).active();
 		
 		Intent intent;
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
@@ -84,7 +138,21 @@ public class MainActivity extends AppCompatActivity {
 			intent = new Intent();
 			intent.setAction("android.net.vpn.SETTINGS");
 		}
-		startActivity(intent);
+		startActivityForResult(intent, REQ_AUTO_CONFIG_VPN);
 	}
 	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (requestCode) {
+		case REQ_AUTO_CONFIG_VPN:
+			
+			// 不管配置是否成功，建议都取消自动配置，这样子，如果用户自己从设置中打开VPN配置的话，我们的自动点击程序就不会影响到用户的操作了
+			//if (resultCode == RESULT_OK) { }
+			VpnHelper.getInstance().reset().active();
+			break;
+		default:
+			break;
+		}
+	}
 }

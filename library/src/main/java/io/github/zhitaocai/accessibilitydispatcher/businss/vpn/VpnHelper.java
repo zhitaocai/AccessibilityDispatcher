@@ -31,7 +31,7 @@ public final class VpnHelper extends AbsHelper<VpnTarget, OnVpnCallBack, VpnHand
 	 */
 	@NonNull
 	@Override
-	protected String getIdentify() {
+	public String getIdentify() {
 		return "android.net.vpn.SETTINGS";
 	}
 	

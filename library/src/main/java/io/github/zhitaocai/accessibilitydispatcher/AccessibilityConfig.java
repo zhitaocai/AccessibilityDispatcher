@@ -12,10 +12,29 @@ public final class AccessibilityConfig {
 	
 	private boolean mIsShowEventSourceLog;
 	
+	private boolean mIsShowClassNameInTag;
+	
 	AccessibilityConfig() {
 		super();
 		mIsShowDebugLog = false;
 		mIsShowEventSourceLog = false;
+		mIsShowClassNameInTag = false;
+	}
+	
+	boolean isShowClassNameInTag() {
+		return mIsShowClassNameInTag;
+	}
+	
+	/**
+	 * 调试的Log显示时，是否显示log调用时所在的类名
+	 *
+	 * @param showClassNameInTag
+	 *
+	 * @return
+	 */
+	public AccessibilityConfig withClassNameInTag(boolean showClassNameInTag) {
+		mIsShowClassNameInTag = showClassNameInTag;
+		return this;
 	}
 	
 	boolean isShowEventSourceLog() {

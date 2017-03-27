@@ -9,14 +9,14 @@
 	>
 	
 	<Button
-		android:id="@+id/btn_open_vpn_settings"
+		android:id="@+id/btn_create_vpn1"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:elevation="0dp"
-		android:text="打开VPN页面"
 		android:layout_marginLeft="8dp"
-		app:layout_constraintLeft_toLeftOf="parent"
 		android:layout_marginTop="8dp"
+		android:elevation="0dp"
+		android:text="自动创建一个VPN：VPN1"
+		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/btn_open_accessibility"
 		/>
 	

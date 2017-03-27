@@ -15,28 +15,28 @@ public interface OnVpnCallBack extends OnCallBack {
 	/**
 	 * 开始配置VPN信息时回调
 	 *
-	 * @param vpnConfig 当前在配置的vpn信息
+	 * @param vpnTarget 当前在配置的VPN
 	 */
-	void onVpnConfigStart(VpnTarget.VpnConfig vpnConfig);
+	void onVpnConfigStart(VpnTarget vpnTarget);
 	
 	/**
 	 * 配置VPN信息结束时回调
 	 *
-	 * @param vpnConfig 当前在配置的vpn信息
+	 * @param vpnTarget 当前在配置的VPN
 	 */
-	void onVpnConfigFinish(VpnTarget.VpnConfig vpnConfig);
+	void onVpnConfigFinish(VpnTarget vpnTarget);
 	
 	/**
 	 * 开始配置用户信息时回调
 	 *
-	 * @param userConfig 当前在配置的vpn信息
+	 * @param vpnTarget 当前在配置的VPN
 	 */
-	void onUserConfigStart(VpnTarget.UserConfig userConfig);
+	void onUserConfigStart(VpnTarget vpnTarget);
 	
 	/**
 	 * 配置用户信息结束时回调
 	 *
-	 * @param userConfig 当前在配置的vpn信息
+	 * @param vpnTarget 当前在配置的VPN
 	 */
-	void onUserConfigFinish(VpnTarget.UserConfig userConfig);
+	void onUserConfigFinish(VpnTarget vpnTarget);
 }

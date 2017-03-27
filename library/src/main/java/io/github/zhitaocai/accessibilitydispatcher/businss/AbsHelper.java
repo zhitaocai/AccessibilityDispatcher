@@ -43,6 +43,13 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 		return obj != null && hashCode() == obj.hashCode();
 	}
 	
+	public AbsHelper reset() {
+		mIsEnable = false;
+		mTargets = null;
+		mCallBacks = null;
+		return this;
+	}
+	
 	/**
 	 * 创建需要的业务对象的工厂
 	 *
@@ -84,16 +91,38 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 		return mCallBacks;
 	}
 	
-	public void setCallBacks(ArrayList<C> callBacks) {
+	public AbsHelper setCallBacks(ArrayList<C> callBacks) {
 		mCallBacks = callBacks;
+		return this;
+	}
+	
+	public AbsHelper setCallBack(C callBack) {
+		if (mCallBacks == null) {
+			mCallBacks = new ArrayList<>();
+		} else {
+			mCallBacks.clear();
+		}
+		mCallBacks.add(callBack);
+		return this;
 	}
 	
 	public ArrayList<T> getTargets() {
 		return mTargets;
 	}
 	
-	public void setTargets(ArrayList<T> targets) {
+	public AbsHelper setTargets(ArrayList<T> targets) {
 		mTargets = targets;
+		return this;
+	}
+	
+	public AbsHelper setTarget(T target) {
+		if (mTargets == null) {
+			mTargets = new ArrayList<>();
+		} else {
+			mTargets.clear();
+		}
+		mTargets.add(target);
+		return this;
 	}
 	
 	/**

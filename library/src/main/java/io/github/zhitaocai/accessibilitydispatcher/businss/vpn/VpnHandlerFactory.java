@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import io.github.zhitaocai.accessibilitydispatcher.AbsASHandler;
 import io.github.zhitaocai.accessibilitydispatcher.businss.IHandlerFactory;
-import io.github.zhitaocai.accessibilitydispatcher.androidsettings.vpn.android.AndroidVpnSettingsASHandler;
+import io.github.zhitaocai.accessibilitydispatcher.androidsettings.vpn.android.AndroidVpnSettingsASHandler444;
 
 /**
  * @author zhitao
@@ -28,7 +28,7 @@ public class VpnHandlerFactory implements IHandlerFactory {
 		//			handlers.add(new AndroidAccessibilityPageASHandler444());
 		//			return handlers;
 		//		}
-		handlers.add(new AndroidVpnSettingsASHandler());
+		handlers.add(new AndroidVpnSettingsASHandler444());
 		return handlers;
 	}
 }

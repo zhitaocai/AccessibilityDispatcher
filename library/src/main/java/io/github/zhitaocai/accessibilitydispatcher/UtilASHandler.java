@@ -66,13 +66,21 @@ abstract class UtilASHandler {
 	/**
 	 * 输入内容到EditText中
 	 *
-	 * @param viewId EditText的viewId
-	 * @param text   待输入的内容
+	 * @param viewId          EditText的viewId
+	 * @param text            待输入的内容
+	 * @param isFromStart     主要为在18，19，20，这三个api生效，主要是有些EditTextView的光标有时在最前面，有时在最后面，导致全选时需要判断一下
+	 *                        <ul>
+	 *                        <li>true：从EditText开头向后全选文字</li>
+	 *                        <li>false：从EditText结尾向前开始全选文字</li>
+	 *                        </ul>
+	 * @param granularityType 主要为在18，19，20，这三个api生效，全选时是以什么间隔
+	 *                        {@link AccessibilityNodeInfo#MOVEMENT_GRANULARITY_LINE}之类
 	 *
 	 * @return false 失败（可能没有找到对应的节点之类的） true 成功
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-	protected boolean performInputTextByViewIdFromRootInActiveWindow(@NonNull String viewId, String text) {
+	protected boolean performInputTextByViewIdFromRootInActiveWindow(@NonNull String viewId, @NonNull String text,
+			boolean isFromStart, int granularityType) {
 		AccessibilityNodeInfo nodeInfo = getAccessibilityService().getRootInActiveWindow();
 		if (nodeInfo == null) {
 			return false;
@@ -84,7 +92,7 @@ abstract class UtilASHandler {
 			return false;
 		}
 		// 只针对第一个找到的来进行处理
-		inputText(list.get(0), text);
+		inputText(list.get(0), text, isFromStart, granularityType);
 		
 		//		for (AccessibilityNodeInfo item : list) {
 		//			AccessibilityNodeHelper.inputText(getAccessibilityService().getApplicationContext(), item, text);
@@ -95,35 +103,50 @@ abstract class UtilASHandler {
 	/**
 	 * 输入内容到EditText中
 	 *
-	 * @param nodeInfo 如果是event 那么调用nodeInfo就有AccessibilityNodeInfo对象
-	 * @param viewId   EditText的viewId
-	 * @param text     待输入的内容
+	 * @param nodeInfo        如果是event 那么调用nodeInfo就有AccessibilityNodeInfo对象
+	 * @param viewId          EditText的viewId
+	 * @param text            待输入的内容
+	 * @param isFromStart     主要为在18，19，20，这三个api生效，主要是有些EditTextView的光标有时在最前面，有时在最后面，导致全选时需要判断一下
+	 *                        <ul>
+	 *                        <li>true：从EditText开头向后全选文字</li>
+	 *                        <li>false：从EditText结尾向前开始全选文字</li>
+	 *                        </ul>
+	 * @param granularityType 主要为在18，19，20，这三个api生效，全选时是以什么间隔
+	 *                        {@link AccessibilityNodeInfo#MOVEMENT_GRANULARITY_LINE}之类
 	 *
 	 * @return false 失败（可能没有找到对应的节点之类的） true 成功
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	protected boolean performInputTextByViewIdFromNode(@NonNull AccessibilityNodeInfo nodeInfo, @NonNull String viewId,
-			String text) {
+			@NonNull String text, boolean isFromStart, int granularityType) {
 		List<AccessibilityNodeInfo> list = nodeInfo.findAccessibilityNodeInfosByViewId(viewId);
 		DLog.i("viewId: %s 在 node[%s] 中有%d个node", viewId, nodeInfo.getViewIdResourceName(), list == null ? 0 : list.size());
 		if (list == null || list.isEmpty()) {
 			return false;
 		}
 		// 只针对第一个找到的来进行处理
-		inputText(list.get(0), text);
+		inputText(list.get(0), text, isFromStart, granularityType);
 		return true;
 	}
 	
 	/**
 	 * 输入内容到EditText中
 	 *
-	 * @param textId EditText的中所显示的内容
-	 * @param text   待输入的内容
+	 * @param textId          EditText的中所显示的内容
+	 * @param text            待输入的内容
+	 * @param isFromStart     主要为在18，19，20，这三个api生效，主要是有些EditTextView的光标有时在最前面，有时在最后面，导致全选时需要判断一下
+	 *                        <ul>
+	 *                        <li>true：从EditText开头向后全选文字</li>
+	 *                        <li>false：从EditText结尾向前开始全选文字</li>
+	 *                        </ul>
+	 * @param granularityType 主要为在18，19，20，这三个api生效，全选时是以什么间隔
+	 *                        {@link AccessibilityNodeInfo#MOVEMENT_GRANULARITY_LINE}之类
 	 *
 	 * @return false 失败（可能没有找到对应的节点之类的） true 成功
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	protected boolean performInputTextByTextFromRootInActiveWindow(@NonNull String textId, String text) {
+	protected boolean performInputTextByTextFromRootInActiveWindow(@NonNull String textId, @NonNull String text,
+			boolean isFromStart, int granularityType) {
 		AccessibilityNodeInfo nodeInfo = getAccessibilityService().getRootInActiveWindow();
 		if (nodeInfo == null) {
 			return false;
@@ -135,22 +158,29 @@ abstract class UtilASHandler {
 			return false;
 		}
 		// 只针对第一个找到的来进行处理
-		inputText(list.get(0), text);
+		inputText(list.get(0), text, isFromStart, granularityType);
 		return true;
 	}
 	
 	/**
 	 * 输入内容到EditText中
 	 *
-	 * @param nodeInfo 如果是event 那么调用nodeInfo就有AccessibilityNodeInfo对象
-	 * @param textId   EditText的中所显示的内容
-	 * @param text     待输入的内容
+	 * @param nodeInfo        如果是event 那么调用nodeInfo就有AccessibilityNodeInfo对象
+	 * @param textId          EditText的中所显示的内容
+	 * @param text            待输入的内容
+	 * @param isFromStart     主要为在18，19，20，这三个api生效，主要是有些EditTextView的光标有时在最前面，有时在最后面，导致全选时需要判断一下
+	 *                        <ul>
+	 *                        <li>true：从EditText开头向后全选文字</li>
+	 *                        <li>false：从EditText结尾向前开始全选文字</li>
+	 *                        </ul>
+	 * @param granularityType 主要为在18，19，20，这三个api生效，全选时是以什么间隔
+	 *                        {@link AccessibilityNodeInfo#MOVEMENT_GRANULARITY_LINE}之类
 	 *
 	 * @return false 失败（可能没有找到对应的节点之类的） true 成功
 	 */
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	protected boolean performInputTextByTextFromNode(@NonNull AccessibilityNodeInfo nodeInfo, @NonNull String textId,
-			String text) {
+			@NonNull String text, boolean isFromStart, int granularityType) {
 		List<AccessibilityNodeInfo> list = nodeInfo.findAccessibilityNodeInfosByText(textId);
 		if (Build.VERSION.SDK_INT >= 18) {
 			DLog.i("textId: %s 在 node[%s] 中有%d个node", textId, nodeInfo.getViewIdResourceName(), list == null ? 0 : list.size());
@@ -161,7 +191,7 @@ abstract class UtilASHandler {
 			return false;
 		}
 		// 只针对第一个找到的来进行处理
-		inputText(list.get(0), text);
+		inputText(list.get(0), text, isFromStart, granularityType);
 		return true;
 	}
 	
@@ -170,11 +200,19 @@ abstract class UtilASHandler {
 	 *
 	 * @param node
 	 * @param text
+	 * @param isFromStart     主要为在18，19，20，这三个api生效，主要是有些EditTextView的光标有时在最前面，有时在最后面，导致全选时需要判断一下
+	 *                        <ul>
+	 *                        <li>true：从EditText开头向后全选文字</li>
+	 *                        <li>false：从EditText结尾向前开始全选文字</li>
+	 *                        </ul>
+	 * @param granularityType 主要为在18，19，20，这三个api生效，全选时是以什么间隔
+	 *                        {@link AccessibilityNodeInfo#MOVEMENT_GRANULARITY_LINE}之类
 	 *
 	 * @return
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-	private boolean inputText(@NonNull AccessibilityNodeInfo node, String text) {
+	private boolean inputText(@NonNull AccessibilityNodeInfo node, @NonNull String text, boolean isFromStart,
+			int granularityType) {
 		if (Build.VERSION.SDK_INT >= 21) {
 			//android>=21 = 5.0时可以用ACTION_SET_TEXT
 			Bundle arg = new Bundle();
@@ -191,18 +229,19 @@ abstract class UtilASHandler {
 			
 			// 1. 全选节点中文字
 			Bundle arguments = new Bundle();
-			arguments.putInt(
-					AccessibilityNodeInfo.ACTION_ARGUMENT_MOVEMENT_GRANULARITY_INT,
-					AccessibilityNodeInfo.MOVEMENT_GRANULARITY_PAGE
-			);
+			arguments.putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_MOVEMENT_GRANULARITY_INT, granularityType);
 			arguments.putBoolean(AccessibilityNodeInfo.ACTION_ARGUMENT_EXTEND_SELECTION_BOOLEAN, true);
-			node.performAction(AccessibilityNodeInfo.ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY, arguments);
+			if (isFromStart) {
+				node.performAction(AccessibilityNodeInfo.ACTION_NEXT_AT_MOVEMENT_GRANULARITY, arguments);
+			} else {
+				node.performAction(AccessibilityNodeInfo.ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY, arguments);
+			}
 			
 			// 2. 保存目标文字到剪切板
 			ClipboardManagerUtil.setText(getAccessibilityService().getApplicationContext(), text);
-			node.performAction(AccessibilityNodeInfo.ACTION_FOCUS);
 			
 			// 3. 最后将剪切板中的文字复制到节点中已经全选的文字
+			node.performAction(AccessibilityNodeInfo.ACTION_FOCUS);
 			return node.performAction(AccessibilityNodeInfo.ACTION_PASTE);
 		}
 		return false;
@@ -588,6 +627,53 @@ abstract class UtilASHandler {
 			List<AccessibilityNodeInfo> temp = nodeInfo.findAccessibilityNodeInfosByViewId(viewId);
 			DLog.i("viewId: %s 在 rootActiveWindow 中有%d个node", viewId, temp == null ? 0 : temp.size());
 			if (temp == null || temp.isEmpty()) {
+				result = false;
+				break;
+			}
+		}
+		nodeInfo.recycle();
+		return result;
+	}
+	
+	/**
+	 * 检查是否存在指定textId的节点
+	 *
+	 * @param textIds
+	 *
+	 * @return 只要有一个不存在都返回false
+	 */
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+	protected boolean isNodeExistInRootActiveWindowByTextIds(String... textIds) {
+		if (textIds == null) {
+			return false;
+		}
+		AccessibilityNodeInfo nodeInfo = getAccessibilityService().getRootInActiveWindow();
+		if (nodeInfo == null) {
+			return false;
+		}
+		
+		boolean result = true;
+		for (String textId : textIds) {
+			List<AccessibilityNodeInfo> targetNodeInfos = nodeInfo.findAccessibilityNodeInfosByText(textId);
+			DLog.i("textId: %s 在 rootActiveWindow 中有%d个node", textId, targetNodeInfos == null ? 0 : targetNodeInfos.size());
+			if (targetNodeInfos == null || targetNodeInfos.isEmpty()) {
+				result = false;
+				break;
+			}
+			boolean isFindTarget = false;
+			for (AccessibilityNodeInfo targetNodeInfo : targetNodeInfos) {
+				if (targetNodeInfo == null) {
+					continue;
+				}
+				if (targetNodeInfo.getText() == null) {
+					continue;
+				}
+				if (textId.equals(targetNodeInfo.getText().toString())) {
+					isFindTarget = true;
+					break;
+				}
+			}
+			if (!isFindTarget) {
 				result = false;
 				break;
 			}

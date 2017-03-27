@@ -13,12 +13,22 @@ public class DLog {
 	
 	private static boolean sIsDebug = false;
 	
+	private static boolean sIsShowClassNameInTag = false;
+	
 	private static boolean isDebug() {
 		return sIsDebug;
 	}
 	
 	public static void setIsDebug(boolean isDebug) {
 		sIsDebug = isDebug;
+	}
+	
+	public static boolean isShowClassNameInTag() {
+		return sIsShowClassNameInTag;
+	}
+	
+	public static void setIsShowClassNameInTag(boolean isShowClassNameInTag) {
+		sIsShowClassNameInTag = isShowClassNameInTag;
 	}
 	
 	// INFO
@@ -104,10 +114,13 @@ public class DLog {
 				msg = String.format(Locale.getDefault(), format, args);
 			}
 			
-			String tag = "accessibility_";
-			StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-			String classPackageName = elements[4].getClassName();
-			tag += classPackageName.substring(classPackageName.lastIndexOf(".") + 1);
+			String tag = "accessibility";
+			
+			if (isShowClassNameInTag()) {
+				StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+				String classPackageName = elements[4].getClassName();
+				tag += "_" + classPackageName.substring(classPackageName.lastIndexOf(".") + 1);
+			}
 			
 			if (throwable == null) {
 				switch (level) {

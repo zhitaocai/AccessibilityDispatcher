@@ -1,5 +1,7 @@
 package io.github.zhitaocai.accessibilitydispatcher.businss.vpn;
 
+import android.support.annotation.NonNull;
+
 import io.github.zhitaocai.accessibilitydispatcher.businss.ITarget;
 
 /**
@@ -14,23 +16,38 @@ public class VpnTarget implements ITarget {
 	
 	/**
 	 * 创建指定的VPN配置
+	 * <p>
+	 * 如果之前已经存在同样名字的VPN配置，那么创建将失效
+	 * <p>
+	 * 如果希望存在就更新，不存在就创建，那么可以使用 {@code |} 运算符
+	 * <p>
+	 * e.g.
+	 * <p>
+	 * {@link #ACTION_CREATE_VPN_CONFIG} | {@link #ACTION_UPDATE_VPN_CONFIG}
 	 */
 	public final static int ACTION_CREATE_VPN_CONFIG = 1;
 	
 	/**
 	 * 更新指定的VPN配置
+	 * <p>
+	 * 如果之前并没有指定的VPN配置，那么更新将失效
+	 * <p>
+	 * 如果希望存在就更新，不存在就创建，那么可以使用 {@code |} 运算符
+	 * <p>
+	 * e.g.
+	 * <p>
+	 * {@link #ACTION_CREATE_VPN_CONFIG} | {@link #ACTION_UPDATE_VPN_CONFIG}
+	 *
+	 * @see #ACTION_CREATE_VPN_CONFIG
 	 */
 	public final static int ACTION_UPDATE_VPN_CONFIG = 2;
 	
 	/**
-	 * 为指定VPN创建用户信息
+	 * 为指定VPN配置用户信息，配置完毕后将会自动连接
+	 * <p>
+	 * 如果之前并没有这个指定的VPN信息，那么这个ACTION将失效
 	 */
-	public final static int ACTION_CREATE_USER_CONFIG = 4;
-	
-	/**
-	 * 为指定的VPN更新用户信息
-	 */
-	public final static int ACTION_UPDATE_USER_CONFIG = 8;
+	public final static int ACTION_INPUT_USER_CONFIG = 4;
 	
 	/**
 	 * 支持的行为
@@ -51,6 +68,15 @@ public class VpnTarget implements ITarget {
 		super();
 	}
 	
+	/**
+	 * TODO 预留方法
+	 *
+	 * @return
+	 */
+	public boolean isValid() {
+		return true;
+	}
+	
 	public int getAction() {
 		return mAction;
 	}
@@ -59,8 +85,9 @@ public class VpnTarget implements ITarget {
 	 * 设置自动配置需要做的内容，支持位运算符
 	 * <p>
 	 * e.g.
-	 * 传入 ( {@link #ACTION_CREATE_VPN_CONFIG} | {@link #ACTION_CREATE_USER_CONFIG} )
-	 * 那么就可以自动创建VPN配置，创建完毕之后就会自动创建用户配置
+	 * <p>
+	 * 传入 ( {@link #ACTION_CREATE_VPN_CONFIG} | {@link #ACTION_INPUT_USER_CONFIG} )
+	 * 那么就可以自动创建VPN配置，创建完毕之后就会自动创建用户配置，完毕后会自动连接
 	 *
 	 * @param action
 	 */
@@ -110,6 +137,15 @@ public class VpnTarget implements ITarget {
 		 * 是否保存用户账户信息
 		 */
 		private boolean mIsSaveAccountInfo;
+		
+		/**
+		 * TODO 预留方法
+		 *
+		 * @return
+		 */
+		public boolean isValid() {
+			return true;
+		}
 		
 		public String getUserName() {
 			return mUserName;
@@ -200,6 +236,15 @@ public class VpnTarget implements ITarget {
 		 * IPSec预共享密钥
 		 */
 		private String mIPSecPreSharedKey;
+		
+		/**
+		 * TODO 预留方法
+		 *
+		 * @return
+		 */
+		public boolean isValid() {
+			return true;
+		}
 		
 		public String getVpnName() {
 			return mVpnName;
@@ -321,7 +366,7 @@ public class VpnTarget implements ITarget {
 			return this;
 		}
 		
-		public Builder setVpnName(String vpnName) {
+		public Builder setVpnName(@NonNull String vpnName) {
 			mVpnConfig.setVpnName(vpnName);
 			return this;
 		}
@@ -331,7 +376,7 @@ public class VpnTarget implements ITarget {
 			return this;
 		}
 		
-		public Builder setVpnServerAddr(String vpnServerAddr) {
+		public Builder setVpnServerAddr(@NonNull String vpnServerAddr) {
 			mVpnConfig.setVpnServerAddr(vpnServerAddr);
 			return this;
 		}
@@ -341,42 +386,42 @@ public class VpnTarget implements ITarget {
 			return this;
 		}
 		
-		public Builder setDnsSearchDomain(String dnsSearchDomain) {
+		public Builder setDnsSearchDomain(@NonNull String dnsSearchDomain) {
 			mVpnConfig.setDnsSearchDomain(dnsSearchDomain);
 			return this;
 		}
 		
-		public Builder setDnsServers(String dnsServers) {
+		public Builder setDnsServers(@NonNull String dnsServers) {
 			mVpnConfig.setDnsServers(dnsServers);
 			return this;
 		}
 		
-		public Builder setForwardingRoutes(String forwardingRoutes) {
+		public Builder setForwardingRoutes(@NonNull String forwardingRoutes) {
 			mVpnConfig.setForwardingRoutes(forwardingRoutes);
 			return this;
 		}
 		
-		public Builder setL2TPSecret(String l2TPSecret) {
+		public Builder setL2TPSecret(@NonNull String l2TPSecret) {
 			mVpnConfig.setL2TPSecret(l2TPSecret);
 			return this;
 		}
 		
-		public Builder setIPSecIdentifier(String IPSecIdentifier) {
+		public Builder setIPSecIdentifier(@NonNull String IPSecIdentifier) {
 			mVpnConfig.setIPSecIdentifier(IPSecIdentifier);
 			return this;
 		}
 		
-		public Builder setIPSecPreSharedKey(String IPSecPreSharedKey) {
+		public Builder setIPSecPreSharedKey(@NonNull String IPSecPreSharedKey) {
 			mVpnConfig.setIPSecPreSharedKey(IPSecPreSharedKey);
 			return this;
 		}
 		
-		public Builder setUserName(String userName) {
+		public Builder setUserName(@NonNull String userName) {
 			mUserConfig.setUserName(userName);
 			return this;
 		}
 		
-		public Builder setPassword(String password) {
+		public Builder setPassword(@NonNull String password) {
 			mUserConfig.setPassword(password);
 			return this;
 		}
