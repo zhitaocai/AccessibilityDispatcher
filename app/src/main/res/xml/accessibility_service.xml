@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<accessibility-service
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:accessibilityEventTypes="typeViewClicked|typeViewLongClicked|typeViewSelected|typeViewFocused|typeViewTextChanged|typeWindowStateChanged|typeNotificationStateChanged|typeViewHoverEnter|typeViewHoverExit|typeTouchExplorationGestureStart|typeTouchExplorationGestureEnd|typeWindowContentChanged|typeViewScrolled|typeViewTextSelectionChanged|typeAllMask"
+	android:accessibilityFeedbackType="feedbackGeneric|feedbackAllMask"
+	android:accessibilityFlags="flagDefault"
+	android:canRetrieveWindowContent="true"
+	android:description="@string/accessibility_service_desc"
+	android:notificationTimeout="100"
+	/>
+	
+	<!--这里不指定包名，那么就能针对所有的应用处理了-->
+	<!--android:packageNames="com.android.settings,com.android.packageinstaller"-->

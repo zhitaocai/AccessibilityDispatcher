@@ -1,3 +1,9 @@
 <resources >
 	<string name="app_name" >AccessibilityDispatcher</string >
+	<string name="accessibility_service_desc" >
+		这是一个演示的辅助功能服务
+		\n\t* 自动配置VPN
+		\n\t* 自动安装应用
+	</string >
+
 </resources >

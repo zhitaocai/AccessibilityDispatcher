@@ -8,14 +8,39 @@
 	tools:context="io.github.zhitaocai.accessibilitydispatcher.demo.MainActivity"
 	>
 	
-	<TextView
+	<Button
+		android:id="@+id/btn_create_l2tp"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Hello World!"
-		app:layout_constraintBottom_toBottomOf="parent"
+		android:layout_marginLeft="8dp"
+		android:layout_marginTop="8dp"
+		android:elevation="0dp"
+		android:text="创建/更新一个L2TP/IPSec PSK"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/btn_create_pptp"
+		/>
+	
+	<Button
+		android:id="@+id/btn_create_pptp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="8dp"
+		android:layout_marginTop="8dp"
+		android:elevation="0dp"
+		android:text="创建/更新一个PPTP VPN"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/btn_open_accessibility"
+		/>
+	
+	<Button
+		android:id="@+id/btn_open_accessibility"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="进入辅助功能页面"
 		app:layout_constraintTop_toTopOf="parent"
+		android:layout_marginTop="16dp"
+		android:layout_marginLeft="8dp"
+		app:layout_constraintLeft_toLeftOf="parent"
 		/>
 
 </android.support.constraint.ConstraintLayout >
