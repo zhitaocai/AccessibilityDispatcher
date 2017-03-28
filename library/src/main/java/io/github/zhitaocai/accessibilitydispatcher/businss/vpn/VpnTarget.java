@@ -71,7 +71,7 @@ public class VpnTarget implements ITarget {
 	/**
 	 * TODO 预留方法
 	 *
-	 * @return
+	 * @return 是否有效
 	 */
 	public boolean isValid() {
 		return true;
@@ -89,7 +89,7 @@ public class VpnTarget implements ITarget {
 	 * 传入 ( {@link #ACTION_CREATE_VPN_CONFIG} | {@link #ACTION_INPUT_USER_CONFIG} )
 	 * 那么就可以自动创建VPN配置，创建完毕之后就会自动创建用户配置，完毕后会自动连接
 	 *
-	 * @param action
+	 * @param action 所需要做的业务
 	 */
 	public void setAction(int action) {
 		mAction = action;
@@ -141,7 +141,7 @@ public class VpnTarget implements ITarget {
 		/**
 		 * TODO 预留方法
 		 *
-		 * @return
+		 * @return 是否有效
 		 */
 		public boolean isValid() {
 			return true;
@@ -240,7 +240,7 @@ public class VpnTarget implements ITarget {
 		/**
 		 * TODO 预留方法
 		 *
-		 * @return
+		 * @return 是否有效
 		 */
 		public boolean isValid() {
 			return true;

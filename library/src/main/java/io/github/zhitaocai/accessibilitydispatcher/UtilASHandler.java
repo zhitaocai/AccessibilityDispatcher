@@ -30,7 +30,7 @@ abstract class UtilASHandler {
 	/**
 	 * 获取线程池，因为辅助功能提供的3个回调本质还是执行在UI线程中，所以耗时操作，就放在线程池中实现吧
 	 *
-	 * @return
+	 * @return 异步线程池
 	 */
 	protected ExecutorService getExecutor() {
 		return AccessibilityDispatcher.getSingleThreadExecutor();
@@ -39,7 +39,7 @@ abstract class UtilASHandler {
 	/**
 	 * 获取UIHandler
 	 *
-	 * @return
+	 * @return UIHandler
 	 */
 	protected Handler getUIHandler() {
 		return AccessibilityDispatcher.getUIHandler();
@@ -48,7 +48,7 @@ abstract class UtilASHandler {
 	/**
 	 * 设置辅助功能服务对象
 	 *
-	 * @param service
+	 * @param service 辅助功能服务对象
 	 */
 	public void setAccessibilityService(AccessibilityService service) {
 		mAccessibilityService = service;
@@ -57,7 +57,7 @@ abstract class UtilASHandler {
 	/**
 	 * 获取辅助功能服务对象
 	 *
-	 * @return
+	 * @return 辅助功能服务对象
 	 */
 	public AccessibilityService getAccessibilityService() {
 		return mAccessibilityService;
@@ -198,8 +198,8 @@ abstract class UtilASHandler {
 	/**
 	 * 向指定的节点输入文字
 	 *
-	 * @param node
-	 * @param text
+	 * @param node            起始节点
+	 * @param text            要查找的文字
 	 * @param isFromStart     主要为在18，19，20，这三个api生效，主要是有些EditTextView的光标有时在最前面，有时在最后面，导致全选时需要判断一下
 	 *                        <ul>
 	 *                        <li>true：从EditText开头向后全选文字</li>
@@ -251,7 +251,8 @@ abstract class UtilASHandler {
 	 * 模拟点击,从当前激活的界面中开始查找
 	 *
 	 * @param viewId 组件的资源id
-	 *               @return
+	 *
+	 * @return 点击成功与否
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	protected boolean performClickByViewIdFromRootActiveWindow(String viewId) {
@@ -276,7 +277,8 @@ abstract class UtilASHandler {
 	 *
 	 * @param nodeInfo 如果是event 那么调用nodeInfo就有AccessibilityNodeInfo对象
 	 * @param viewId   组件的资源id
-	 *                 @return
+	 *
+	 * @return 点击成功与否
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	protected boolean performClickByViewIdFromNode(@NonNull AccessibilityNodeInfo nodeInfo, String viewId) {
@@ -295,7 +297,8 @@ abstract class UtilASHandler {
 	 * 模拟点击,从当前激活的界面中开始查找
 	 *
 	 * @param textId 要点击的按钮之类所用的文字
-	 *               @return
+	 *
+	 * @return 点击成功与否
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	protected boolean performClickByTextFromRootActiveWindow(String textId) {
@@ -307,7 +310,8 @@ abstract class UtilASHandler {
 	 *
 	 * @param textId      要点击的按钮之类所用的文字
 	 * @param sourceClass 指定最终的子节点的对象类型 (TextView.class 之类)
-	 *                    @return
+	 *
+	 * @return 点击成功与否
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	protected boolean performClickByTextFromRootActiveWindow(String textId, Class sourceClass) {
@@ -338,7 +342,7 @@ abstract class UtilASHandler {
 	 * @param nodeInfo 如果是event 那么调用nodeInfo就有AccessibilityNodeInfo对象
 	 * @param textId   要点击的按钮之类所用的文字
 	 *
-	 * @return
+	 * @return 点击成功与否
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	protected boolean performClickByTextFromNode(@NonNull AccessibilityNodeInfo nodeInfo, String textId) {
@@ -352,7 +356,7 @@ abstract class UtilASHandler {
 	 * @param textId      要点击的按钮之类所用的文字
 	 * @param sourceClass 指定最终的子节点的对象类型 (TextView.class 之类)
 	 *
-	 * @return
+	 * @return 点击成功与否
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	protected boolean performClickByTextFromNode(@NonNull AccessibilityNodeInfo nodeInfo, String textId, Class sourceClass) {
@@ -379,9 +383,9 @@ abstract class UtilASHandler {
 	/**
 	 * 获取指定viewId所在组件的txt
 	 *
-	 * @param viewId
+	 * @param viewId 要查找的View的ResourceId
 	 *
-	 * @return
+	 * @return 获取到的文字
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	protected String getTextByViewIdFromRootActiveWindow(String viewId) {
@@ -403,9 +407,9 @@ abstract class UtilASHandler {
 	 * 获取指定viewId所在组件的txt
 	 *
 	 * @param nodeInfo 如果是event 那么调用nodeInfo就有AccessibilityNodeInfo对象
-	 * @param viewId
+	 * @param viewId   要查找的View的ResourceId
 	 *
-	 * @return
+	 * @return 获取到的文字
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	protected String getTextByViewIdFromNode(@NonNull AccessibilityNodeInfo nodeInfo, String viewId) {
@@ -421,9 +425,9 @@ abstract class UtilASHandler {
 	/**
 	 * 获取指定text所在组件的txt
 	 *
-	 * @param textId
+	 * @param textId 要查找的文字
 	 *
-	 * @return
+	 * @return 获取到的文字
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	protected String getTextByTextFromRootActiveWindow(String textId) {
@@ -445,9 +449,9 @@ abstract class UtilASHandler {
 	 * 获取指定text所在组件的txt
 	 *
 	 * @param nodeInfo 如果是event 那么调用nodeInfo就有AccessibilityNodeInfo对象
-	 * @param textId
+	 * @param textId   要查找的文字
 	 *
-	 * @return
+	 * @return 获取到的文字
 	 */
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	protected String getTextByTextFromNode(@NonNull AccessibilityNodeInfo nodeInfo, String textId) {
@@ -467,9 +471,9 @@ abstract class UtilASHandler {
 	/**
 	 * 在当前的RootActiveWindow中获取指定的viewId所对应的节点
 	 *
-	 * @param viewId
+	 * @param viewId 要查找的View的ResourceId
 	 *
-	 * @return
+	 * @return 找到的列表
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	@CheckResult
@@ -488,9 +492,9 @@ abstract class UtilASHandler {
 	 * 从提供的event节点中开始查找指定的viewId所对应的节点
 	 *
 	 * @param nodeInfo 如果是event 那么调用nodeInfo就有AccessibilityNodeInfo对象
-	 * @param viewId
+	 * @param viewId   要查找的View的ResourceId
 	 *
-	 * @return
+	 * @return 找到的列表
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	@CheckResult
@@ -503,9 +507,9 @@ abstract class UtilASHandler {
 	/**
 	 * 在当前的RootActiveWindow中获取指定的文字所对应的节点
 	 *
-	 * @param textId
+	 * @param textId 要查找的文字
 	 *
-	 * @return
+	 * @return 找到的列表
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	@CheckResult
@@ -524,9 +528,9 @@ abstract class UtilASHandler {
 	 * 从提供的event节点中开始查找指定的文字所对应的节点
 	 *
 	 * @param nodeInfo 如果是event 那么调用nodeInfo就有AccessibilityNodeInfo对象
-	 * @param textId
+	 * @param textId   要查找的文字
 	 *
-	 * @return
+	 * @return 找到的列表
 	 */
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	@CheckResult
@@ -543,9 +547,9 @@ abstract class UtilASHandler {
 	/**
 	 * 从指定的节点开始向下查找，查找Switch或者Checkbox的组件
 	 *
-	 * @param nodeInfo
+	 * @param nodeInfo 起始节点
 	 *
-	 * @return
+	 * @return 最后找到的节点
 	 */
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	protected AccessibilityNodeInfo getSwitchOrCheckBoxNodeInfo(@NonNull AccessibilityNodeInfo nodeInfo) {
@@ -576,10 +580,10 @@ abstract class UtilASHandler {
 	/**
 	 * 从指定的节点开始向下查找指定类名的组件，在找到一个符合之后就会结束，所以如果存在多个的话就不适合用这个方法了
 	 *
-	 * @param nodeInfo
-	 * @param className
+	 * @param nodeInfo  起始节点
+	 * @param className 类名
 	 *
-	 * @return
+	 * @return 最后找到的节点
 	 */
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	protected AccessibilityNodeInfo getNodeInfoByClass(@NonNull AccessibilityNodeInfo nodeInfo, Class className) {
@@ -603,9 +607,9 @@ abstract class UtilASHandler {
 	/**
 	 * 检查是否存在指定viewId的节点 (使用 {@link #isNodeExistInRootActiveWindowByViewIds(String...)}代替
 	 *
-	 * @param viewId
+	 * @param viewId 要找的View的ResourceId
 	 *
-	 * @return
+	 * @return 存在结果
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	@Deprecated
@@ -617,7 +621,7 @@ abstract class UtilASHandler {
 	/**
 	 * 检查是否存在指定viewId的节点
 	 *
-	 * @param viewIds
+	 * @param viewIds 要找的View的ResourceId
 	 *
 	 * @return 只要有一个不存在都返回false
 	 */
@@ -647,7 +651,7 @@ abstract class UtilASHandler {
 	/**
 	 * 检查是否存在指定textId的节点
 	 *
-	 * @param textIds
+	 * @param textIds 要查找的文字
 	 *
 	 * @return 只要有一个不存在都返回false
 	 */
@@ -695,9 +699,9 @@ abstract class UtilASHandler {
 	 * 检查是否存在指定viewId的节点
 	 *
 	 * @param nodeInfo 如果是event 那么调用nodeInfo就有AccessibilityNodeInfo对象
-	 * @param viewId
+	 * @param viewId   要找的View的ResourceId
 	 *
-	 * @return
+	 * @return 查找结果
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	protected boolean isNodeExistInEventSourceByViewId(@NonNull AccessibilityNodeInfo nodeInfo, String viewId) {
@@ -708,9 +712,9 @@ abstract class UtilASHandler {
 	/**
 	 * 检查是否存在指定textId的节点
 	 *
-	 * @param textId
+	 * @param textId 要查找的文字
 	 *
-	 * @return
+	 * @return 查找结果
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	protected boolean isNodeExistInRootActiveWindowByText(String textId) {
@@ -722,9 +726,9 @@ abstract class UtilASHandler {
 	 * 检查是否存在指定textId的节点
 	 *
 	 * @param nodeInfo 如果是event 那么调用nodeInfo就有AccessibilityNodeInfo对象
-	 * @param textId
+	 * @param textId   要查找的文字
 	 *
-	 * @return
+	 * @return 查找结果
 	 */
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	protected boolean isNodeExistInEventSourceByText(@NonNull AccessibilityNodeInfo nodeInfo, String textId) {

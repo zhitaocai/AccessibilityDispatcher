@@ -3,8 +3,8 @@ package io.github.zhitaocai.accessibilitydispatcher.businss.vpn;
 import java.util.ArrayList;
 
 import io.github.zhitaocai.accessibilitydispatcher.AbsASHandler;
-import io.github.zhitaocai.accessibilitydispatcher.businss.IHandlerFactory;
 import io.github.zhitaocai.accessibilitydispatcher.androidsettings.vpn.android.AndroidVpnSettingsASHandler444;
+import io.github.zhitaocai.accessibilitydispatcher.businss.IHandlerFactory;
 
 /**
  * @author zhitao
@@ -15,7 +15,7 @@ public class VpnHandlerFactory implements IHandlerFactory {
 	/**
 	 * 根据机型 系统版本 系统类型等来创建具体的自动点击业务类
 	 *
-	 * @return
+	 * @return 返回业务对象列表
 	 */
 	@Override
 	public ArrayList<AbsASHandler> initHandlers() {

@@ -29,7 +29,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	/**
 	 * 业务唯一标识
 	 *
-	 * @return
+	 * @return 业务唯一表示，分发器依据此来识别不同的辅助业务
 	 */
 	@NonNull
 	public abstract String getIdentify();
@@ -54,7 +54,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	/**
 	 * 创建需要的业务对象的工厂
 	 *
-	 * @return
+	 * @return 具体业务创建的工厂，工厂依据一定的规则来生成对应的辅助业务
 	 */
 	public H getHandlerFactory() {
 		return mHandlerFactory;
@@ -65,9 +65,9 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 * <p>
 	 * 不如在魅族手机上，工厂需要生成适配Flyme系统的自动点击工具类，而不需要其他系统的自动点击类
 	 *
-	 * @param handlerFactory
+	 * @param handlerFactory 具体业务创建的工厂
 	 *
-	 * @return
+	 * @return 自身对象
 	 */
 	public AbsHelper<T, C, H> initHandlerFactory(H handlerFactory) {
 		mHandlerFactory = handlerFactory;
@@ -77,9 +77,9 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	/**
 	 * 是否激活这个业务
 	 *
-	 * @param enable
+	 * @param enable 是否激活
 	 *
-	 * @return
+	 * @return 自身对象
 	 */
 	public AbsHelper<T, C, H> setEnable(boolean enable) {
 		mIsEnable = enable;
@@ -116,9 +116,9 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 * <p>
 	 * 如果你需要知道在安装界面中，是否点击了 "下一步"  或者 "安装" 时，那么可以通过设置回调监听器知道，以此来做一点额外的逻辑，比如统计点击了多少次下一步之类的
 	 *
-	 * @param callBacks
+	 * @param callBacks 监听器
 	 *
-	 * @return
+	 * @return 自身对象
 	 *
 	 * @see #removeCallBack(OnCallBack[])
 	 */
@@ -142,9 +142,9 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 * <p>
 	 * 你应该在适当的实际移除监听器，比如自动安装业务完毕之后应该移除监听器
 	 *
-	 * @param callBacks
+	 * @param callBacks 监听器
 	 *
-	 * @return
+	 * @return 自身对象
 	 */
 	public AbsHelper<T, C, H> removeCallBack(C... callBacks) {
 		if (callBacks == null || callBacks.length == 0) {
@@ -191,11 +191,11 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *      目标可能为 开启位置来源
 	 * </pre>
 	 *
-	 * @param targets
+	 * @param targets 业务目标
 	 *
-	 * @return
+	 * @return 自身对象
 	 */
-	public AbsHelper<T, C, H> addTargets(T... targets) {
+ 	public AbsHelper<T, C, H> addTargets(T... targets) {
 		if (targets == null || targets.length == 0) {
 			return this;
 		}
@@ -225,9 +225,9 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *      目标可能为 开启位置来源
 	 * </pre>
 	 *
-	 * @param targets
+	 * @param targets 业务目标
 	 *
-	 * @return
+	 * @return 自身对象
 	 */
 	public AbsHelper<T, C, H> removeTarget(T... targets) {
 		if (targets == null || targets.length == 0) {

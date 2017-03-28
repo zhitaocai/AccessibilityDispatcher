@@ -66,7 +66,7 @@ public final class AccessibilityDispatcher {
 	 *                <li>{@code false}: 关闭调试模式，没有log输出（默认）</li>
 	 *                </ul>
 	 *
-	 * @return
+	 * @return 调试配置
 	 */
 	public static AccessibilityDebugConfig debugLog(boolean isDebug) {
 		sConfig.debugLog(isDebug);

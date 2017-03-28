@@ -28,9 +28,9 @@ public final class AccessibilityDebugConfig {
 	/**
 	 * 调试的Log显示时，是否显示log调用时所在的类名
 	 *
-	 * @param showClassNameInTag
+	 * @param showClassNameInTag 是否显示
 	 *
-	 * @return
+	 * @return 本对象
 	 */
 	public AccessibilityDebugConfig withClassNameInTag(boolean showClassNameInTag) {
 		mIsShowClassNameInTag = showClassNameInTag;
@@ -45,9 +45,9 @@ public final class AccessibilityDebugConfig {
 	/**
 	 * 调试的Log显示时，是否显示时间源输出
 	 *
-	 * @param isShowEventSourceLog
+	 * @param isShowEventSourceLog 是否显示
 	 *
-	 * @return
+	 * @return 本对象
 	 */
 	public AccessibilityDebugConfig withEventSourceLog(boolean isShowEventSourceLog) {
 		mIsShowEventSourceLog = isShowEventSourceLog;

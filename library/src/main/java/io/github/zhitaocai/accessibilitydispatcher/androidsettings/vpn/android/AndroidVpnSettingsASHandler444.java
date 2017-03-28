@@ -22,7 +22,7 @@ public class AndroidVpnSettingsASHandler444 extends AbsAndroidVpnSettingsASHandl
 	/**
 	 * 具体实现类的辅助功能所针对的应用
 	 *
-	 * @return
+	 * @return true or false
 	 */
 	@Override
 	protected String getSupportPkgName() {
@@ -100,7 +100,7 @@ public class AndroidVpnSettingsASHandler444 extends AbsAndroidVpnSettingsASHandl
 	/**
 	 * 是否在VPN列表页
 	 *
-	 * @return
+	 * @return true or false
 	 */
 	@Override
 	protected boolean isInVpnListPage() {
@@ -284,7 +284,7 @@ public class AndroidVpnSettingsASHandler444 extends AbsAndroidVpnSettingsASHandl
 	/**
 	 * 是否在VPN配置的对话框中
 	 *
-	 * @return
+	 * @return true or false
 	 */
 	@Override
 	protected boolean isInVpnConfigDialog() {
@@ -385,7 +385,7 @@ public class AndroidVpnSettingsASHandler444 extends AbsAndroidVpnSettingsASHandl
 	/**
 	 * 是否在VPN配置的对话框中选择VPN类型的Spinner中
 	 *
-	 * @return
+	 * @return true or false
 	 */
 	@Override
 	protected boolean isInVpnConfigDialogSpinnerWindow() {
@@ -452,7 +452,7 @@ public class AndroidVpnSettingsASHandler444 extends AbsAndroidVpnSettingsASHandl
 	/**
 	 * 是否在用户配置的对话框中
 	 *
-	 * @return
+	 * @return true or false
 	 */
 	@Override
 	protected boolean isInUserConfigDialog() {
@@ -527,7 +527,7 @@ public class AndroidVpnSettingsASHandler444 extends AbsAndroidVpnSettingsASHandl
 	/**
 	 * 是否在VPN列表页，长按了某个VPN配置之后，弹出来的对话框中
 	 *
-	 * @return
+	 * @return true or false
 	 */
 	@Override
 	protected boolean isInVpnProfileEditDialog() {

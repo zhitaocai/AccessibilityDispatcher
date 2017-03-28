@@ -3,12 +3,17 @@
 //
 // 3种上传方式的例子:
 //
-// Maven Publications 上传方式例子： https://github.com/bintray/bintray-examples/blob/master/gradle-bintray-plugin-examples
-// /publications-example/build.gradle
-// Configurations 上传方式例子： https://github.com/bintray/bintray-examples/blob/master/gradle-bintray-plugin-examples/configurations
-// -example/build.gradle
-// Copying specific files using filesSpec 上传方式例子： https://github
-// .com/bintray/bintray-examples/blob/master/gradle-bintray-plugin-examples/filesSpec-example/build.gradle
+// 1. Maven Publications 上传方式例子：
+//
+//      https://github.com/bintray/bintray-examples/blob/master/gradle-bintray-plugin-examples/publications-example/build.gradle
+//
+// 2. Configurations 上传方式例子：
+//
+//      https://github.com/bintray/bintray-examples/blob/master/gradle-bintray-plugin-examples/configurations-example/build.gradle
+//
+// 3. Copying specific files using filesSpec 上传方式例子：
+//
+//      https://github.com/bintray/bintray-examples/blob/master/gradle-bintray-plugin-examples/filesSpec-example/build.gradle
 
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
@@ -17,8 +22,14 @@ apply plugin: 'com.jfrog.bintray'
 group = project.ext.publishedGroupId
 version = project.ext.libraryVersionName
 
+project.configurations {
+	javadocDeps
+}
+
 install {
 	repositories.mavenInstaller {
+		configuration = configurations.archives
+
 		pom {
 			project {
 				packaging 'aar'
@@ -160,6 +171,8 @@ task sourcesJar(type: Jar) {
 task javadoc(type: Javadoc) {
 	source = android.sourceSets.main.java.srcDirs
 	classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+	classpath += configurations.javadocDeps
+	failOnError false
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {

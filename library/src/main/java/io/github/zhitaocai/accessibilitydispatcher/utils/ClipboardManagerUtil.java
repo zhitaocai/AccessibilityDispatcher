@@ -19,10 +19,10 @@ public class ClipboardManagerUtil {
 	/**
 	 * 保存文字到剪切板中
 	 *
-	 * @param context
-	 * @param str
+	 * @param context 上下文
+	 * @param str 要保存的文字
 	 *
-	 * @return
+	 * @return 是否保存成功
 	 */
 	public static boolean setText(@NonNull Context context, String str) {
 		Context appliactionContext = context.getApplicationContext();
@@ -52,9 +52,9 @@ public class ClipboardManagerUtil {
 	/**
 	 * 获取剪切版中的文字，如果有的话
 	 *
-	 * @param context
+	 * @param context 上下文
 	 *
-	 * @return
+	 * @return 获取到的文字
 	 */
 	@Nullable
 	public static String getText(@NonNull Context context) {

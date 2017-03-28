@@ -15,7 +15,7 @@ public interface IHandlerFactory {
 	/**
 	 * 根据机型 系统版本 系统类型等来创建具体的自动点击业务类
 	 *
-	 * @return
+	 * @return 返回业务对象列表
 	 */
 	ArrayList<AbsASHandler> initHandlers();
 	

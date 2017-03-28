@@ -30,7 +30,7 @@ public final class VpnHelper extends AbsHelper<VpnTarget, OnVpnCallBack, VpnHand
 	/**
 	 * 业务唯一标识
 	 *
-	 * @return
+	 * @return 业务唯一表示，分发器依据此来识别不同的辅助业务
 	 */
 	@NonNull
 	@Override
@@ -63,9 +63,9 @@ public final class VpnHelper extends AbsHelper<VpnTarget, OnVpnCallBack, VpnHand
 	 *      目标可能为 开启位置来源
 	 * </pre>
 	 *
-	 * @param targets
+	 * @param targets 业务目标
 	 *
-	 * @return
+	 * @return 自身对象
 	 */
 	@Deprecated
 	@Override
@@ -80,9 +80,9 @@ public final class VpnHelper extends AbsHelper<VpnTarget, OnVpnCallBack, VpnHand
 	 * <p>
 	 * 如果你需要知道在安装界面中，是否点击了 "下一步"  或者 "安装" 时，那么可以通过设置回调监听器知道，以此来做一点额外的逻辑，比如统计点击了多少次下一步之类的
 	 *
-	 * @param callBacks
+	 * @param callBacks 回调监听器
 	 *
-	 * @return
+	 * @return 自身对象
 	 *
 	 * @see #removeCallBack(OnCallBack[])
 	 */

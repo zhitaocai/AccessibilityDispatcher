@@ -19,7 +19,7 @@ abstract class AbsAndroidVpnSettingsASHandler extends AbsVpnSettingsASHandler {
 	/**
 	 * 是否在VPN列表页
 	 *
-	 * @return
+	 * @return true or false
 	 */
 	protected abstract boolean isInVpnListPage();
 	
@@ -31,7 +31,7 @@ abstract class AbsAndroidVpnSettingsASHandler extends AbsVpnSettingsASHandler {
 	/**
 	 * 是否在VPN配置的对话框中
 	 *
-	 * @return
+	 * @return true or false
 	 */
 	protected abstract boolean isInVpnConfigDialog();
 	
@@ -43,7 +43,7 @@ abstract class AbsAndroidVpnSettingsASHandler extends AbsVpnSettingsASHandler {
 	/**
 	 * 是否在VPN配置的对话框中选择VPN类型的Spinner中
 	 *
-	 * @return
+	 * @return true or false
 	 */
 	protected abstract boolean isInVpnConfigDialogSpinnerWindow();
 	
@@ -55,7 +55,7 @@ abstract class AbsAndroidVpnSettingsASHandler extends AbsVpnSettingsASHandler {
 	/**
 	 * 是否在用户配置的对话框中
 	 *
-	 * @return
+	 * @return true or false
 	 */
 	protected abstract boolean isInUserConfigDialog();
 	
@@ -67,7 +67,7 @@ abstract class AbsAndroidVpnSettingsASHandler extends AbsVpnSettingsASHandler {
 	/**
 	 * 是否在VPN列表页，长按了某个VPN配置之后，弹出来的对话框中
 	 *
-	 * @return
+	 * @return true or false
 	 */
 	protected abstract boolean isInVpnProfileEditDialog();
 	
@@ -246,7 +246,7 @@ abstract class AbsAndroidVpnSettingsASHandler extends AbsVpnSettingsASHandler {
 	/**
 	 * 获取缓存VPN目标信息当前进行到什么步骤的Hashmap
 	 *
-	 * @return
+	 * @return 缓存的目标的步骤
 	 */
 	protected HashMap<VpnTarget, Integer> getVpnTargetCacheHashMap() {
 		return mVpnTargetCacheHashMap;
