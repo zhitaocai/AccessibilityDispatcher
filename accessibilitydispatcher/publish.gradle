@@ -32,24 +32,26 @@ install {
 
 		pom {
 			project {
+				// 打包aar
 				packaging 'aar'
 
-				// 如果包名为io.github.zhitaocai.toastcompat
-				// 那么groupId 为 io.github.zhitaocai
-				// 那么artifactId 为 toastcompat
+				//compile 'publishedGroupId:artifact'
 				groupId project.ext.publishedGroupId
 				artifactId project.ext.artifact
+				//version projectt.ext.libraryVersionName
 
-				name project.ext.libraryName
-				description project.ext.libDesc
-				url project.ext.siteUrl
+				name project.ext.libraryName                // 项目名称
+				description project.ext.libDesc             // 项目描述
+				url project.ext.siteUrl                     // 项目主页
 
+				// 开源协议
 				licenses {
 					license {
 						name 'The Apache Software License, Version 2.0'
 						url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
 					}
 				}
+				// 开发者信息
 				developers {
 					developer {
 						id System.getenv('DEVELOPER_ID')
@@ -58,8 +60,11 @@ install {
 					}
 				}
 				scm {
+					// Git 仓库地址
 					connection project.ext.gitUrl
+					// Git 仓库地址
 					developerConnection project.ext.gitUrl
+					// 项目主页
 					url project.ext.siteUrl
 
 				}
@@ -87,7 +92,7 @@ bintray {
 		repo = 'maven'
 		// repo = 'android'
 
-		// (必须参数)package name
+		// (必须参数)发布到Bintray上的项目名字
 		name = project.ext.libraryName
 
 		// (必须参数)开源许可协议

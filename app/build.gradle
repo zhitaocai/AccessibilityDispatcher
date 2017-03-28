@@ -30,10 +30,23 @@ dependencies {
 	compile 'com.jakewharton:butterknife:8.5.1'
 
 	compile fileTree(include: ['*.jar'], dir: 'libs')
-	compile project(':library')
 	compile 'com.android.support.constraint:constraint-layout:1.0.2'
 	compile 'com.android.support:appcompat-v7:25.3.0'
 	compile 'com.android.support:support-v4:25.3.0'
-	compile 'com.orhanobut:logger:1.15'
-	compile 'com.github.bumptech.glide:glide:3.7.0'
+
+	// 依赖线下project
+	compile project(':accessibilitydispatcher')
+
+	// 依赖线下aar
+	// compile(name: 'accessibilitydispatcher-release', ext: 'aar')
+
+	// 依赖线上版本
+	// compile 'io.github.zhitaocai:accessibilitydispatcher:0.1.0'
 }
+
+// 依赖线下aar时开启注释
+//repositories {
+//	flatDir {
+//		dirs '../accessibilitydispatcher/build/outputs/aar' //this way we can find the .aar file in libs folder
+//	}
+//}
