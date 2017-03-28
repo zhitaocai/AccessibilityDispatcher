@@ -8,7 +8,7 @@ ext {
 	//compile 'publishedGroupId:artifact:libraryVersionName'
 
 	publishedGroupId = 'io.github.zhitaocai'    // 项目组ID(e.g 包名为io.github.zhitaocai.toastcompat, 那么这里就是io.github.zhitaocai)
-	artifact = 'accessibility-dispatcher'       // 项目ID  (e.g 包名为io.github.zhitaocai.toastcompat, 那么这里就是toastcompat)
+	artifact = 'accessibilitydispatcher'       // 项目ID  (e.g 包名为io.github.zhitaocai.toastcompat, 那么这里就是toastcompat)
 	libraryVersionName = '0.1.0'                // 对应的versionname
 	libraryVersionCode = 1
 
