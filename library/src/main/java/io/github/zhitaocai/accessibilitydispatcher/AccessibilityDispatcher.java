@@ -107,7 +107,7 @@ public final class AccessibilityDispatcher {
 	/**
 	 * 更新辅助功能支持的列表以及其他各种属性
 	 *
-	 * @return
+	 * @param helper 实际对应的业务
 	 */
 	public static void updateHelper(AbsHelper helper) {
 		if (helper == null) {

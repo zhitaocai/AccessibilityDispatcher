@@ -92,13 +92,13 @@ public abstract class AbsASHandler<T extends ITarget, C extends OnCallBack> exte
 	}
 	
 	/**
-	 * 具体实现类的辅助功能所针对的应用包名，
+	 * 具体实现类的辅助功能所针对的应用包名
 	 * <p>
 	 * e.g.
 	 * <p>
 	 * 如果需要改动系统设置，那么这里的包名可能为 com.android.settings 或者 其他第三方系统所对应的包名
 	 *
-	 * @return
+	 * @return 具体实现类的辅助功能所针对的应用包名
 	 *
 	 * @see #isUsingPkgName2TrackEvent()
 	 */
@@ -116,7 +116,11 @@ public abstract class AbsASHandler<T extends ITarget, C extends OnCallBack> exte
 	 * （毕竟即便包名不一样，但是给用户显示的界面一般都有"下一步" "安装"这些按钮文字），如果我们采取了这种根据文字搜索的方法来处理的话
 	 * 那么我们就不需要包名来定位了，所以这种时候就需要返回false了
 	 *
-	 * @return
+	 * @return 返回结果
+	 * <ul>
+	 * <li>true : 是</li>
+	 * <li>false : 否</li>
+	 * </ul>
 	 *
 	 * @see #getSupportPkgName()
 	 */

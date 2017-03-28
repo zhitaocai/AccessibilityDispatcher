@@ -251,6 +251,7 @@ abstract class UtilASHandler {
 	 * 模拟点击,从当前激活的界面中开始查找
 	 *
 	 * @param viewId 组件的资源id
+	 *               @return
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	protected boolean performClickByViewIdFromRootActiveWindow(String viewId) {
@@ -275,6 +276,7 @@ abstract class UtilASHandler {
 	 *
 	 * @param nodeInfo 如果是event 那么调用nodeInfo就有AccessibilityNodeInfo对象
 	 * @param viewId   组件的资源id
+	 *                 @return
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	protected boolean performClickByViewIdFromNode(@NonNull AccessibilityNodeInfo nodeInfo, String viewId) {
@@ -293,6 +295,7 @@ abstract class UtilASHandler {
 	 * 模拟点击,从当前激活的界面中开始查找
 	 *
 	 * @param textId 要点击的按钮之类所用的文字
+	 *               @return
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	protected boolean performClickByTextFromRootActiveWindow(String textId) {
@@ -304,6 +307,7 @@ abstract class UtilASHandler {
 	 *
 	 * @param textId      要点击的按钮之类所用的文字
 	 * @param sourceClass 指定最终的子节点的对象类型 (TextView.class 之类)
+	 *                    @return
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	protected boolean performClickByTextFromRootActiveWindow(String textId, Class sourceClass) {
@@ -333,6 +337,8 @@ abstract class UtilASHandler {
 	 *
 	 * @param nodeInfo 如果是event 那么调用nodeInfo就有AccessibilityNodeInfo对象
 	 * @param textId   要点击的按钮之类所用的文字
+	 *
+	 * @return
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	protected boolean performClickByTextFromNode(@NonNull AccessibilityNodeInfo nodeInfo, String textId) {
@@ -345,6 +351,8 @@ abstract class UtilASHandler {
 	 * @param nodeInfo    如果是event 那么调用nodeInfo就有AccessibilityNodeInfo对象
 	 * @param textId      要点击的按钮之类所用的文字
 	 * @param sourceClass 指定最终的子节点的对象类型 (TextView.class 之类)
+	 *
+	 * @return
 	 */
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	protected boolean performClickByTextFromNode(@NonNull AccessibilityNodeInfo nodeInfo, String textId, Class sourceClass) {
@@ -569,6 +577,7 @@ abstract class UtilASHandler {
 	 * 从指定的节点开始向下查找指定类名的组件，在找到一个符合之后就会结束，所以如果存在多个的话就不适合用这个方法了
 	 *
 	 * @param nodeInfo
+	 * @param className
 	 *
 	 * @return
 	 */

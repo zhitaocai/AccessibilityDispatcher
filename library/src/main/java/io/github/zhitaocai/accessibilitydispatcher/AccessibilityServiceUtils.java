@@ -17,7 +17,8 @@ public class AccessibilityServiceUtils {
 	/**
 	 * 触发系统rebind通知监听服务
 	 *
-	 * @return
+	 * @param context
+	 * @param serviceClass
 	 */
 	public static void toggleAccessibilityService(Context context, Class serviceClass) {
 		PackageManager pm = context.getPackageManager();
@@ -37,6 +38,8 @@ public class AccessibilityServiceUtils {
 	 * 判断当前应用的辅助功能服务是否开启
 	 *
 	 * @param context
+	 *
+	 * @return
 	 */
 	public static boolean isAccessibilityServiceOn(@NonNull Context context) {
 		return isAccessibilityServiceOn(context, context.getPackageName());

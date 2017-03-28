@@ -298,8 +298,6 @@ public class AndroidVpnSettingsASHandler444 extends AbsAndroidVpnSettingsASHandl
 	
 	/**
 	 * 执行在VPN配置的对话框中的逻辑
-	 *
-	 * @return
 	 */
 	@Override
 	protected void runLogicInVpnConfigDialog() {
@@ -402,8 +400,6 @@ public class AndroidVpnSettingsASHandler444 extends AbsAndroidVpnSettingsASHandl
 	
 	/**
 	 * 执行在VPN配置的对话框中选择VPN类型的Spinner中的逻辑
-	 *
-	 * @return
 	 */
 	@Override
 	protected void runLogicInVpnConfigDialogSpinnerWindow() {
@@ -540,8 +536,6 @@ public class AndroidVpnSettingsASHandler444 extends AbsAndroidVpnSettingsASHandl
 	
 	/**
 	 * 执行在VPN列表页，长按了某个VPN配置之后，弹出来的对话框中的逻辑
-	 *
-	 * @return
 	 */
 	@Override
 	protected void runLogicInVpnProfileEditDialog() {

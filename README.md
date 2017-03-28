@@ -16,7 +16,15 @@
 
 1. 下载
 
-```java
+```gradle
+
+compile 'io.github.zhitaocai:accessibility-dispatcher:0.1.0'
+
+// or
+// 如果你的项目本身已经集成了 support-annotations 那么请移除本类库中本身所依赖的 support-annotations
+compile ('io.github.zhitaocai:accessibility-dispatcher:0.1.0') {
+    exclude group: 'com.android.support', module: 'support-annotations'
+}
 
 ```
 

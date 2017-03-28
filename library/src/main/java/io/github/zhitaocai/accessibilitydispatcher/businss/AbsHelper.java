@@ -65,6 +65,8 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 * <p>
 	 * 不如在魅族手机上，工厂需要生成适配Flyme系统的自动点击工具类，而不需要其他系统的自动点击类
 	 *
+	 * @param handlerFactory
+	 *
 	 * @return
 	 */
 	public AbsHelper<T, C, H> initHandlerFactory(H handlerFactory) {

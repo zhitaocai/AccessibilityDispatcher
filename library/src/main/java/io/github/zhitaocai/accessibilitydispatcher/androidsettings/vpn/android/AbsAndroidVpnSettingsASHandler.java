@@ -37,8 +37,6 @@ abstract class AbsAndroidVpnSettingsASHandler extends AbsVpnSettingsASHandler {
 	
 	/**
 	 * 执行在VPN配置的对话框中的逻辑
-	 *
-	 * @return
 	 */
 	protected abstract void runLogicInVpnConfigDialog();
 	
@@ -51,8 +49,6 @@ abstract class AbsAndroidVpnSettingsASHandler extends AbsVpnSettingsASHandler {
 	
 	/**
 	 * 执行在VPN配置的对话框中选择VPN类型的Spinner中的逻辑
-	 *
-	 * @return
 	 */
 	protected abstract void runLogicInVpnConfigDialogSpinnerWindow();
 	
@@ -77,8 +73,6 @@ abstract class AbsAndroidVpnSettingsASHandler extends AbsVpnSettingsASHandler {
 	
 	/**
 	 * 执行在VPN列表页，长按了某个VPN配置之后，弹出来的对话框中的逻辑
-	 *
-	 * @return
 	 */
 	protected abstract void runLogicInVpnProfileEditDialog();
 	
