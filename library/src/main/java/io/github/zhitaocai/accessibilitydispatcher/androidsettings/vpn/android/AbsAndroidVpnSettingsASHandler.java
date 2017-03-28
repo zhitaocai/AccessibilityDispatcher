@@ -86,33 +86,15 @@ abstract class AbsAndroidVpnSettingsASHandler extends AbsVpnSettingsASHandler {
 	 * 处理在VPN列表页时的逻辑
 	 */
 	protected void handleInVpnListPage() {
-		//		getExecutor().execute(new Runnable() {
-		//			@Override
-		//			public void run() {
-		//				if (isInVpnListPage()) {
-		//					runLogicInVpnListPage();
-		//				}
-		//			}
-		//		});
-		
 		if (isInVpnListPage()) {
 			runLogicInVpnListPage();
 		}
-		
 	}
 	
 	/**
 	 * 处理在VPN配置对话框的逻辑
 	 */
 	protected void handleInVpnConfigDialog() {
-		//		getExecutor().execute(new Runnable() {
-		//			@Override
-		//			public void run() {
-		//				if (isInVpnConfigDialog()) {
-		//					runLogicInVpnConfigDialog();
-		//				}
-		//			}
-		//		});
 		if (isInVpnConfigDialog()) {
 			runLogicInVpnConfigDialog();
 		}
@@ -122,14 +104,6 @@ abstract class AbsAndroidVpnSettingsASHandler extends AbsVpnSettingsASHandler {
 	 * 处理在VPN配置的对话框中选择VPN类型的Spinner中的逻辑
 	 */
 	protected void handleInVpnConfigDialogSpinnerWindow() {
-		//		getExecutor().execute(new Runnable() {
-		//			@Override
-		//			public void run() {
-		//				if (isInVpnConfigDialogSpinnerWindow()) {
-		//					runLogicInVpnConfigDialogSpinnerWindow();
-		//				}
-		//			}
-		//		});
 		if (isInVpnConfigDialogSpinnerWindow()) {
 			runLogicInVpnConfigDialogSpinnerWindow();
 		}
@@ -139,14 +113,6 @@ abstract class AbsAndroidVpnSettingsASHandler extends AbsVpnSettingsASHandler {
 	 * 处理在用户配置对话框的逻辑
 	 */
 	protected void handleInUserConfigDialog() {
-		//		getExecutor().execute(new Runnable() {
-		//			@Override
-		//			public void run() {
-		//				if (isInUserConfigDialog()) {
-		//					runLogicInUserConfigDialog();
-		//				}
-		//			}
-		//		});
 		if (isInUserConfigDialog()) {
 			runLogicInUserConfigDialog();
 		}
@@ -156,14 +122,6 @@ abstract class AbsAndroidVpnSettingsASHandler extends AbsVpnSettingsASHandler {
 	 * 处理在VPN列表页，长按了某个VPN配置之后，弹出来的对话框中的逻辑
 	 */
 	protected void handleInVpnProfileEditDialog() {
-		//		getExecutor().execute(new Runnable() {
-		//			@Override
-		//			public void run() {
-		//				if (isInVpnProfileEditDialog()) {
-		//					runLogicInVpnProfileEditDialog();
-		//				}
-		//			}
-		//		});
 		if (isInVpnProfileEditDialog()) {
 			runLogicInVpnProfileEditDialog();
 		}
@@ -285,5 +243,4 @@ abstract class AbsAndroidVpnSettingsASHandler extends AbsVpnSettingsASHandler {
 	protected HashMap<VpnTarget, Integer> getVpnTargetCacheHashMap() {
 		return mVpnTargetCacheHashMap;
 	}
-	
 }

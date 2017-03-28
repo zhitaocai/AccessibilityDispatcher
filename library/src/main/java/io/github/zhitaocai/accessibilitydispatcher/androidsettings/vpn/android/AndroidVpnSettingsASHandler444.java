@@ -25,7 +25,7 @@ public class AndroidVpnSettingsASHandler444 extends AbsAndroidVpnSettingsASHandl
 	 * @return
 	 */
 	@Override
-	public String getSupportPkgName() {
+	protected String getSupportPkgName() {
 		return AndroidSettingsCompat.ANDROID_PKGNAME;
 	}
 	

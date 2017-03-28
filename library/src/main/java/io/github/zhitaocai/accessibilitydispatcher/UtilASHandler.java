@@ -28,7 +28,7 @@ abstract class UtilASHandler {
 	private AccessibilityService mAccessibilityService;
 	
 	/**
-	 * 获取线程池，因为辅助功能提供的3个回调本质还是执行在UI线程中，所以找到目标node以及进行点击之类的耗时操作，就放在线程池中实现吧
+	 * 获取线程池，因为辅助功能提供的3个回调本质还是执行在UI线程中，所以耗时操作，就放在线程池中实现吧
 	 *
 	 * @return
 	 */

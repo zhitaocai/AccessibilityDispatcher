@@ -44,7 +44,7 @@ public final class AccessibilityDispatcher {
 	private static HashMap<String, ArrayList<AbsASHandler>> sAbsASHandlers;
 	
 	/**
-	 * 找节点等耗时任务运行的线程池
+	 * 耗时任务运行的线程池
 	 */
 	private static ExecutorService sSingleThreadExecutor;
 	
@@ -78,7 +78,7 @@ public final class AccessibilityDispatcher {
 	 * <p>
 	 * 你应该需要知道
 	 * <ul>
-	 * <li>AccessibilityService中本质还是一个Service，在里面执行查找节点之类等的耗时操作是会导致UI线程产生卡顿感</li>
+	 * <li>AccessibilityService中本质还是一个Service，在里面执行查找节点之类等的耗时操作是可能导致UI线程产生卡顿感</li>
 	 * <li>实际上，我们用辅助功能产生的事件是一件一件来的，如果我们要自动点击某些事件，那么其实在我们还没有点击前，基本是不会产生新的事件（不考虑计时器之类的界面）</li>
 	 * </ul>
 	 * 基于上面两点，我们就可以用一个单线程池来，来针对每个新的事件做判断而不会导致逻辑混淆
@@ -135,6 +135,7 @@ public final class AccessibilityDispatcher {
 	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public static void onServiceConnected(AccessibilityService service) {
+		DLog.setTag("accessibility");
 		synchronized (SYNC) {
 			try {
 				if (sConfig.isShowDebugLog()) {

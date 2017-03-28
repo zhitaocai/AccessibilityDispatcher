@@ -34,6 +34,7 @@ public final class AccessibilityConfig {
 	 */
 	public AccessibilityConfig withClassNameInTag(boolean showClassNameInTag) {
 		mIsShowClassNameInTag = showClassNameInTag;
+		DLog.setIsShowClassNameInTag(mIsShowClassNameInTag);
 		return this;
 	}
 	

@@ -102,7 +102,7 @@ public abstract class AbsASHandler<T extends ITarget, C extends OnCallBack> exte
 	 *
 	 * @see #isUsingPkgName2TrackEvent()
 	 */
-	public abstract String getSupportPkgName();
+	protected abstract String getSupportPkgName();
 	
 	/**
 	 * 是否根据包名去定位事件，并交由指定包名的自动点击类处理

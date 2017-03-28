@@ -11,9 +11,19 @@ import java.util.Locale;
  */
 public class DLog {
 	
+	private static String sTag = "dlog";
+	
 	private static boolean sIsDebug = false;
 	
 	private static boolean sIsShowClassNameInTag = false;
+	
+	public static String getTag() {
+		return sTag;
+	}
+	
+	public static void setTag(String tag) {
+		sTag = tag;
+	}
 	
 	private static boolean isDebug() {
 		return sIsDebug;
@@ -114,7 +124,7 @@ public class DLog {
 				msg = String.format(Locale.getDefault(), format, args);
 			}
 			
-			String tag = "accessibility";
+			String tag = getTag();
 			
 			if (isShowClassNameInTag()) {
 				StackTraceElement[] elements = Thread.currentThread().getStackTrace();
