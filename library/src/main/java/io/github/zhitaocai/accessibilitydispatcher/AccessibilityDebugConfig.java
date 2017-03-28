@@ -6,7 +6,7 @@ import io.github.zhitaocai.accessibilitydispatcher.log.DLog;
  * @author zhitao
  * @since 2017-03-22 22:15
  */
-public final class AccessibilityConfig {
+public final class AccessibilityDebugConfig {
 	
 	private boolean mIsShowDebugLog;
 	
@@ -14,7 +14,7 @@ public final class AccessibilityConfig {
 	
 	private boolean mIsShowClassNameInTag;
 	
-	AccessibilityConfig() {
+	AccessibilityDebugConfig() {
 		super();
 		mIsShowDebugLog = false;
 		mIsShowEventSourceLog = false;
@@ -32,7 +32,7 @@ public final class AccessibilityConfig {
 	 *
 	 * @return
 	 */
-	public AccessibilityConfig withClassNameInTag(boolean showClassNameInTag) {
+	public AccessibilityDebugConfig withClassNameInTag(boolean showClassNameInTag) {
 		mIsShowClassNameInTag = showClassNameInTag;
 		DLog.setIsShowClassNameInTag(mIsShowClassNameInTag);
 		return this;
@@ -49,7 +49,7 @@ public final class AccessibilityConfig {
 	 *
 	 * @return
 	 */
-	public AccessibilityConfig withEventSourceLog(boolean isShowEventSourceLog) {
+	public AccessibilityDebugConfig withEventSourceLog(boolean isShowEventSourceLog) {
 		mIsShowEventSourceLog = isShowEventSourceLog;
 		return this;
 	}
@@ -58,7 +58,7 @@ public final class AccessibilityConfig {
 		return mIsShowDebugLog;
 	}
 	
-	AccessibilityConfig debugLog(boolean isShowDebugLog) {
+	AccessibilityDebugConfig debugLog(boolean isShowDebugLog) {
 		mIsShowDebugLog = isShowDebugLog;
 		DLog.setIsDebug(isShowDebugLog);
 		return this;

@@ -1,6 +1,7 @@
 package io.github.zhitaocai.accessibilitydispatcher.businss;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 
@@ -14,11 +15,11 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	
 	private boolean mIsEnable;
 	
-	private ArrayList<C> mCallBacks;
+	@Nullable private ArrayList<C> mCallBacks;
 	
-	private ArrayList<T> mTargets;
+	@Nullable private ArrayList<T> mTargets;
 	
-	private H mHandlerFactory;
+	@Nullable private H mHandlerFactory;
 	
 	protected AbsHelper() {
 		super();
@@ -43,7 +44,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 		return obj != null && hashCode() == obj.hashCode();
 	}
 	
-	public AbsHelper reset() {
+	public AbsHelper<T, C, H> reset() {
 		mIsEnable = false;
 		mTargets = null;
 		mCallBacks = null;
@@ -66,7 +67,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *
 	 * @return
 	 */
-	public AbsHelper initHandlerFactory(H handlerFactory) {
+	public AbsHelper<T, C, H> initHandlerFactory(H handlerFactory) {
 		mHandlerFactory = handlerFactory;
 		return this;
 	}
@@ -78,7 +79,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *
 	 * @return
 	 */
-	public AbsHelper setEnable(boolean enable) {
+	public AbsHelper<T, C, H> setEnable(boolean enable) {
 		mIsEnable = enable;
 		return this;
 	}
@@ -91,12 +92,12 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 		return mCallBacks;
 	}
 	
-	public AbsHelper setCallBacks(ArrayList<C> callBacks) {
+	public AbsHelper<T, C, H> setCallBacks(ArrayList<C> callBacks) {
 		mCallBacks = callBacks;
 		return this;
 	}
 	
-	public AbsHelper setCallBack(C callBack) {
+	public AbsHelper<T, C, H> setCallBack(C callBack) {
 		if (mCallBacks == null) {
 			mCallBacks = new ArrayList<>();
 		} else {
@@ -106,16 +107,66 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 		return this;
 	}
 	
+	/**
+	 * 添加回调监听器(请记得在适当的位置调用 {@link #removeCallBack(OnCallBack[])} 释放监听)
+	 * <p>
+	 * e.g.
+	 * <p>
+	 * 如果你需要知道在安装界面中，是否点击了 "下一步"  或者 "安装" 时，那么可以通过设置回调监听器知道，以此来做一点额外的逻辑，比如统计点击了多少次下一步之类的
+	 *
+	 * @param callBacks
+	 *
+	 * @return
+	 *
+	 * @see #removeCallBack(OnCallBack[])
+	 */
+	public AbsHelper<T, C, H> addCallBacks(C... callBacks) {
+		if (callBacks == null || callBacks.length == 0) {
+			return this;
+		}
+		if (mCallBacks == null) {
+			mCallBacks = new ArrayList<>();
+		}
+		for (C callBack : callBacks) {
+			if (!mCallBacks.contains(callBack)) {
+				mCallBacks.add(callBack);
+			}
+		}
+		return this;
+	}
+	
+	/**
+	 * 移除回调监听器
+	 * <p>
+	 * 你应该在适当的实际移除监听器，比如自动安装业务完毕之后应该移除监听器
+	 *
+	 * @param callBacks
+	 *
+	 * @return
+	 */
+	public AbsHelper<T, C, H> removeCallBack(C... callBacks) {
+		if (callBacks == null || callBacks.length == 0) {
+			return this;
+		}
+		if (mCallBacks == null || mCallBacks.isEmpty()) {
+			return this;
+		}
+		for (C callBack : callBacks) {
+			mCallBacks.remove(callBack);
+		}
+		return this;
+	}
+	
 	public ArrayList<T> getTargets() {
 		return mTargets;
 	}
 	
-	public AbsHelper setTargets(ArrayList<T> targets) {
+	public AbsHelper<T, C, H> setTargets(ArrayList<T> targets) {
 		mTargets = targets;
 		return this;
 	}
 	
-	public AbsHelper setTarget(T target) {
+	public AbsHelper<T, C, H> setTarget(T target) {
 		if (mTargets == null) {
 			mTargets = new ArrayList<>();
 		} else {
@@ -142,7 +193,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *
 	 * @return
 	 */
-	public AbsHelper addTarget(T... targets) {
+	public AbsHelper<T, C, H> addTargets(T... targets) {
 		if (targets == null || targets.length == 0) {
 			return this;
 		}
@@ -176,7 +227,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *
 	 * @return
 	 */
-	public AbsHelper removeTarget(T... targets) {
+	public AbsHelper<T, C, H> removeTarget(T... targets) {
 		if (targets == null || targets.length == 0) {
 			return this;
 		}
@@ -185,56 +236,6 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 		}
 		for (T target : targets) {
 			mTargets.remove(target);
-		}
-		return this;
-	}
-	
-	/**
-	 * 添加回调监听器(请记得在适当的位置调用 {@link #removeCallBack(OnCallBack[])} 释放监听)
-	 * <p>
-	 * e.g.
-	 * <p>
-	 * 如果你需要知道在安装界面中，是否点击了 "下一步"  或者 "安装" 时，那么可以通过设置回调监听器知道，以此来做一点额外的逻辑，比如统计点击了多少次下一步之类的
-	 *
-	 * @param callBacks
-	 *
-	 * @return
-	 *
-	 * @see #removeCallBack(OnCallBack[])
-	 */
-	public AbsHelper addCallBack(C... callBacks) {
-		if (callBacks == null || callBacks.length == 0) {
-			return this;
-		}
-		if (mCallBacks == null) {
-			mCallBacks = new ArrayList<>();
-		}
-		for (C callBack : callBacks) {
-			if (!mCallBacks.contains(callBack)) {
-				mCallBacks.add(callBack);
-			}
-		}
-		return this;
-	}
-	
-	/**
-	 * 移除回调监听器
-	 * <p>
-	 * 你应该在适当的实际移除监听器，比如自动安装业务完毕之后应该移除监听器
-	 *
-	 * @param callBacks
-	 *
-	 * @return
-	 */
-	public AbsHelper removeCallBack(C... callBacks) {
-		if (callBacks == null || callBacks.length == 0) {
-			return this;
-		}
-		if (mCallBacks == null || mCallBacks.isEmpty()) {
-			return this;
-		}
-		for (C callBack : callBacks) {
-			mCallBacks.remove(callBack);
 		}
 		return this;
 	}

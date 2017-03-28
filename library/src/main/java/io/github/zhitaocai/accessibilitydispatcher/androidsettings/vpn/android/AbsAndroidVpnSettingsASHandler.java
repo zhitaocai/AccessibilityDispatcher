@@ -83,6 +83,20 @@ abstract class AbsAndroidVpnSettingsASHandler extends AbsVpnSettingsASHandler {
 	protected abstract void runLogicInVpnProfileEditDialog();
 	
 	/**
+	 * 滑动列表页的VPN的ListView
+	 */
+	protected abstract void scrollListViewInVpnListPage();
+	
+	/**
+	 * 滑动VPN列表页的ListView，寻找是否已经存在指定的VPN
+	 */
+	protected void handleScrollListPage() {
+		if (isInVpnListPage()) {
+			scrollListViewInVpnListPage();
+		}
+	}
+	
+	/**
 	 * 处理在VPN列表页时的逻辑
 	 */
 	protected void handleInVpnListPage() {

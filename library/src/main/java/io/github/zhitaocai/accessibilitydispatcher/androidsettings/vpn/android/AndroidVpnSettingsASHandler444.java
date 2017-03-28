@@ -265,6 +265,23 @@ public class AndroidVpnSettingsASHandler444 extends AbsAndroidVpnSettingsASHandl
 	}
 	
 	/**
+	 * 滑动列表页的VPN的ListView
+	 */
+	@Override
+	protected void scrollListViewInVpnListPage() {
+		// 遍历ListView的项获取当前ListView中已经存在的VPN配置
+		List<AccessibilityNodeInfo> listViewNodeInfos = getNodeByViewIdFromRootInActiveWindow("android:id/list");
+		if (listViewNodeInfos == null || listViewNodeInfos.isEmpty()) {
+			return;
+		}
+		AccessibilityNodeInfo listViewNodeInfo = listViewNodeInfos.get(0);
+		if (listViewNodeInfo == null) {
+			return;
+		}
+		listViewNodeInfo.performAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD);
+	}
+	
+	/**
 	 * 是否在VPN配置的对话框中
 	 *
 	 * @return

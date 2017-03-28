@@ -56,7 +56,7 @@ public final class AccessibilityDispatcher {
 	/**
 	 * 配置实例
 	 */
-	private static AccessibilityConfig sConfig = new AccessibilityConfig();
+	private static AccessibilityDebugConfig sConfig = new AccessibilityDebugConfig();
 	
 	/**
 	 * 是否开启调试的log
@@ -68,7 +68,7 @@ public final class AccessibilityDispatcher {
 	 *
 	 * @return
 	 */
-	public static AccessibilityConfig debugLog(boolean isDebug) {
+	public static AccessibilityDebugConfig debugLog(boolean isDebug) {
 		sConfig.debugLog(isDebug);
 		return sConfig;
 	}

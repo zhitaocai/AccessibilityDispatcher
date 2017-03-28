@@ -9,13 +9,25 @@
 	>
 	
 	<Button
-		android:id="@+id/btn_create_vpn1"
+		android:id="@+id/btn_create_l2tp"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="8dp"
 		android:layout_marginTop="8dp"
 		android:elevation="0dp"
-		android:text="自动创建一个VPN：VPN1"
+		android:text="创建/更新一个L2TP/IPSec PSK"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/btn_create_pptp"
+		/>
+	
+	<Button
+		android:id="@+id/btn_create_pptp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="8dp"
+		android:layout_marginTop="8dp"
+		android:elevation="0dp"
+		android:text="创建/更新一个PPTP VPN"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/btn_open_accessibility"
 		/>
@@ -26,8 +38,9 @@
 		android:layout_height="wrap_content"
 		android:text="进入辅助功能页面"
 		app:layout_constraintTop_toTopOf="parent"
-		android:layout_marginTop="8dp"
-		tools:layout_editor_absoluteX="8dp"
+		android:layout_marginTop="16dp"
+		android:layout_marginLeft="8dp"
+		app:layout_constraintLeft_toLeftOf="parent"
 		/>
 
 </android.support.constraint.ConstraintLayout >
