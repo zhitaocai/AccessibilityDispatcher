@@ -10,13 +10,14 @@
 * 目前只支持第一页创建/更新一个VPN
 * 支持常用的两个VPN创建 PPTP 和 L2TP/IPSec PSK
 
+## 最终效果
+
 ![](static/gif/auto_create_pptp.gif)
-
-
 ![](static/gif/auto_create_l2tp.gif)
 
-
 ## USAGE
+
+### 下载
 
 ```gradle
 
@@ -30,6 +31,56 @@ compile ('io.github.zhitaocai:accessibility-dispatcher:0.1.0') {
 
 ```
 
+### 配置辅助功能服务
+
+在你的辅助功能服务的关键几个方法中注入 ``AccessibilityDispatcher`` 的逻辑即可:
+
+```java
+public class AccessibilityServiceDemo extends AccessibilityService {
+	
+
+	@Override
+	protected void onServiceConnected() {
+		super.onServiceConnected();
+		// 关键的方法处，注入代码即可
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			AccessibilityDispatcher.onServiceConnected(this);
+		}
+	}
+	
+	@Override
+	public void onAccessibilityEvent(AccessibilityEvent event) {
+		// 关键的方法处，注入代码即可
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			AccessibilityDispatcher.onAccessibilityEvent(this, event);
+		}
+	}
+	
+	@Override
+	public void onInterrupt() {
+		// 关键的方法处，注入代码即可
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			AccessibilityDispatcher.onInterrupt(this);
+		}
+	}
+}
+```
+
+ps: 记得在AndroidManifest.xml中配置好辅助功能服务
+
+```xml
+<service
+	android:name=".AccessibilityServiceDemo"
+	android:label="@string/app_name"
+	android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
+	<intent-filter >
+		<action android:name="android.accessibilityservice.AccessibilityService" />
+	</intent-filter >
+	<meta-data
+		android:name="android.accessibilityservice"
+		android:resource="@xml/accessibility_service" />
+</service >
+```
 
 ### 自动创建一个PPTP
 
