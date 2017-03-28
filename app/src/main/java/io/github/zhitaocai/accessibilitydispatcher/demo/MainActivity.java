@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 						         Locale.getDefault(),
 						         "%1$tH:%1$tM:%1$tS 进入VPN配置，当前配置\n%s",
 						         System.currentTimeMillis(),
-						         vpnTarget
+						         vpnTarget.toString()
 				         ), Toast.LENGTH_SHORT).show();
 			         }
 		         })

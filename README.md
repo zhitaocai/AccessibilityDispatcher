@@ -6,6 +6,12 @@
 
 ## 自动配置VPN信息
 
+![](static/gif/auto_create_pptp.gif)
+
+
+![](static/gif/auto_create_l2tp.gif)
+
+
 ### 使用
 
 1. 下载
