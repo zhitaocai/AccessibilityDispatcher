@@ -9,8 +9,8 @@ ext {
 
 	publishedGroupId = 'io.github.zhitaocai'    // 项目组ID(e.g 包名为io.github.zhitaocai.toastcompat, 那么这里就是io.github.zhitaocai)
 	artifact = 'accessibilitydispatcher'       // 项目ID  (e.g 包名为io.github.zhitaocai.toastcompat, 那么这里就是toastcompat)
-	libraryVersionName = '0.1.0'                // 对应的versionname
-	libraryVersionCode = 1
+	libraryVersionName = '0.1.1'                // 对应的versionname
+	libraryVersionCode = 2
 
 	libDesc = 'an library for using accessibility service more convenient'  // 项目描述
 	libraryVersionDesc = libDesc                                            // 当前版本下的项目描述
@@ -31,8 +31,9 @@ android {
 		versionCode libraryVersionCode
 		versionName libraryVersionName
 
-		//testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+		consumerProguardFiles 'proguard-rules.pro'
 
+		//testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 	}
 	buildTypes {
 		release {
@@ -47,7 +48,16 @@ android {
 		targetCompatibility JavaVersion.VERSION_1_7
 	}
 
-//	libraryVariants.all { variant ->
+	libraryVariants.all { variant ->
+		// 修改aar的名字和输出路径
+		variant.outputs.each { output ->
+			def outputFile = output.outputFile
+			if (outputFile != null && outputFile.name.endsWith('.aar')) {
+				def fileName = "${artifact}-${variant.buildType.name}-${libraryVersionName}.aar"
+				// output.outputFile = new File(outputFile.parent, fileName)
+				output.outputFile = new File(project.rootProject.getProjectDir().getAbsolutePath() + "/aar/" + fileName)
+			}
+		}
 //		if (variant.name == 'release') {
 //			task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
 //				// title = ''
@@ -67,16 +77,27 @@ android {
 //				classifier = 'javadoc'
 //				from tasks.getByName("generate${variant.name.capitalize()}Javadoc").destinationDir
 //			}
+//
+//			task androidReleaseJar(type: Jar, dependsOn: assembleRelease) {
+//				from "$buildDir/intermediates/classes/release/"
+//				exclude '**/BuildConfig.class'
+//				exclude '**/R.class'
+//				exclude '**/R$*.class'
+//				classifier 'sources11'
+//				baseName project.ext.artifact
+//			}
+//
 //			artifacts {
-//				archives tasks.getByName("javadoc${variant.name.capitalize()}Jar")
+//				archives tasks.getByName("androidReleaseJar")
+//				//archives tasks.getByName("javadoc${variant.name.capitalize()}Jar")
 //			}
 //		}
-//	}
+	}
 }
 
-configurations {
-	javadocDeps
-}
+//configurations {
+//	javadocDeps
+//}
 
 dependencies {
 	//	compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -87,11 +108,9 @@ dependencies {
 	//	testCompile 'junit:junit:4.12'
 	// compile 'com.android.support:support-annotations:25.3.0'
 
-	compile('com.android.support:support-annotations:25.3.0') {
-		transitive false
-	}
+	compile 'com.android.support:support-annotations:25.3.0'
 
-	javadocDeps 'com.android.support:support-annotations:25.3.0'
+	//avadocDeps 'com.android.support:support-annotations:25.3.0'
 }
 
 apply from: 'publish.gradle'

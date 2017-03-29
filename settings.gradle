@@ -1,2 +1,8 @@
 include ':app'
-include ':accessibilitydispatcher'
+include ':library'
+
+// https://github.com/dcendents/android-maven-gradle-plugin
+// 上传到Bintray的时候，artifactId是在这里改的，而group 和 version 是在build.gradle中的
+// 实际发现其实改不了，在publish.gradle 中定义project.archivesBaseName即可改成功
+//
+//rootProject.name = 'accessibilitydispatcher'

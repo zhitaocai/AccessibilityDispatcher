@@ -174,10 +174,18 @@ VpnHelper.getInstance()
          .active();
 ```
 
-### TO DO LIST
+### TODO
 
 * [ ] 目前只能一页，还没有考虑列表很长的情况，后续考虑滚动处理多页情况
 * [ ] 支持一次输入多个VPN创建/修改
+
+### Where to get demo apk?
+
+1. run the following command line:
+	```
+	./gradlew :app:assembleRelease
+	```
+2. then you can find the apk in ``/static/apk``
 
 ## License
 

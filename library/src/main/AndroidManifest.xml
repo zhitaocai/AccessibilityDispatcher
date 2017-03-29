@@ -2,13 +2,8 @@
 	package="io.github.zhitaocai.accessibilitydispatcher"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	>
+	<uses-sdk
+		android:minSdkVersion="14"
+		android:targetSdkVersion="25" />
 	
-	<application
-		android:allowBackup="true"
-		android:label="@string/app_name"
-		android:supportsRtl="true"
-		>
-	
-	</application >
-
 </manifest >
