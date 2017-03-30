@@ -47,6 +47,13 @@ public class SecurityTarget implements ITarget {
 	 */
 	@Override
 	public boolean isValid() {
+		if (getAction() < 0) {
+			return false;
+		}
+		// 不能同时设置 开启和关闭
+		if (((getAction() & ACTION_TURN_ON_UNKNOWNSOURCES) != 0) && ((getAction() & ACTION_TURN_OFF_UNKNOWNSOURCES) != 0)) {
+			return false;
+		}
 		return true;
 	}
 	
