@@ -26,7 +26,7 @@ import io.github.zhitaocai.accessibilitydispatcher.demo.R;
  */
 public class AutoVpnConfigFragment extends BaseFragment {
 	
-	private final static int REQ_AUTO_CONFIG_VPN = 2;
+	private final static int REQ_AUTO_CONFIG_VPN = 100;
 	
 	private Unbinder mUnBinder;
 	
@@ -111,7 +111,7 @@ public class AutoVpnConfigFragment extends BaseFragment {
 		         // 将本次设置的内容加入到辅助功能服务，不然你只是在瞎逼逼
 		         .active();
 		
-		startActivity2VPNSettings();
+		startActivity2VpnSettings();
 	}
 	
 	@OnClick(R.id.btn_create_pptp)
@@ -199,10 +199,10 @@ public class AutoVpnConfigFragment extends BaseFragment {
 		         // 将本次设置的内容加入到辅助功能服务，不然你只是在瞎逼逼
 		         .active();
 		
-		startActivity2VPNSettings();
+		startActivity2VpnSettings();
 	}
 	
-	private void startActivity2VPNSettings() {
+	private void startActivity2VpnSettings() {
 		Intent intent;
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
 			intent = new Intent(Settings.ACTION_VPN_SETTINGS);

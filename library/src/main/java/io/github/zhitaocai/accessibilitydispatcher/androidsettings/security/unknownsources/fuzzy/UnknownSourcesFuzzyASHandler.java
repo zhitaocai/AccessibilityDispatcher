@@ -121,6 +121,8 @@ public class UnknownSourcesFuzzyASHandler extends AbsSecuritySettingsASHandler {
 					if (((target.getAction() & SecurityTarget.ACTION_TURN_ON_UNKNOWNSOURCES) != 0 && !nodeInfo.isChecked()) ||
 					    ((target.getAction() & SecurityTarget.ACTION_TURN_OFF_UNKNOWNSOURCES) != 0 && nodeInfo.isChecked())) {
 						nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+					} else {
+						goBack();
 					}
 				}
 				break;

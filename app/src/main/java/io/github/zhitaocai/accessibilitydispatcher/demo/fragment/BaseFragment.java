@@ -1,7 +1,10 @@
 package io.github.zhitaocai.accessibilitydispatcher.demo.fragment;
 
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+
+import io.github.zhitaocai.accessibilitydispatcher.log.DLog;
 
 /**
  * @author zhitao
@@ -16,5 +19,4 @@ public abstract class BaseFragment extends Fragment {
 	 */
 	@Nullable
 	public abstract String getFragmentTitle();
-	
 }

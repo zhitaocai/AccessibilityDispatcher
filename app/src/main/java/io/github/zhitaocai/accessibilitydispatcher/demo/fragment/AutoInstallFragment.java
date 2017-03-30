@@ -22,7 +22,7 @@ import io.github.zhitaocai.accessibilitydispatcher.demo.utils.PermissionUtils;
  */
 public class AutoInstallFragment extends BaseFragment {
 	
-	private final static int REQ_SECURITY_UNKNOWN_SOURCES = 100;
+	private final static int REQ_SECURITY_UNKNOWN_SOURCES = 200;
 	
 	private Unbinder mUnBinder;
 	
@@ -68,10 +68,7 @@ public class AutoInstallFragment extends BaseFragment {
 		              .setEnable(true)
 		              .active();
 		
-		Intent intent = new Intent(Settings.ACTION_SECURITY_SETTINGS);
-		intent.addFlags(
-				Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		getActivity().startActivityForResult(intent, REQ_SECURITY_UNKNOWN_SOURCES);
+		startActivity2SecuritySettings();
 	}
 	
 	@OnClick(R.id.btn_turn_off_unknownsource)
@@ -86,11 +83,12 @@ public class AutoInstallFragment extends BaseFragment {
 		              .setEnable(true)
 		              .active();
 		
+		startActivity2SecuritySettings();
+	}
+	
+	private void startActivity2SecuritySettings() {
 		Intent intent = new Intent(Settings.ACTION_SECURITY_SETTINGS);
-		intent.addFlags(
-				Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		getActivity().startActivityForResult(intent, REQ_SECURITY_UNKNOWN_SOURCES);
-		
+		startActivityForResult(intent, REQ_SECURITY_UNKNOWN_SOURCES);
 	}
 	
 	@OnClick(R.id.btn_auto_install_apk)
