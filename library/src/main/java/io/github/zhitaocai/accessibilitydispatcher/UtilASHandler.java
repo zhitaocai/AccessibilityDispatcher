@@ -8,10 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
-import android.widget.CheckBox;
-import android.widget.Switch;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -545,6 +544,24 @@ abstract class UtilASHandler {
 	}
 	
 	/**
+	 * 从根节点开始向下查找指定类名的组件（深度遍历），在找到一个符合之后就会结束
+	 *
+	 * @param cls 类（可多个），每进行一次节点的深度遍历，都会遍历一遍这里传入来的类的类名，找到了就立即返回
+	 *
+	 * @return 最后找到的节点
+	 */
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	protected AccessibilityNodeInfo getNodeByClass(@NonNull Class... cls) {
+		AccessibilityNodeInfo rootNodeInfo = getAccessibilityService().getRootInActiveWindow();
+		if (rootNodeInfo == null) {
+			return null;
+		}
+		AccessibilityNodeInfo result = getNodeByClass(rootNodeInfo, cls);
+		rootNodeInfo.recycle();
+		return result;
+	}
+	
+	/**
 	 * 从指定的节点开始向下查找指定类名的组件（深度遍历），在找到一个符合之后就会结束
 	 *
 	 * @param nodeInfo 起始节点
@@ -552,13 +569,32 @@ abstract class UtilASHandler {
 	 *
 	 * @return 最后找到的节点
 	 */
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-	protected AccessibilityNodeInfo getNodeInfoByClass(@NonNull AccessibilityNodeInfo nodeInfo, @NonNull Class... cls) {
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	protected AccessibilityNodeInfo getNodeByClass(@NonNull AccessibilityNodeInfo nodeInfo, @NonNull Class... cls) {
 		String[] className = new String[cls.length];
 		for (int i = 0; i < cls.length; i++) {
 			className[i] = cls[i].getName();
 		}
-		return getNodeInfoByClassName(nodeInfo, className);
+		return getNodeByClassName(nodeInfo, className);
+	}
+	
+	/**
+	 * 从根节点节点开始向下查找指定类名的组件（深度遍历），在找到一个符合之后就会结束
+	 *
+	 * @param classNames 类名（可多个），每进行一次节点的深度遍历，都会遍历一遍这里传入来的类名，找到了就立即返回
+	 *
+	 * @return 最后找到的节点
+	 */
+	@Nullable
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	protected AccessibilityNodeInfo getNodeByClassName(@NonNull String... classNames) {
+		AccessibilityNodeInfo rootNodeInfo = getAccessibilityService().getRootInActiveWindow();
+		if (rootNodeInfo == null) {
+			return null;
+		}
+		AccessibilityNodeInfo result = getNodeByClassName(rootNodeInfo, classNames);
+		rootNodeInfo.recycle();
+		return result;
 	}
 	
 	/**
@@ -569,9 +605,8 @@ abstract class UtilASHandler {
 	 *
 	 * @return 最后找到的节点
 	 */
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-	protected AccessibilityNodeInfo getNodeInfoByClassName(@NonNull AccessibilityNodeInfo nodeInfo,
-			@NonNull String... classNames) {
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	protected AccessibilityNodeInfo getNodeByClassName(@NonNull AccessibilityNodeInfo nodeInfo, @NonNull String... classNames) {
 		if (nodeInfo.getChildCount() == 0) {
 			return null;
 		}
@@ -580,7 +615,7 @@ abstract class UtilASHandler {
 			if (DLog.isDebug()) {
 				StringBuilder sb = new StringBuilder(classNames.length);
 				for (String className : classNames) {
-					sb.append(className);
+					sb.append(className).append(" ");
 				}
 				DLog.i("index : %d className : %s target : %s", i, childNodeInfo.getClassName().toString(), sb.toString());
 			}
@@ -589,7 +624,7 @@ abstract class UtilASHandler {
 					return childNodeInfo;
 				}
 			}
-			AccessibilityNodeInfo switchOrCheckBoxNodeInfo = getNodeInfoByClassName(childNodeInfo, classNames);
+			AccessibilityNodeInfo switchOrCheckBoxNodeInfo = getNodeByClassName(childNodeInfo, classNames);
 			if (switchOrCheckBoxNodeInfo != null) {
 				return switchOrCheckBoxNodeInfo;
 			}

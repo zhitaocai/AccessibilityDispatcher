@@ -110,7 +110,7 @@ public class UnknownSourcesFuzzyASHandler extends AbsSecuritySettingsASHandler {
 					// 找到可以点击的布局之后先，还要在确定一下是否和我们的action一致
 					// 比如我们是需要打开的话，如果本身就关闭聊，就没必要点击
 					// 因此我们需要继续从这个可以点击node开始向下查找Checkbox或者Switch控件，检查状态
-					AccessibilityNodeInfo nodeInfo = getNodeInfoByClass(clickNode, CheckBox.class, Switch.class);
+					AccessibilityNodeInfo nodeInfo = getNodeByClass(clickNode, CheckBox.class, Switch.class);
 					if (nodeInfo == null) {
 						break;
 					}
@@ -135,17 +135,12 @@ public class UnknownSourcesFuzzyASHandler extends AbsSecuritySettingsASHandler {
 	protected void scrollInSecurityPage() {
 		// 因为不同系统版本有的用ListView或者用RecyclerView，所以我们一次找两个
 		// 找到ListView 或者 RecyclerView 然后滑动他
-		AccessibilityNodeInfo rootNodeInfo = getAccessibilityService().getRootInActiveWindow();
-		if (rootNodeInfo == null) {
-			return;
-		}
 		AccessibilityNodeInfo listNodeInfo =
-				getNodeInfoByClassName(rootNodeInfo, ListView.class.getName(), "android.support.v7.widget.RecyclerView");
-		rootNodeInfo.recycle();
+				getNodeByClassName(ListView.class.getName(), "android.support.v7.widget.RecyclerView");
 		if (listNodeInfo == null) {
 			return;
 		}
-		rootNodeInfo.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
+		listNodeInfo.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
 	}
 	
 	/**
