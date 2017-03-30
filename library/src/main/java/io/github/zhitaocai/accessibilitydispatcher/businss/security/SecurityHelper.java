@@ -9,7 +9,7 @@ import io.github.zhitaocai.accessibilitydispatcher.businss.AbsHelper;
  * @author zhitao
  * @since 2017-03-30 11:46
  */
-public class SecurityHelper extends AbsHelper<SecurityTarget, OnSeurityCallBack, SecurityHandlerFactory> {
+public class SecurityHelper extends AbsHelper<SecurityTarget, OnSecurityCallBack, SecurityHandlerFactory> {
 	
 	private static SecurityHelper sSecurityHelper;
 	

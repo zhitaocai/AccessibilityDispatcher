@@ -1,6 +1,6 @@
 <resources >
 	<string name="accessibility_dispatcher_settings_security_unknown_source" >未知来源</string >
-	<string name="accessibility_dispatcher_settings_security_unknown_source_confirm" >确认</string >
+	<string name="accessibility_dispatcher_settings_security_unknown_source_confirm" >确定</string >
 	<string name="accessibility_dispatcher_apk_install_page_next_step" >下一步</string >
 	<string name="accessibility_dispatcher_apk_install_page_install" >安装</string >
 	<string name="accessibility_dispatcher_apk_install_page_finish" >完成</string >

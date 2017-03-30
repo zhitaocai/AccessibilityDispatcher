@@ -8,9 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.github.zhitaocai.accessibilitydispatcher.businss.security.OnSecurityCallBack;
+import io.github.zhitaocai.accessibilitydispatcher.businss.security.OnSecurityCallBackAdapter;
 import io.github.zhitaocai.accessibilitydispatcher.businss.security.SecurityHelper;
 import io.github.zhitaocai.accessibilitydispatcher.businss.security.SecurityTarget;
 import io.github.zhitaocai.accessibilitydispatcher.demo.R;
@@ -65,6 +69,27 @@ public class AutoInstallFragment extends BaseFragment {
 		
 		SecurityHelper.getInstance()
 		              .setTarget(new SecurityTarget.Builder().setAction(SecurityTarget.ACTION_TURN_ON_UNKNOWNSOURCES).build())
+		              .setCallBack(new OnSecurityCallBack() {
+			              @Override
+			              public void onUnknownSourceItemClick() {
+				              Toast.makeText(
+						              getActivity(),
+						              String.format(Locale.getDefault(),
+								              "%1$tH:%1$tM:%1$tS 点击了\"未知来源\"所在的item",
+								              System.currentTimeMillis()
+						              ),
+						              Toast.LENGTH_SHORT
+				              ).show();
+			              }
+			
+			              @Override
+			              public void onUnknownSourceDialogConfirm() {
+				              Toast.makeText(getActivity(), String.format(Locale.getDefault(),
+						              "%1$tH:%1$tM:%1$tS 点击了开启\"未知来源\"时对话框中的确认按钮",
+						              System.currentTimeMillis()
+				              ), Toast.LENGTH_SHORT).show();
+			              }
+		              })
 		              .setEnable(true)
 		              .active();
 		
@@ -80,6 +105,18 @@ public class AutoInstallFragment extends BaseFragment {
 		
 		SecurityHelper.getInstance()
 		              .setTarget(new SecurityTarget.Builder().setAction(SecurityTarget.ACTION_TURN_OFF_UNKNOWNSOURCES).build())
+		              .setCallBack(new OnSecurityCallBackAdapter() {
+			              /**
+			               * 点击了 未知来源 所在的item时的回调
+			               */
+			              @Override
+			              public void onUnknownSourceItemClick() {
+				              Toast.makeText(getActivity(), String.format(Locale.getDefault(),
+						              "%1$tH:%1$tM:%1$tS 点击了\"未知来源\"所在的item",
+						              System.currentTimeMillis()
+				              ), Toast.LENGTH_SHORT).show();
+			              }
+		              })
 		              .setEnable(true)
 		              .active();
 		

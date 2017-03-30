@@ -24,6 +24,32 @@ import io.github.zhitaocai.accessibilitydispatcher.log.DLog;
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 public class UnknownSourcesFuzzyASHandler extends AbsSecuritySettingsASHandler {
 	
+	/**
+	 * 标记当前是否已经点击了Checkbox
+	 * <p>
+	 * 因为这是根据文字定位，所以事件分发并没有根据具体的类来处理，见 {@link #onAccessibilityEvent(AccessibilityEvent)}
+	 * 因此，同一个类型的事件，会连续执行几个逻辑
+	 * <p>
+	 * 在这里，因为我们点击checkbox之后，应该是有个对话框弹出来的，但是如果我们不做处理，那么对话框在完全弹出来之前，可能又会在调用一次 {@link #handleInSecurityPage()}
+	 * 而这个时候的调用就会触发到返回，导致设置失败
+	 * <p>
+	 * 基于以上分析，这里就列一个状态值来记录是否已经点击了checkbox
+	 */
+	private boolean mIsClickCheckBox = false;
+	
+	/**
+	 * 标记当前是否已经点击了Checkbox
+	 * <p>
+	 * 因为这是根据文字定位，所以事件分发并没有根据具体的类来处理，见 {@link #onAccessibilityEvent(AccessibilityEvent)}
+	 * 因此，同一个类型的事件，会连续执行几个逻辑
+	 * <p>
+	 * 在这里，因为我们点击checkbox之后，应该是有个对话框弹出来的，但是如果我们不做处理，那么对话框在完全弹出来之前，可能又会在调用一次 {@link #handleInSecurityPage()}
+	 * 而这个时候的调用就会触发到返回，导致设置失败
+	 * <p>
+	 * 基于以上分析，这里就列一个状态值来记录是否已经点击了对话框中的确认按钮
+	 */
+	private boolean mIsClickConfirm = false;
+	
 	@Override
 	public void onServiceConnected() {
 		
@@ -76,56 +102,69 @@ public class UnknownSourcesFuzzyASHandler extends AbsSecuritySettingsASHandler {
 				continue;
 			}
 			
-			// 根据文字模糊搜索 未知来源，找到item的话就点击
-			String unknownSourceStr = getAccessibilityService().getResources()
-			                                                   .getString(R.string
-					                                                   .accessibility_dispatcher_settings_security_unknown_source);
-			List<AccessibilityNodeInfo> unknownSourceNodes = getNodeByTextFromRootInActiveWindow(unknownSourceStr);
-			if (unknownSourceNodes == null || unknownSourceNodes.isEmpty()) {
-				return;
-			}
-			for (AccessibilityNodeInfo unknownSourceNode : unknownSourceNodes) {
-				if (unknownSourceNode == null || unknownSourceNode.getText() == null) {
-					continue;
-				}
-				DLog.i("* text: %s", unknownSourceNode.getText().toString());
-				if (!unknownSourceNode.getText().toString().equals(unknownSourceStr)) {
-					continue;
-				}
-				DLog.i("找到允许安装位置来源的View：%s", unknownSourceNode.getText().toString());
+			if (((target.getAction() & SecurityTarget.ACTION_TURN_ON_UNKNOWNSOURCES) != 0) ||
+			    ((target.getAction() & SecurityTarget.ACTION_TURN_OFF_UNKNOWNSOURCES) != 0)) {
 				
-				// 根据文字定位到node之后还不能直接点击，因为有些系统是不能点击的，这里要做个循环，如果当前node不能点击就找到能点击的父node
-				AccessibilityNodeInfo clickNode = unknownSourceNode;
-				// 定义20次，防止死循环，应该没有布局找了20次之后还没有尽的吧 - -！
-				int count = 0;
-				boolean isClickable = clickNode.isClickable();
-				while (!isClickable && count++ < 20) {
-					clickNode = clickNode.getParent();
-					if (clickNode == null) {
-						break;
+				// 如果已经点击了checkbox 但是还没有点击到对话框中的确认按钮，那么就暂时不处理，等点击了才进行
+				if ((target.getAction() & SecurityTarget.ACTION_TURN_ON_UNKNOWNSOURCES) != 0) {
+					if (mIsClickCheckBox && !mIsClickConfirm) {
+						continue;
 					}
-					isClickable = clickNode.isClickable();
 				}
-				if (clickNode != null && isClickable) {
-					// 找到可以点击的布局之后先，还要在确定一下是否和我们的action一致
-					// 比如我们是需要打开的话，如果本身就关闭聊，就没必要点击
-					// 因此我们需要继续从这个可以点击node开始向下查找Checkbox或者Switch控件，检查状态
-					AccessibilityNodeInfo nodeInfo = getNodeByClass(clickNode, CheckBox.class, Switch.class);
-					if (nodeInfo == null) {
+				
+				// 根据文字模糊搜索 未知来源，找到item的话就点击
+				String unknownSourceStr = getAccessibilityService().getResources()
+				                                                   .getString(R.string
+						                                                   .accessibility_dispatcher_settings_security_unknown_source);
+				List<AccessibilityNodeInfo> unknownSourceNodes = getNodeByTextFromRootInActiveWindow(unknownSourceStr);
+				if (unknownSourceNodes == null || unknownSourceNodes.isEmpty()) {
+					return;
+				}
+				for (AccessibilityNodeInfo unknownSourceNode : unknownSourceNodes) {
+					if (unknownSourceNode == null || unknownSourceNode.getText() == null) {
+						continue;
+					}
+					DLog.i("* text: %s", unknownSourceNode.getText().toString());
+					if (!unknownSourceNode.getText().toString().equals(unknownSourceStr)) {
+						continue;
+					}
+					DLog.i("找到允许安装位置来源的View：%s", unknownSourceNode.getText().toString());
+					
+					AccessibilityNodeInfo itemNode = unknownSourceNode.getParent();
+					AccessibilityNodeInfo checkboxNode = null;
+					// 定义20次，防止死循环，应该没有布局找了20次之后还没有尽的吧 - -！
+					int count = 0;
+					while (itemNode != null && count++ < 20) {
+						checkboxNode = getNodeByClass(itemNode, CheckBox.class, Switch.class);
+						if (checkboxNode == null) {
+							itemNode = itemNode.getParent();
+							continue;
+						}
 						break;
 					}
+					if (checkboxNode == null) {
+						break;
+					}
+					DLog.i("当前Checkbox是否已经选中: %b", checkboxNode.isChecked());
 					
 					// 找到了就判断
 					// 1. 如果需要开启，但是还没有开启就点击
 					// 2. 或者需要关闭，但是还没有关闭就点击
-					if (((target.getAction() & SecurityTarget.ACTION_TURN_ON_UNKNOWNSOURCES) != 0 && !nodeInfo.isChecked()) ||
-					    ((target.getAction() & SecurityTarget.ACTION_TURN_OFF_UNKNOWNSOURCES) != 0 && nodeInfo.isChecked())) {
-						nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+					if (((target.getAction() & SecurityTarget.ACTION_TURN_ON_UNKNOWNSOURCES) != 0 && !checkboxNode.isChecked()
+					    ) ||
+					    ((target.getAction() & SecurityTarget.ACTION_TURN_OFF_UNKNOWNSOURCES) != 0 && checkboxNode.isChecked()
+					    )) {
+						// CheckboxNode不一定能点击，但是item一般都设置能点击，所以用item的node来点击
+						if (itemNode.performAction(AccessibilityNodeInfo.ACTION_CLICK)) {
+							mIsClickCheckBox = true;
+							callBackOnUnknownSourceItemClick();
+						}
 					} else {
 						goBack();
 					}
+					break;
 				}
-				break;
+				return;
 			}
 		}
 	}
@@ -196,7 +235,10 @@ public class UnknownSourcesFuzzyASHandler extends AbsSecuritySettingsASHandler {
 			}
 			
 			if (clickNode != null && isClickable) {
-				clickNode.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+				if (clickNode.performAction(AccessibilityNodeInfo.ACTION_CLICK)) {
+					mIsClickConfirm = true;
+					callBackOnUnknownSourceDialogConfirm();
+				}
 			}
 			break;
 		}

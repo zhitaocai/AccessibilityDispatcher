@@ -617,7 +617,7 @@ abstract class UtilASHandler {
 				for (String className : classNames) {
 					sb.append(className).append(" ");
 				}
-				DLog.i("index : %d className : %s target : %s", i, childNodeInfo.getClassName().toString(), sb.toString());
+				DLog.i("index: %d className: %s target: %s", i, childNodeInfo.getClassName().toString(), sb.toString());
 			}
 			for (String className : classNames) {
 				if (childNodeInfo.getClassName().toString().equals(className)) {

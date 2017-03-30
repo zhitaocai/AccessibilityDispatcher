@@ -1,15 +1,17 @@
 package io.github.zhitaocai.accessibilitydispatcher.androidsettings.security;
 
+import java.util.List;
+
 import io.github.zhitaocai.accessibilitydispatcher.AbsASHandler;
 import io.github.zhitaocai.accessibilitydispatcher.androidsettings.AndroidSettingsCompat;
-import io.github.zhitaocai.accessibilitydispatcher.businss.security.OnSeurityCallBack;
+import io.github.zhitaocai.accessibilitydispatcher.businss.security.OnSecurityCallBack;
 import io.github.zhitaocai.accessibilitydispatcher.businss.security.SecurityTarget;
 
 /**
  * @author zhitao
  * @since 2017-03-30 11:55
  */
-public abstract class AbsSecuritySettingsASHandler extends AbsASHandler<SecurityTarget, OnSeurityCallBack> {
+public abstract class AbsSecuritySettingsASHandler extends AbsASHandler<SecurityTarget, OnSecurityCallBack> {
 	
 	/**
 	 * 具体实现类的辅助功能所针对的应用包名
@@ -42,6 +44,36 @@ public abstract class AbsSecuritySettingsASHandler extends AbsASHandler<Security
 	protected void handleScrollInSecurityPage() {
 		if (isInSecurityPage()) {
 			scrollInSecurityPage();
+		}
+	}
+	
+	protected void callBackOnUnknownSourceItemClick() {
+		List<OnSecurityCallBack> list = getCallBacks();
+		if (list == null || list.isEmpty()) {
+			return;
+		}
+		for (final OnSecurityCallBack callBack : list) {
+			getUIHandler().post(new Runnable() {
+				@Override
+				public void run() {
+					callBack.onUnknownSourceItemClick();
+				}
+			});
+		}
+	}
+	
+	protected void callBackOnUnknownSourceDialogConfirm() {
+		List<OnSecurityCallBack> list = getCallBacks();
+		if (list == null || list.isEmpty()) {
+			return;
+		}
+		for (final OnSecurityCallBack callBack : list) {
+			getUIHandler().post(new Runnable() {
+				@Override
+				public void run() {
+					callBack.onUnknownSourceDialogConfirm();
+				}
+			});
 		}
 	}
 	
