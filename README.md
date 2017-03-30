@@ -5,7 +5,7 @@
 主要实现各种功能的辅助点击，包括但不限：
 
 * [自动配置VPN教程](https://github.com/zhitaocai/AccessibilityDispatcher/wiki/%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AEVPN)
-* [自动开/关 允许安装未知来源](hhttps://github.com/zhitaocai/AccessibilityDispatcher/wiki/%E8%87%AA%E5%8A%A8%E5%BC%80%E5%90%AF%E5%85%81%E8%AE%B8%E5%AE%89%E8%A3%85%E6%9C%AA%E7%9F%A5%E6%9D%A5%E6%BA%90)
+* [自动开/关 允许安装未知来源](https://github.com/zhitaocai/AccessibilityDispatcher/wiki/%E8%87%AA%E5%8A%A8%E5%BC%80%E5%90%AF%E5%85%81%E8%AE%B8%E5%AE%89%E8%A3%85%E6%9C%AA%E7%9F%A5%E6%9D%A5%E6%BA%90)
 
 
 ## 效果图
