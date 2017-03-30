@@ -2,6 +2,7 @@ package io.github.zhitaocai.accessibilitydispatcher.demo.utils;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.provider.Settings;
 
 import java.util.Arrays;
@@ -15,7 +16,7 @@ import io.github.zhitaocai.accessibilitydispatcher.log.DLog;
  * @since 2017-03-30 15:59
  */
 public class PermissionUtils {
-
+	
 	/**
 	 * 检查自身应用是否已经允许某个权限 support api 23+ @since 2015-12-09
 	 *
@@ -27,7 +28,7 @@ public class PermissionUtils {
 	public static boolean isPermissionGranted(Context context, String permission) {
 		return isPermissionGranted(context, context.getPackageName(), permission);
 	}
-
+	
 	/**
 	 * 检查某个应用是否已经允许某个权限 support api 23+ @since 2015-12-09
 	 *
@@ -45,7 +46,7 @@ public class PermissionUtils {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * 获取开发者在AndroidManifest.xml文件中声明的所有权限信息，注意：仅仅是获取是否有没有在AndroidManifest.xml中配置，并不是是否已经被允许了
 	 * {@link #isPermissionGranted(Context, String, String)} 方法是不能判断到下面这种权限的存在的
@@ -69,7 +70,7 @@ public class PermissionUtils {
 		}
 		return Collections.emptyList();
 	}
-
+	
 	/**
 	 * 是否开启了 未知来源
 	 *
@@ -80,12 +81,18 @@ public class PermissionUtils {
 	public static boolean isOpenUnknownSources(Context context) {
 		boolean isOpenUnknownSources = false;
 		try {
-			isOpenUnknownSources =
-					Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.INSTALL_NON_MARKET_APPS) == 1;
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 &&
+			    Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+				isOpenUnknownSources =
+						Settings.Secure.getInt(context.getContentResolver(), Settings.Global.INSTALL_NON_MARKET_APPS) == 1;
+			} else {
+				isOpenUnknownSources =
+						Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.INSTALL_NON_MARKET_APPS) == 1;
+			}
 		} catch (Throwable e) {
 			DLog.e(e);
 		}
 		return isOpenUnknownSources;
 	}
-
+	
 }
