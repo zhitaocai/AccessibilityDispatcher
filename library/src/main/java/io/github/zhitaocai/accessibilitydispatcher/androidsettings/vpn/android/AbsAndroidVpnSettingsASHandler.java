@@ -228,16 +228,13 @@ abstract class AbsAndroidVpnSettingsASHandler extends AbsVpnSettingsASHandler {
 	@Override
 	protected void setTargets(ArrayList<VpnTarget> targets) {
 		super.setTargets(targets);
-		mVpnTargetCacheHashMap = null;
-		if (targets == null || targets.isEmpty()) {
+		if (targets == null) {
 			return;
 		}
+		mVpnTargetCacheHashMap = new HashMap<>();
 		for (VpnTarget vpnTarget : targets) {
 			if (vpnTarget == null || !vpnTarget.isValid()) {
 				continue;
-			}
-			if (mVpnTargetCacheHashMap == null) {
-				mVpnTargetCacheHashMap = new HashMap<>();
 			}
 			mVpnTargetCacheHashMap.put(vpnTarget, 0);
 		}

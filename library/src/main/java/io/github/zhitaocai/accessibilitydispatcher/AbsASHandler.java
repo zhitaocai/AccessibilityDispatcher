@@ -21,9 +21,9 @@ public abstract class AbsASHandler<T extends ITarget, C extends OnCallBack> exte
 	
 	private boolean mIsEnable = true;
 	
-	private ArrayList<C> mCallBacks = new ArrayList<>();
+	private ArrayList<C> mCallBacks;
 	
-	private ArrayList<T> mTargets = new ArrayList<>();
+	private ArrayList<T> mTargets;
 	
 	/**
 	 * 设置是否开启本辅助功能
@@ -42,6 +42,9 @@ public abstract class AbsASHandler<T extends ITarget, C extends OnCallBack> exte
 	}
 	
 	protected ArrayList<C> getCallBacks() {
+		if (mCallBacks == null) {
+			mCallBacks = new ArrayList<>();
+		}
 		return mCallBacks;
 	}
 	
@@ -50,6 +53,9 @@ public abstract class AbsASHandler<T extends ITarget, C extends OnCallBack> exte
 	}
 	
 	protected ArrayList<T> getTargets() {
+		if (mTargets == null) {
+			mTargets = new ArrayList<>();
+		}
 		return mTargets;
 	}
 	

@@ -105,13 +105,7 @@ public class AndroidVpnSettingsASHandler444 extends AbsAndroidVpnSettingsASHandl
 	 */
 	@Override
 	protected void runLogicInVpnListPage() {
-		// 检查是否有我们的目标，没有就结束
-		List<VpnTarget> targets = getTargets();
-		if (targets == null || targets.isEmpty()) {
-			return;
-		}
-		
-		for (VpnTarget target : targets) {
+		for (final VpnTarget target : getTargets()) {
 			if (target == null || !target.isValid()) {
 				continue;
 			}
@@ -392,7 +386,7 @@ public class AndroidVpnSettingsASHandler444 extends AbsAndroidVpnSettingsASHandl
 	 */
 	@Override
 	protected void runLogicInVpnConfigDialogSpinnerWindow() {
-		for (VpnTarget target : getTargets()) {
+		for (final VpnTarget target : getTargets()) {
 			
 			if (target == null || !target.isValid()) {
 				continue;

@@ -125,12 +125,8 @@ public final class AccessibilityDispatcher {
 			}
 			for (AbsASHandler handler : handlers) {
 				handler.setEnable(helper.isEnable());
-				if (helper.getCallBacks() != null) {
-					handler.setCallBacks(helper.getCallBacks());
-				}
-				if (helper.getTargets() != null) {
-					handler.setTargets(helper.getTargets());
-				}
+				handler.setCallBacks(helper.getCallBacks());
+				handler.setTargets(helper.getTargets());
 			}
 			sAbsASHandlers.put(helper.getIdentify(), handlers);
 			return;
@@ -153,6 +149,10 @@ public final class AccessibilityDispatcher {
 						continue;
 					}
 					for (AbsASHandler handler : handlers) {
+						// 如果没有目标就不进行事件分发的的操作了
+						if (handler.getTargets() == null || handler.getTargets().isEmpty()) {
+							continue;
+						}
 						handler.setAccessibilityService(service);
 						handler.handlerOnServiceConnected();
 					}
@@ -177,6 +177,10 @@ public final class AccessibilityDispatcher {
 						continue;
 					}
 					for (AbsASHandler handler : handlers) {
+						// 如果没有目标就不进行事件分发的的操作了
+						if (handler.getTargets() == null || handler.getTargets().isEmpty()) {
+							continue;
+						}
 						handler.setAccessibilityService(service);
 						handler.handlerOnInterrupt();
 					}
@@ -209,6 +213,12 @@ public final class AccessibilityDispatcher {
 						continue;
 					}
 					for (AbsASHandler handler : handlers) {
+						
+						// 如果没有目标就不进行事件分发的的操作了
+						if (handler.getTargets() == null || handler.getTargets().isEmpty()) {
+							continue;
+						}
+						
 						if (handler.isUsingPkgName2TrackEvent()) {
 							if (!event.getPackageName().equals(handler.getSupportPkgName())) {
 								continue;
