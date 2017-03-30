@@ -1,46 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<android.support.design.widget.CoordinatorLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context="io.github.zhitaocai.accessibilitydispatcher.demo.MainActivity"
+	android:background="@color/colorPrimary"
+	android:fitsSystemWindows="true"
 	>
 	
-	<Button
-		android:id="@+id/btn_create_l2tp"
-		android:layout_width="wrap_content"
+	<android.support.design.widget.AppBarLayout
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginLeft="8dp"
-		android:layout_marginTop="8dp"
-		android:elevation="0dp"
-		android:text="创建/更新一个L2TP/IPSec PSK"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/btn_create_pptp"
-		/>
+		android:elevation="20dp"
+		android:theme="@style/AppTheme"
+		>
+		
+		<include
+			layout="@layout/toolbar_settings"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			app:layout_scrollFlags="scroll|enterAlways"
+			/>
+		
+		<android.support.v7.widget.SwitchCompat
+			android:id="@+id/switch_open_accessibility"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
+			android:text="开启辅助功能"
+			android:textAppearance="?android:textAppearanceLarge"
+			android:textColor="@android:color/white"
+			/>
+		
+		<android.support.design.widget.TabLayout
+			android:id="@+id/tab_layout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			app:tabGravity="fill"
+			app:tabIndicatorColor="@android:color/white"
+			app:tabIndicatorHeight="5dp"
+			app:tabMode="scrollable"
+			app:tabSelectedTextColor="@android:color/white"
+			app:tabTextColor="#bbbbbb"
+			app:theme="@style/AppTheme"
+			/>
 	
-	<Button
-		android:id="@+id/btn_create_pptp"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginLeft="8dp"
-		android:layout_marginTop="8dp"
-		android:elevation="0dp"
-		android:text="创建/更新一个PPTP VPN"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/btn_open_accessibility"
-		/>
+	</android.support.design.widget.AppBarLayout >
 	
-	<Button
-		android:id="@+id/btn_open_accessibility"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="进入辅助功能页面"
-		app:layout_constraintTop_toTopOf="parent"
-		android:layout_marginTop="16dp"
-		android:layout_marginLeft="8dp"
-		app:layout_constraintLeft_toLeftOf="parent"
+	<android.support.v4.view.ViewPager
+		android:id="@+id/viewpager"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@android:color/white"
+		android:scrollbars="none"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior"
 		/>
 
-</android.support.constraint.ConstraintLayout >
+</android.support.design.widget.CoordinatorLayout >

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:padding="16dp"
+	>
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		>
+		
+		<Button
+			android:id="@+id/btn_turn_on_unknownsource"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="自动开启允许安装位置来源的开关"
+			/>
+		
+		<Button
+			android:id="@+id/btn_turn_off_unknownsource"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:text="自动关闭允许安装位置来源的开关"
+			/>
+		
+		<Button
+			android:id="@+id/btn_auto_install_apk"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:text="自动安装apk"
+			/>
+		
+		<Button
+			android:id="@+id/btn_auto_uninstall_app"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:text="自动卸载app"
+			/>
+		
+		<Button
+			android:id="@+id/btn_refuse_to_uninstall_app"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:text="防止app被卸载"
+			/>
+	
+	</LinearLayout >
+
+</android.support.v4.widget.NestedScrollView >
+

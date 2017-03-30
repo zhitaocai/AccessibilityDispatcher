@@ -7,7 +7,7 @@ buildscript {
 		classpath 'com.android.tools.build:gradle:2.3.0'
 
 		//用于上传Maven生成的文件到Bintray
-		classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
+		classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
 
 		//用于打包Maven所需文件
 		classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
@@ -21,12 +21,14 @@ allprojects {
 	repositories {
 		jcenter()
 		mavenCentral()
-//		maven {
-//			url 'https://dl.bintray.com/zhitaocai/maven'
-//		}
+		// for test
+		//	maven {
+		//		url 'https://dl.bintray.com/zhitaocai/maven'
+		//	}
 	}
 }
 
 task clean(type: Delete) {
 	delete rootProject.buildDir
 }
+

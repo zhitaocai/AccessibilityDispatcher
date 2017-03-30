@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+
 	compileSdkVersion 25
 	buildToolsVersion "25.0.1"
 	defaultConfig {
@@ -12,10 +13,47 @@ android {
 		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 		manifestPlaceholders = [APPLICATION_ID: applicationId]
 	}
-	buildTypes {
+	android {
+		lintOptions {
+			checkReleaseBuilds false
+			// Or, if you prefer, you can continue to check for errors in release builds,
+			// but continue the build even when errors are found:
+			abortOnError false
+		}
+	}
+	signingConfigs {
 		release {
-			minifyEnabled false
+			keyAlias '111111'
+			keyPassword '111111'
+			storeFile file('keystore.jks')
+			storePassword '111111'
+		}
+	}
+	buildTypes {
+		debug {
+			signingConfig signingConfigs.release
+		}
+		release {
+			minifyEnabled true
+			zipAlignEnabled true
+			shrinkResources true
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+			signingConfig signingConfigs.release
+		}
+	}
+	applicationVariants.all { variant ->
+		if (variant.buildType.name == 'release') {
+			variant.outputs.each { output ->
+				if (output.outputFile != null && output.outputFile.name.endsWith('.apk')) {
+					if (output.outputFile.name.contains(variant.buildType.name)) {
+						def date = new Date().format('yyyy-MM-dd')
+						def srcDir = new File(project.rootProject.projectDir, "static/apk")
+						def apkFile = new File(srcDir,
+								"AccessibilityDispatcherDemo_${variant.buildType.name}_v${variant.versionName}_${date}.apk")
+						output.outputFile = apkFile
+					}
+				}
+			}
 		}
 	}
 }
@@ -25,28 +63,27 @@ dependencies {
 	androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	})
-
 	annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 	compile 'com.jakewharton:butterknife:8.5.1'
-
 	compile fileTree(include: ['*.jar'], dir: 'libs')
 	compile 'com.android.support.constraint:constraint-layout:1.0.2'
 	compile 'com.android.support:appcompat-v7:25.3.0'
 	compile 'com.android.support:support-v4:25.3.0'
+	compile 'com.android.support:design:25.3.0'
 
 	// 依赖线下project
-	compile project(':accessibilitydispatcher')
+	compile project(':library')
 
-	// 依赖线下aar
-	// compile(name: 'accessibilitydispatcher-release', ext: 'aar')
+	// 依赖线下aar(测试用)
+	// compile(name: 'accessibilitydispatcher-release-0.1.0', ext: 'aar')
 
 	// 依赖线上版本
-	// compile 'io.github.zhitaocai:accessibilitydispatcher:0.1.0'
+	//compile 'io.github.zhitaocai:accessibilitydispatcher:0.1.0'
 }
 
-// 依赖线下aar时开启注释
+// 依赖线下aar时开启注释(测试用)
 //repositories {
 //	flatDir {
-//		dirs '../accessibilitydispatcher/build/outputs/aar' //this way we can find the .aar file in libs folder
+//		dirs '../aar' //this way we can find the .aar file in libs folder
 //	}
 //}

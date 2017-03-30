@@ -504,4 +504,27 @@ public class IntentUtils {
 		return false;
 	}
 	
+	/**
+	 * 进入设置-安全界面
+	 *
+	 * @param context 上下文
+	 * @param flag    -1为不添加额外的flag
+	 */
+	public static void startActivity2SecuritySettings(@NonNull Context context, int flag) {
+		Intent intent = new Intent(Settings.ACTION_SECURITY_SETTINGS);
+		if (flag != -1) {
+			intent.addFlags(flag);
+		}
+		context.startActivity(intent);
+	}
+	
+	/**
+	 * 进入设置-安装界面
+	 *
+	 * @param context 上下文
+	 */
+	public static void startActivity2SecuritySettings(@NonNull Context context) {
+		startActivity2SecuritySettings(context, -1);
+	}
+	
 }
