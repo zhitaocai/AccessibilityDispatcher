@@ -202,7 +202,9 @@ afterEvaluate { project ->
 			//	failOnError false
 
 			exclude '**/BuildConfig.java'
-			exclude '**/R.java'
+			if (!project.ext.isPackageResources) {
+				exclude '**/R.java'
+			}
 		}
 
 		task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
@@ -222,8 +224,12 @@ afterEvaluate { project ->
 
 		task androidLibraryJar(type: Jar, dependsOn: compileReleaseJavaWithJavac /* == variant.javaCompile */) {
 			from compileReleaseJavaWithJavac.destinationDir
-			exclude '**/R.class'
+
 			exclude '**/BuildConfig.class'
+			if (!project.ext.isPackageResources) {
+				exclude '**/R.class'
+			}
+
 			baseName project.ext.artifact
 		}
 

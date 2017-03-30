@@ -80,7 +80,7 @@ public abstract class AbsSecuritySettingsASHandler extends AbsASHandler<Security
 	/**
 	 * 是否在安全设置页面中
 	 *
-	 * @return
+	 * @return 是否在安全设置页面中
 	 */
 	protected abstract boolean isInSecurityPage();
 	
@@ -97,14 +97,12 @@ public abstract class AbsSecuritySettingsASHandler extends AbsASHandler<Security
 	/**
 	 * 是否在点击允许安装未知来源的开关之后弹出来的确认对话框
 	 *
-	 * @return
+	 * @return 是否在点击允许安装未知来源的开关之后弹出来的确认对话框
 	 */
 	protected abstract boolean isInUnknownSourcesTurnOnConfirmDialog();
 	
 	/**
 	 * 处理界面在点击允许安装未知来源的开关之后弹出来的确认对话框页面的逻辑
-	 *
-	 * @return
 	 */
 	protected abstract void runLogicInUnknownSourcesTurnOnConfirmDialog();
 }

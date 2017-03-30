@@ -83,7 +83,7 @@ public class UnknownSourcesFuzzyASHandler extends AbsSecuritySettingsASHandler {
 	/**
 	 * 是否在安全设置页面中
 	 *
-	 * @return
+	 * @return 是否在安全设置页面中
 	 */
 	@Override
 	protected boolean isInSecurityPage() {
@@ -187,7 +187,7 @@ public class UnknownSourcesFuzzyASHandler extends AbsSecuritySettingsASHandler {
 	/**
 	 * 是否在点击允许安装未知来源的开关之后弹出来的确认对话框
 	 *
-	 * @return
+	 * @return 是否在点击允许安装未知来源的开关之后弹出来的确认对话框
 	 */
 	@Override
 	protected boolean isInUnknownSourcesTurnOnConfirmDialog() {
@@ -197,8 +197,6 @@ public class UnknownSourcesFuzzyASHandler extends AbsSecuritySettingsASHandler {
 	
 	/**
 	 * 处理界面在点击允许安装未知来源的开关之后弹出来的确认对话框页面的逻辑
-	 *
-	 * @return
 	 */
 	@Override
 	protected void runLogicInUnknownSourcesTurnOnConfirmDialog() {

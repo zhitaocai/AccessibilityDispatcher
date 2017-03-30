@@ -8,7 +8,7 @@ ext {
 	//compile 'publishedGroupId:artifact:libraryVersionName'
 
 	publishedGroupId = 'io.github.zhitaocai'    // 项目组ID(e.g 包名为io.github.zhitaocai.toastcompat, 那么这里就是io.github.zhitaocai)
-	artifact = 'accessibilitydispatcher'       // 项目ID  (e.g 包名为io.github.zhitaocai.toastcompat, 那么这里就是toastcompat)
+	artifact = 'accessibilitydispatcher'        // 项目ID  (e.g 包名为io.github.zhitaocai.toastcompat, 那么这里就是toastcompat)
 	libraryVersionName = '0.2.0'                // 对应的versionname
 	libraryVersionCode = 2
 
@@ -19,6 +19,8 @@ ext {
 	siteUrl = 'https://github.com/zhitaocai/AccessibilityDispatcher'
 	gitUrl = 'https://github.com/zhitaocai/AccessibilityDispatcher.git'
 	issueUrl = 'https://github.com/zhitaocai/AccessibilityDispatcher/issues'
+
+	isPackageResources = true                   // 是否打包资源文件进去，是的话，就需要打包R.class
 }
 
 android {

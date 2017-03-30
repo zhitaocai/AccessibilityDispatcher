@@ -75,10 +75,10 @@ dependencies {
 	compile project(':library')
 
 	// 依赖线下aar(测试用)
-	// compile(name: 'accessibilitydispatcher-release-0.1.0', ext: 'aar')
+	// compile(name: 'accessibilitydispatcher-release-0.2.0', ext: 'aar')
 
 	// 依赖线上版本
-	//compile 'io.github.zhitaocai:accessibilitydispatcher:0.1.0'
+	//compile 'io.github.zhitaocai:accessibilitydispatcher:0.2.0@aar'
 }
 
 // 依赖线下aar时开启注释(测试用)
