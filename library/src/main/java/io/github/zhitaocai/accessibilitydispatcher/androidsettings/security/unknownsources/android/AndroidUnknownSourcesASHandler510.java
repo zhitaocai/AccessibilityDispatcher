@@ -5,11 +5,14 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import java.util.List;
 
+import io.github.zhitaocai.accessibilitydispatcher.R;
 import io.github.zhitaocai.accessibilitydispatcher.androidsettings.security.AbsSecuritySettingsASHandler;
+import io.github.zhitaocai.accessibilitydispatcher.businss.security.SecurityTarget;
 import io.github.zhitaocai.accessibilitydispatcher.log.DLog;
 
 /**
  * 支持原生Android 5.1.0系统
+ *
  * @author zhitao
  * @since 2017-03-30 15:23
  */
@@ -93,69 +96,67 @@ public class AndroidUnknownSourcesASHandler510 extends AbsSecuritySettingsASHand
 			return;
 		}
 		
-		// 遍历ListView的item, 找到"未知来源" item
-		for (int i = 0; i < listViewNodeInfo.getChildCount(); i++) {
-			DLog.i("=============查找第%d个item=============", i);
-			// 找到item
-			AccessibilityNodeInfo itemInfo = listViewNodeInfo.getChild(i);
-			if (itemInfo == null) {
+		for (SecurityTarget target : getTargets()) {
+			if (!target.isValid()) {
 				continue;
 			}
 			
-			// 找到item中的标题
-			List<AccessibilityNodeInfo> titleInfos = getNodeByViewIdFromNode(itemInfo, "android:id/title");
-			if (titleInfos == null || titleInfos.isEmpty()) {
-				continue;
-			}
-			AccessibilityNodeInfo titleInfo = titleInfos.get(0);
-			if (titleInfo == null) {
-				continue;
-			}
-			String title = titleInfo.getText().toString();
-			DLog.i("title: %s", title);
-			
-			// 找到item中的子标题
-			List<AccessibilityNodeInfo> subTitleInfos = getNodeByViewIdFromNode(itemInfo, "android:id/summary");
-			if (subTitleInfos == null || subTitleInfos.isEmpty()) {
-				continue;
-			}
-			AccessibilityNodeInfo subTitleInfo = subTitleInfos.get(0);
-			if (subTitleInfo == null) {
-				continue;
-			}
-			String subTitle = subTitleInfo.getText().toString();
-			DLog.i("subTitle: %s", subTitle);
-			
-			// 找到item中的switchWidget
-			List<AccessibilityNodeInfo> switchInfos = getNodeByViewIdFromNode(itemInfo, "android:id/switchWidget");
-			if (switchInfos == null || switchInfos.isEmpty()) {
-				continue;
-			}
-			AccessibilityNodeInfo switchInfo = switchInfos.get(0);
-			if (switchInfo == null) {
-				continue;
-			}
-			
-			// 检查内容是否为"未知来源"，是的话，检查checkBox状态
-			if (isUnknownSourcesItem(title, subTitle)) {
-				boolean isChecked = switchInfo.isChecked();
-				if (!isChecked) {
-					// 如果还没有选中就点击Item选择
-					itemInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-				} else {
-					goBack();
+			if (((target.getAction() & SecurityTarget.ACTION_TURN_ON_UNKNOWNSOURCES) != 0) ||
+			    ((target.getAction() & SecurityTarget.ACTION_TURN_OFF_UNKNOWNSOURCES) != 0)) {
+				
+				// 遍历ListView的item, 找到"未知来源" item
+				for (int i = 0; i < listViewNodeInfo.getChildCount(); i++) {
+					DLog.i("=============查找第%d个item=============", i);
+					// 找到item
+					AccessibilityNodeInfo itemInfo = listViewNodeInfo.getChild(i);
+					if (itemInfo == null) {
+						continue;
+					}
+					
+					// 找到item中的标题
+					List<AccessibilityNodeInfo> titleInfos = getNodeByViewIdFromNode(itemInfo, "android:id/title");
+					if (titleInfos == null || titleInfos.isEmpty()) {
+						continue;
+					}
+					AccessibilityNodeInfo titleInfo = titleInfos.get(0);
+					if (titleInfo == null) {
+						continue;
+					}
+					String title = titleInfo.getText().toString();
+					DLog.i("title: %s", title);
+					
+					// 找到item中的switchWidget
+					List<AccessibilityNodeInfo> switchInfos = getNodeByViewIdFromNode(itemInfo, "android:id/switchWidget");
+					if (switchInfos == null || switchInfos.isEmpty()) {
+						continue;
+					}
+					AccessibilityNodeInfo switchInfo = switchInfos.get(0);
+					if (switchInfo == null) {
+						continue;
+					}
+					
+					String unknownSourceStr = getAccessibilityService().getResources()
+					                                                   .getString(R.string
+							                                                   .accessibility_dispatcher_settings_security_unknown_source);
+					if (unknownSourceStr.equals(title)) {
+						// 找到了就判断
+						// 1. 如果需要开启，但是还没有开启就点击
+						// 2. 或者需要关闭，但是还没有关闭就点击
+						if (((target.getAction() & SecurityTarget.ACTION_TURN_ON_UNKNOWNSOURCES) != 0 &&
+						     !switchInfo.isChecked()) ||
+						    ((target.getAction() & SecurityTarget.ACTION_TURN_OFF_UNKNOWNSOURCES) != 0 &&
+						     switchInfo.isChecked())) {
+							// CheckboxNode不一定能点击，但是item一般都设置能点击，所以用item的node来点击
+							if (itemInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK)) {
+								callBackOnUnknownSourceItemClick();
+							}
+						} else {
+							goBack();
+						}
+					}
 				}
 			}
 		}
-	}
-	
-	private boolean isUnknownSourcesItem(String title, String subTitle) {
-		if (title.contains("未知来源")) {
-			return true;
-		} else if (title.contains("Unknown sources")) {
-			return true;
-		}
-		return false;
 	}
 	
 	/**
@@ -200,6 +201,16 @@ public class AndroidUnknownSourcesASHandler510 extends AbsSecuritySettingsASHand
 	 */
 	@Override
 	protected void runLogicInUnknownSourcesTurnOnConfirmDialog() {
-		performClickByViewIdFromRootActiveWindow("android:id/button1");
+		for (SecurityTarget target : getTargets()) {
+			if (!target.isValid()) {
+				continue;
+			}
+			if (((target.getAction() & SecurityTarget.ACTION_TURN_ON_UNKNOWNSOURCES) != 0) ||
+			    ((target.getAction() & SecurityTarget.ACTION_TURN_OFF_UNKNOWNSOURCES) != 0)) {
+				if (performClickByViewIdFromRootActiveWindow("android:id/button1")) {
+					callBackOnUnknownSourceDialogConfirm();
+				}
+			}
+		}
 	}
 }

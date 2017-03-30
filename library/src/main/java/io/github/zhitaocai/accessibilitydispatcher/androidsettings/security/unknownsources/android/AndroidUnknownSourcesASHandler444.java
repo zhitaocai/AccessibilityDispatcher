@@ -154,7 +154,6 @@ public class AndroidUnknownSourcesASHandler444 extends AbsSecuritySettingsASHand
 						} else {
 							goBack();
 						}
-						
 					}
 				}
 			}
