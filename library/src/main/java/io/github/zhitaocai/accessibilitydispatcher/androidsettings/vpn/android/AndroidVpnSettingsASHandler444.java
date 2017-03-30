@@ -8,7 +8,6 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import java.util.List;
 
-import io.github.zhitaocai.accessibilitydispatcher.androidsettings.AndroidSettingsCompat;
 import io.github.zhitaocai.accessibilitydispatcher.businss.vpn.VpnTarget;
 import io.github.zhitaocai.accessibilitydispatcher.log.DLog;
 
@@ -18,16 +17,6 @@ import io.github.zhitaocai.accessibilitydispatcher.log.DLog;
  */
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class AndroidVpnSettingsASHandler444 extends AbsAndroidVpnSettingsASHandler {
-	
-	/**
-	 * 具体实现类的辅助功能所针对的应用
-	 *
-	 * @return true or false
-	 */
-	@Override
-	protected String getSupportPkgName() {
-		return AndroidSettingsCompat.ANDROID_PKGNAME;
-	}
 	
 	@Override
 	protected void onServiceConnected() {

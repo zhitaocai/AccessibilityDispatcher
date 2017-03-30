@@ -25,7 +25,7 @@ public class DLog {
 		sTag = tag;
 	}
 	
-	private static boolean isDebug() {
+	public static boolean isDebug() {
 		return sIsDebug;
 	}
 	

@@ -125,8 +125,12 @@ public final class AccessibilityDispatcher {
 			}
 			for (AbsASHandler handler : handlers) {
 				handler.setEnable(helper.isEnable());
-				handler.setCallBacks(helper.getCallBacks());
-				handler.setTargets(helper.getTargets());
+				if (helper.getCallBacks() != null) {
+					handler.setCallBacks(helper.getCallBacks());
+				}
+				if (helper.getTargets() != null) {
+					handler.setTargets(helper.getTargets());
+				}
 			}
 			sAbsASHandlers.put(helper.getIdentify(), handlers);
 			return;

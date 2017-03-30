@@ -1,49 +1,55 @@
-package io.github.zhitaocai.accessibilitydispatcher.demo;
+package io.github.zhitaocai.accessibilitydispatcher.demo.fragment;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.github.zhitaocai.accessibilitydispatcher.AccessibilityDispatcher;
-import io.github.zhitaocai.accessibilitydispatcher.AccessibilityServiceUtils;
+import butterknife.Unbinder;
 import io.github.zhitaocai.accessibilitydispatcher.businss.vpn.OnVpnCallBack;
 import io.github.zhitaocai.accessibilitydispatcher.businss.vpn.OnVpnCallBackAdapter;
 import io.github.zhitaocai.accessibilitydispatcher.businss.vpn.VpnHelper;
 import io.github.zhitaocai.accessibilitydispatcher.businss.vpn.VpnTarget;
+import io.github.zhitaocai.accessibilitydispatcher.demo.R;
 
-public class MainActivity extends AppCompatActivity {
-	
-	private final static int REQ_ACCESSIBILITY_SERVICE_TURN_ON = 1;
+/**
+ * @author zhitao
+ * @since 2017-03-30 14:17
+ */
+public class AutoVpnConfigFragment extends BaseFragment {
 	
 	private final static int REQ_AUTO_CONFIG_VPN = 2;
 	
+	private Unbinder mUnBinder;
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		ButterKnife.bind(this);
-		
-		// 开启调试log
-		AccessibilityDispatcher.debugLog(true).withEventSourceLog(false).withClassNameInTag(false);
-		
-		Toast.makeText(this,
-				String.format(Locale.getDefault(),
-						"辅助功能%s",
-						AccessibilityServiceUtils.isAccessibilityServiceOn(this) ? "已经开启" : "还没有开启"
-				),
-				Toast.LENGTH_SHORT
-		).show();
+	public String getFragmentTitle() {
+		return "VPN配置";
 	}
 	
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_auto_config_vpn, container, false);
+		mUnBinder = ButterKnife.bind(this, view);
+		return view;
+	}
+	
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		mUnBinder.unbind();
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (requestCode) {
 		case REQ_AUTO_CONFIG_VPN:
@@ -52,35 +58,9 @@ public class MainActivity extends AppCompatActivity {
 			//if (resultCode == RESULT_OK) { }
 			VpnHelper.getInstance().reset().active();
 			break;
-		case REQ_ACCESSIBILITY_SERVICE_TURN_ON:
-			Toast.makeText(this,
-					String.format(Locale.getDefault(),
-							"辅助功能%s",
-							AccessibilityServiceUtils.isAccessibilityServiceOn(this) ? "已经开启" : "还没有开启"
-					),
-					Toast.LENGTH_SHORT
-			).show();
-			
-			break;
 		default:
 			break;
 		}
-	}
-	
-	@OnClick(R.id.btn_open_accessibility)
-	protected void openAccessibility() {
-		startActivityForResult(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS), REQ_ACCESSIBILITY_SERVICE_TURN_ON);
-	}
-	
-	private void startActivity2VPNSettings() {
-		Intent intent;
-		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
-			intent = new Intent(Settings.ACTION_VPN_SETTINGS);
-		} else {
-			intent = new Intent();
-			intent.setAction("android.net.vpn.SETTINGS");
-		}
-		startActivityForResult(intent, REQ_AUTO_CONFIG_VPN);
 	}
 	
 	@OnClick(R.id.btn_create_l2tp)
@@ -116,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 			          */
 			         @Override
 			         public void onVpnConfigStart(VpnTarget vpnTarget) {
-				         Toast.makeText(MainActivity.this, String.format(
+				         Toast.makeText(getActivity(), String.format(
 						         Locale.getDefault(),
 						         "%1$tH:%1$tM:%1$tS 进入VPN配置，当前配置\n%s",
 						         System.currentTimeMillis(),
@@ -164,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 			         @Override
 			         public void onVpnConfigStart(VpnTarget vpnTarget) {
 				         Toast.makeText(
-						         MainActivity.this,
+						         getActivity(),
 						         String.format(Locale.getDefault(), "%1$tH:%1$tM:%1$tS 进入VPN配置", System.currentTimeMillis()),
 						         Toast.LENGTH_SHORT
 				         ).show();
@@ -178,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
 			         @Override
 			         public void onVpnConfigFinish(VpnTarget vpnTarget) {
 				         Toast.makeText(
-						         MainActivity.this,
+						         getActivity(),
 						         String.format(Locale.getDefault(), "%1$tH:%1$tM:%1$tS 完成VPN配置", System.currentTimeMillis()),
 						         Toast.LENGTH_SHORT
 				         ).show();
@@ -192,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
 			         @Override
 			         public void onUserConfigStart(VpnTarget vpnTarget) {
 				         Toast.makeText(
-						         MainActivity.this,
+						         getActivity(),
 						         String.format(Locale.getDefault(), "%1$tH:%1$tM:%1$tS 进入用户配置", System.currentTimeMillis()),
 						         Toast.LENGTH_SHORT
 				         ).show();
@@ -206,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
 			         @Override
 			         public void onUserConfigFinish(VpnTarget vpnTarget) {
 				         Toast.makeText(
-						         MainActivity.this,
+						         getActivity(),
 						         String.format(Locale.getDefault(), "%1$tH:%1$tM:%1$tS 完成用户配置", System.currentTimeMillis()),
 						         Toast.LENGTH_SHORT
 				         ).show();
@@ -222,5 +202,14 @@ public class MainActivity extends AppCompatActivity {
 		startActivity2VPNSettings();
 	}
 	
+	private void startActivity2VPNSettings() {
+		Intent intent;
+		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+			intent = new Intent(Settings.ACTION_VPN_SETTINGS);
+		} else {
+			intent = new Intent();
+			intent.setAction("android.net.vpn.SETTINGS");
+		}
+		startActivityForResult(intent, REQ_AUTO_CONFIG_VPN);
+	}
 }
-

@@ -69,10 +69,11 @@ public class VpnTarget implements ITarget {
 	}
 	
 	/**
-	 * TODO 预留方法
+	 * 建立一些规则来判断每个传入来的目标是否有效
 	 *
-	 * @return 是否有效
+	 * @return 目标是否有效
 	 */
+	@Override
 	public boolean isValid() {
 		return true;
 	}

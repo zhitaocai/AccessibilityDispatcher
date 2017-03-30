@@ -1,4 +1,4 @@
-package io.github.zhitaocai.accessibilitydispatcher.demo;
+package io.github.zhitaocai.accessibilitydispatcher.demo.service;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;

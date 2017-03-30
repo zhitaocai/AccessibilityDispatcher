@@ -545,58 +545,51 @@ abstract class UtilASHandler {
 	}
 	
 	/**
-	 * 从指定的节点开始向下查找，查找Switch或者Checkbox的组件
+	 * 从指定的节点开始向下查找指定类名的组件（深度遍历），在找到一个符合之后就会结束
 	 *
 	 * @param nodeInfo 起始节点
+	 * @param cls      类（可多个），每进行一次节点的深度遍历，都会遍历一遍这里传入来的类的类名，找到了就立即返回
 	 *
 	 * @return 最后找到的节点
 	 */
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-	protected AccessibilityNodeInfo getSwitchOrCheckBoxNodeInfo(@NonNull AccessibilityNodeInfo nodeInfo) {
-		if (nodeInfo.getChildCount() == 0) {
-			return null;
+	protected AccessibilityNodeInfo getNodeInfoByClass(@NonNull AccessibilityNodeInfo nodeInfo, @NonNull Class... cls) {
+		String[] className = new String[cls.length];
+		for (int i = 0; i < cls.length; i++) {
+			className[i] = cls[i].getName();
 		}
-		for (int i = 0; i < nodeInfo.getChildCount(); i++) {
-			AccessibilityNodeInfo childNodeInfo = nodeInfo.getChild(i);
-			DLog.i(
-					"index : %d className : %s target : %s or %s",
-					i,
-					childNodeInfo.getClassName().toString(),
-					Switch.class.getName(),
-					CheckBox.class.getName()
-			);
-			if (childNodeInfo.getClassName().toString().equals(Switch.class.getName()) ||
-			    childNodeInfo.getClassName().toString().equals(CheckBox.class.getName())) {
-				return childNodeInfo;
-			}
-			AccessibilityNodeInfo switchOrCheckBoxNodeInfo = getSwitchOrCheckBoxNodeInfo(childNodeInfo);
-			if (switchOrCheckBoxNodeInfo != null) {
-				return switchOrCheckBoxNodeInfo;
-			}
-		}
-		return null;
+		return getNodeInfoByClassName(nodeInfo, className);
 	}
 	
 	/**
-	 * 从指定的节点开始向下查找指定类名的组件，在找到一个符合之后就会结束，所以如果存在多个的话就不适合用这个方法了
+	 * 从指定的节点开始向下查找指定类名的组件（深度遍历），在找到一个符合之后就会结束
 	 *
-	 * @param nodeInfo  起始节点
-	 * @param className 类名
+	 * @param nodeInfo   起始节点
+	 * @param classNames 类名（可多个），每进行一次节点的深度遍历，都会遍历一遍这里传入来的类名，找到了就立即返回
 	 *
 	 * @return 最后找到的节点
 	 */
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-	protected AccessibilityNodeInfo getNodeInfoByClass(@NonNull AccessibilityNodeInfo nodeInfo, Class className) {
+	protected AccessibilityNodeInfo getNodeInfoByClassName(@NonNull AccessibilityNodeInfo nodeInfo,
+			@NonNull String... classNames) {
 		if (nodeInfo.getChildCount() == 0) {
 			return null;
 		}
 		for (int i = 0; i < nodeInfo.getChildCount(); i++) {
 			AccessibilityNodeInfo childNodeInfo = nodeInfo.getChild(i);
-			DLog.i("index : %d className : %s target : %s", i, childNodeInfo.getClassName().toString());
-			if (childNodeInfo.getClassName().toString().equals(Switch.class.getName())) {
-				return childNodeInfo;
+			if (DLog.isDebug()) {
+				StringBuilder sb = new StringBuilder(classNames.length);
+				for (String className : classNames) {
+					sb.append(className);
+				}
+				DLog.i("index : %d className : %s target : %s", i, childNodeInfo.getClassName().toString(), sb.toString());
 			}
-			AccessibilityNodeInfo switchOrCheckBoxNodeInfo = getNodeInfoByClass(childNodeInfo, className);
+			for (String className : classNames) {
+				if (childNodeInfo.getClassName().toString().equals(className)) {
+					return childNodeInfo;
+				}
+			}
+			AccessibilityNodeInfo switchOrCheckBoxNodeInfo = getNodeInfoByClassName(childNodeInfo, classNames);
 			if (switchOrCheckBoxNodeInfo != null) {
 				return switchOrCheckBoxNodeInfo;
 			}
