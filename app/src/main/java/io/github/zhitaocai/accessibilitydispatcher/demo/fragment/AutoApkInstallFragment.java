@@ -24,7 +24,7 @@ import io.github.zhitaocai.accessibilitydispatcher.demo.utils.PermissionUtils;
  * @author zhitao
  * @since 2017-03-30 14:29
  */
-public class AutoInstallFragment extends BaseFragment {
+public class AutoApkInstallFragment extends BaseFragment {
 	
 	private final static int REQ_SECURITY_UNKNOWN_SOURCES = 200;
 	
