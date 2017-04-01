@@ -1,24 +1,36 @@
 package io.github.zhitaocai.accessibilitydispatcher.demo.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.github.zhitaocai.accessibilitydispatcher.businss.apkinstall.ApkInstallHelper;
+import io.github.zhitaocai.accessibilitydispatcher.businss.apkinstall.ApkInstallTarget;
+import io.github.zhitaocai.accessibilitydispatcher.businss.apkinstall.OnApkInstallCallBack;
 import io.github.zhitaocai.accessibilitydispatcher.businss.security.OnSecurityCallBack;
 import io.github.zhitaocai.accessibilitydispatcher.businss.security.OnSecurityCallBackAdapter;
 import io.github.zhitaocai.accessibilitydispatcher.businss.security.SecurityHelper;
 import io.github.zhitaocai.accessibilitydispatcher.businss.security.SecurityTarget;
+import io.github.zhitaocai.accessibilitydispatcher.demo.BuildConfig;
 import io.github.zhitaocai.accessibilitydispatcher.demo.R;
+import io.github.zhitaocai.accessibilitydispatcher.demo.utils.FileUtils;
+import io.github.zhitaocai.accessibilitydispatcher.demo.utils.PackageUtils;
 import io.github.zhitaocai.accessibilitydispatcher.demo.utils.PermissionUtils;
+import io.github.zhitaocai.accessibilitydispatcher.log.DLog;
 
 /**
  * @author zhitao
@@ -27,6 +39,8 @@ import io.github.zhitaocai.accessibilitydispatcher.demo.utils.PermissionUtils;
 public class AutoApkInstallFragment extends BaseFragment {
 	
 	private final static int REQ_SECURITY_UNKNOWN_SOURCES = 200;
+	
+	private final static int REQ_APK_INSTALL = 201;
 	
 	private Unbinder mUnBinder;
 	
@@ -55,6 +69,9 @@ public class AutoApkInstallFragment extends BaseFragment {
 		case REQ_SECURITY_UNKNOWN_SOURCES:
 			SecurityHelper.getInstance().reset().active();
 			break;
+		case REQ_APK_INSTALL:
+			ApkInstallHelper.getInstance().reset().active();
+			break;
 		default:
 			break;
 		}
@@ -72,14 +89,10 @@ public class AutoApkInstallFragment extends BaseFragment {
 		              .setCallBack(new OnSecurityCallBack() {
 			              @Override
 			              public void onUnknownSourceItemClick() {
-				              Toast.makeText(
-						              getActivity(),
-						              String.format(Locale.getDefault(),
-								              "%1$tH:%1$tM:%1$tS 点击了\"未知来源\"所在的item",
-								              System.currentTimeMillis()
-						              ),
-						              Toast.LENGTH_SHORT
-				              ).show();
+				              Toast.makeText(getActivity(), String.format(Locale.getDefault(),
+						              "%1$tH:%1$tM:%1$tS 点击了\"未知来源\"所在的item",
+						              System.currentTimeMillis()
+				              ), Toast.LENGTH_SHORT).show();
 			              }
 			
 			              @Override
@@ -111,10 +124,14 @@ public class AutoApkInstallFragment extends BaseFragment {
 			               */
 			              @Override
 			              public void onUnknownSourceItemClick() {
-				              Toast.makeText(getActivity(), String.format(Locale.getDefault(),
-						              "%1$tH:%1$tM:%1$tS 点击了\"未知来源\"所在的item",
-						              System.currentTimeMillis()
-				              ), Toast.LENGTH_SHORT).show();
+				              Toast.makeText(
+						              getActivity(),
+						              String.format(Locale.getDefault(),
+								              "%1$tH:%1$tM:%1$tS 点击了\"未知来源\"所在的item",
+								              System.currentTimeMillis()
+						              ),
+						              Toast.LENGTH_SHORT
+				              ).show();
 			              }
 		              })
 		              .setEnable(true)
@@ -131,6 +148,96 @@ public class AutoApkInstallFragment extends BaseFragment {
 	@OnClick(R.id.btn_auto_install_apk)
 	public void autoInstallApk() {
 		
+		final Context applicationContext = getActivity().getApplicationContext();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				if (PackageUtils.isPakcageInstall(applicationContext, "io.github.zhitaocai.accessibilitydispatcher.targetapk")) {
+					return;
+				}
+				
+				File file = new File(applicationContext.getExternalCacheDir(), "targetapk-debug.apk");
+				FileUtils.delete(file);
+				file = FileUtils.getVaildFile(file);
+				DLog.i("file : %s", file == null ? "null" : file.getAbsolutePath());
+				if (file == null) {
+					return;
+				}
+				FileUtils.cpFromAssets(applicationContext, "targetapk-debug.apk", file);
+				ApkInstallHelper.getInstance()
+				                .setTarget(new ApkInstallTarget.Builder().setAppName("TargetApk")
+				                                                         .setAction(ApkInstallTarget.ACTION_AUTO_INSTALL |
+				                                                                    ApkInstallTarget.ACTION_WAIT_INSTALLING |
+				                                                                    ApkInstallTarget.ACTION_CLICK_FINISH)
+				                                                         .build())
+				                .setCallBack(new OnApkInstallCallBack() {
+					                @Override
+					                public void onApkInstallBtnClick(ApkInstallTarget target) {
+						                Toast.makeText(getActivity(), String.format(Locale.getDefault(),
+								                "%1$tH:%1$tM:%1$tS 点击了\"下一步/安装\"按钮",
+								                System.currentTimeMillis()
+						                ), Toast.LENGTH_SHORT).show();
+					                }
+					
+					                @Override
+					                public void onApkInstalling(ApkInstallTarget target) {
+						                Toast.makeText(getActivity(),
+								                String.format(Locale.getDefault(),
+										                "%1$tH:%1$tM:%1$tS 安装中",
+										                System.currentTimeMillis()
+								                ),
+								                Toast.LENGTH_SHORT
+						                ).show();
+					                }
+					
+					                @Override
+					                public void onApkInstallFinish(ApkInstallTarget target) {
+						                Toast.makeText(getActivity(), String.format(Locale.getDefault(),
+								                "%1$tH:%1$tM:%1$tS 点击了安装完成界面中的\"完成\"",
+								                System.currentTimeMillis()
+						                ), Toast.LENGTH_SHORT).show();
+					                }
+					
+					                @Override
+					                public void onApkInstallLaunch(ApkInstallTarget target) {
+						                Toast.makeText(getActivity(), String.format(Locale.getDefault(),
+								                "%1$tH:%1$tM:%1$tS 点击了安装完成界面中的\"打开\"",
+								                System.currentTimeMillis()
+						                ), Toast.LENGTH_SHORT).show();
+					                }
+					
+					                @Override
+					                public void onApkUninstallConfirm(ApkInstallTarget target) {
+						                Toast.makeText(getActivity(), String.format(Locale.getDefault(),
+								                "%1$tH:%1$tM:%1$tS 点击了卸载界面中的\"确认\"",
+								                System.currentTimeMillis()
+						                ), Toast.LENGTH_SHORT).show();
+					                }
+					
+					                @Override
+					                public void onApkUninstallCancel(ApkInstallTarget target) {
+						                Toast.makeText(getActivity(), String.format(Locale.getDefault(),
+								                "%1$tH:%1$tM:%1$tS 点击了卸载界面中的\"取消\"",
+								                System.currentTimeMillis()
+						                ), Toast.LENGTH_SHORT).show();
+					                }
+				                })
+				                .setEnable(true)
+				                .active();
+				
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				Uri uri;
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+					uri = FileProvider.getUriForFile(applicationContext, BuildConfig.APPLICATION_ID + ".fileprovider", file);
+					intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+				} else {
+					uri = Uri.fromFile(file);
+				}
+				intent.setDataAndType(uri, "application/vnd.android.package-archive");
+				//				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivityForResult(intent, REQ_APK_INSTALL);
+			}
+		}).start();
 	}
 	
 	@OnClick(R.id.btn_auto_uninstall_app)
