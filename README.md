@@ -10,8 +10,10 @@
 
 ## 效果图
 
-![](static/gif/auto_create_pptp.gif) ![](static/gif/auto_create_l2tp.gif) 
+![](static/gif/auto_create_pptp.gif) ![](static/gif/auto_create_l2tp.gif)
+ 
 ![](static/gif/auto_turn_on_unknown_sources.gif) ![](static/gif/auto_turn_off_unknown_sources.gif)
+
 ![](static/gif/auto_install_apk_untill_open.gif) ![](static/gif/auto_uninstall_apk.gif)
 
 ## USAGE
