@@ -28,8 +28,7 @@ public class ApkInstallHandlerFactory implements IHandlerFactory {
 	public ArrayList<AbsASHandler> initHandlers() {
 		ArrayList<AbsASHandler> handlers = new ArrayList<>();
 		//		handlers.add(new SamsungApkInstallASHandler501());
-		//		handlers.add(new FuzzyApkInstallASHandler(AndroidApkInstallViewCompat.PKGNAME));
-		//		handlers.add(new FuzzyApkInstallASHandler(AndroidApkInstallViewCompat.PKGNAME_601));
+		//		handlers.add(new FuzzyApkInstallASHandler());
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 			handlers.add(new AndroidApkInstallASHandler700());
 			return handlers;

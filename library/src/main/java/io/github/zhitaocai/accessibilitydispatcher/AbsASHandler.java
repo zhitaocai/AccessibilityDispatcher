@@ -1,5 +1,6 @@
 package io.github.zhitaocai.accessibilitydispatcher;
 
+import android.support.annotation.NonNull;
 import android.view.accessibility.AccessibilityEvent;
 
 import java.util.ArrayList;
@@ -108,6 +109,7 @@ public abstract class AbsASHandler<T extends ITarget, C extends OnCallBack> exte
 	 *
 	 * @see #isUsingPkgName2TrackEvent()
 	 */
+	@NonNull
 	protected abstract String getSupportPkgName();
 	
 	/**
