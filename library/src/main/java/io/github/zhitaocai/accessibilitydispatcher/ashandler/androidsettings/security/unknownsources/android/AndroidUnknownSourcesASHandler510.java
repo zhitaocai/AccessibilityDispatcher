@@ -1,4 +1,4 @@
-package io.github.zhitaocai.accessibilitydispatcher.androidsettings.security.unknownsources.android;
+package io.github.zhitaocai.accessibilitydispatcher.ashandler.androidsettings.security.unknownsources.android;
 
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -6,17 +6,17 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import java.util.List;
 
 import io.github.zhitaocai.accessibilitydispatcher.R;
-import io.github.zhitaocai.accessibilitydispatcher.androidsettings.security.AbsSecuritySettingsASHandler;
+import io.github.zhitaocai.accessibilitydispatcher.ashandler.androidsettings.security.AbsSecuritySettingsASHandler;
 import io.github.zhitaocai.accessibilitydispatcher.businss.security.SecurityTarget;
 import io.github.zhitaocai.accessibilitydispatcher.log.DLog;
 
 /**
- * 支持原生Android 7.0.0系统
+ * 支持原生Android 5.1.0系统
  *
  * @author zhitao
  * @since 2017-03-30 15:23
  */
-public class AndroidUnknownSourcesASHandler700 extends AbsSecuritySettingsASHandler {
+public class AndroidUnknownSourcesASHandler510 extends AbsSecuritySettingsASHandler {
 	
 	@Override
 	protected void onServiceConnected() {
@@ -36,10 +36,7 @@ public class AndroidUnknownSourcesASHandler700 extends AbsSecuritySettingsASHand
 			break;
 		case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
 			switch (event.getClassName().toString()) {
-			// 通过设置界面进入
-			case "com.android.settings.SubSettings":
-				
-				// 通过Intent方式进入安全设置界面
+			// 通过Intent方式进入安全设置界面
 			case "com.android.settings.Settings$SecuritySettingsActivity":
 				handleInSecurityPage();
 				handleScrollInSecurityPage();
@@ -54,7 +51,7 @@ public class AndroidUnknownSourcesASHandler700 extends AbsSecuritySettingsASHand
 			break;
 		case AccessibilityEvent.TYPE_VIEW_SCROLLED:
 			switch (event.getClassName().toString()) {
-			case "android.support.v7.widget.RecyclerView":
+			case "android.widget.ListView":
 				handleInSecurityPage();
 				handleScrollInSecurityPage();
 				break;
@@ -76,10 +73,10 @@ public class AndroidUnknownSourcesASHandler700 extends AbsSecuritySettingsASHand
 	@Override
 	protected boolean isInSecurityPage() {
 		return isNodeExistInRootActiveWindowByViewIds(
-				"com.android.settings:id/action_bar",
+				"android:id/action_bar",
 				"com.android.settings:id/main_content",
 				"com.android.settings:id/container_material",
-				"com.android.settings:id/list",
+				"android:id/list",
 				"android:id/title"
 		);
 	}
@@ -89,9 +86,8 @@ public class AndroidUnknownSourcesASHandler700 extends AbsSecuritySettingsASHand
 	 */
 	@Override
 	protected void runLogicInSecurityPage() {
-		
 		// 找到ListView
-		List<AccessibilityNodeInfo> listViewNodeInfos = getNodeByViewIdFromRootInActiveWindow("com.android.settings:id/list");
+		List<AccessibilityNodeInfo> listViewNodeInfos = getNodeByViewIdFromRootInActiveWindow("android:id/list");
 		if (listViewNodeInfos == null || listViewNodeInfos.isEmpty()) {
 			return;
 		}
@@ -130,7 +126,7 @@ public class AndroidUnknownSourcesASHandler700 extends AbsSecuritySettingsASHand
 					DLog.i("title: %s", title);
 					
 					// 找到item中的switchWidget
-					List<AccessibilityNodeInfo> switchInfos = getNodeByViewIdFromNode(itemInfo, "android:id/switch_widget");
+					List<AccessibilityNodeInfo> switchInfos = getNodeByViewIdFromNode(itemInfo, "android:id/switchWidget");
 					if (switchInfos == null || switchInfos.isEmpty()) {
 						continue;
 					}
@@ -138,6 +134,7 @@ public class AndroidUnknownSourcesASHandler700 extends AbsSecuritySettingsASHand
 					if (switchInfo == null) {
 						continue;
 					}
+					
 					String unknownSourceStr = getAccessibilityService().getResources()
 					                                                   .getString(R.string
 							                                                   .accessibility_dispatcher_settings_security_unknown_source);
@@ -168,7 +165,7 @@ public class AndroidUnknownSourcesASHandler700 extends AbsSecuritySettingsASHand
 	@Override
 	protected void scrollInSecurityPage() {
 		// 找到ListView
-		List<AccessibilityNodeInfo> listViewNodeInfos = getNodeByViewIdFromRootInActiveWindow("com.android.settings:id/list");
+		List<AccessibilityNodeInfo> listViewNodeInfos = getNodeByViewIdFromRootInActiveWindow("android:id/list");
 		if (listViewNodeInfos == null || listViewNodeInfos.isEmpty()) {
 			return;
 		}

@@ -7,9 +7,6 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -96,12 +93,7 @@ public class AutoVpnConfigFragment extends BaseFragment {
 			          */
 			         @Override
 			         public void onVpnConfigStart(VpnTarget vpnTarget) {
-				         Toast.makeText(getActivity(), String.format(
-						         Locale.getDefault(),
-						         "%1$tH:%1$tM:%1$tS 进入VPN配置，当前配置\n%s",
-						         System.currentTimeMillis(),
-						         vpnTarget.toString()
-				         ), Toast.LENGTH_SHORT).show();
+				         toast("%1$tH:%1$tM:%1$tS 进入VPN配置，当前配置\n%s", System.currentTimeMillis(), vpnTarget.toString());
 			         }
 		         })
 		
@@ -143,11 +135,7 @@ public class AutoVpnConfigFragment extends BaseFragment {
 			          */
 			         @Override
 			         public void onVpnConfigStart(VpnTarget vpnTarget) {
-				         Toast.makeText(
-						         getActivity(),
-						         String.format(Locale.getDefault(), "%1$tH:%1$tM:%1$tS 进入VPN配置", System.currentTimeMillis()),
-						         Toast.LENGTH_SHORT
-				         ).show();
+				         toast("%1$tH:%1$tM:%1$tS 进入VPN配置", System.currentTimeMillis());
 			         }
 			
 			         /**
@@ -157,11 +145,7 @@ public class AutoVpnConfigFragment extends BaseFragment {
 			          */
 			         @Override
 			         public void onVpnConfigFinish(VpnTarget vpnTarget) {
-				         Toast.makeText(
-						         getActivity(),
-						         String.format(Locale.getDefault(), "%1$tH:%1$tM:%1$tS 完成VPN配置", System.currentTimeMillis()),
-						         Toast.LENGTH_SHORT
-				         ).show();
+				         toast("%1$tH:%1$tM:%1$tS 完成VPN配置", System.currentTimeMillis());
 			         }
 			
 			         /**
@@ -171,11 +155,7 @@ public class AutoVpnConfigFragment extends BaseFragment {
 			          */
 			         @Override
 			         public void onUserConfigStart(VpnTarget vpnTarget) {
-				         Toast.makeText(
-						         getActivity(),
-						         String.format(Locale.getDefault(), "%1$tH:%1$tM:%1$tS 进入用户配置", System.currentTimeMillis()),
-						         Toast.LENGTH_SHORT
-				         ).show();
+				         toast("%1$tH:%1$tM:%1$tS 进入用户配置", System.currentTimeMillis());
 			         }
 			
 			         /**
@@ -185,11 +165,7 @@ public class AutoVpnConfigFragment extends BaseFragment {
 			          */
 			         @Override
 			         public void onUserConfigFinish(VpnTarget vpnTarget) {
-				         Toast.makeText(
-						         getActivity(),
-						         String.format(Locale.getDefault(), "%1$tH:%1$tM:%1$tS 完成用户配置", System.currentTimeMillis()),
-						         Toast.LENGTH_SHORT
-				         ).show();
+				         toast("%1$tH:%1$tM:%1$tS 完成用户配置", System.currentTimeMillis());
 			         }
 		         })
 		

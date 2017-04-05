@@ -5,7 +5,7 @@ import android.os.Build;
 import java.util.ArrayList;
 
 import io.github.zhitaocai.accessibilitydispatcher.AbsASHandler;
-import io.github.zhitaocai.accessibilitydispatcher.apkinstall.android.AndroidApkInstallASHandler444;
+import io.github.zhitaocai.accessibilitydispatcher.ashandler.apkinstall.android.AndroidApkInstallASHandler444;
 import io.github.zhitaocai.accessibilitydispatcher.businss.IHandlerFactory;
 
 /**

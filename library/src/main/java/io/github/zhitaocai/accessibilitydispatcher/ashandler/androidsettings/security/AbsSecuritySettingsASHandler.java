@@ -1,9 +1,9 @@
-package io.github.zhitaocai.accessibilitydispatcher.androidsettings.security;
+package io.github.zhitaocai.accessibilitydispatcher.ashandler.androidsettings.security;
 
 import java.util.List;
 
 import io.github.zhitaocai.accessibilitydispatcher.AbsASHandler;
-import io.github.zhitaocai.accessibilitydispatcher.androidsettings.AndroidSettingsCompat;
+import io.github.zhitaocai.accessibilitydispatcher.ashandler.androidsettings.AndroidSettingsCompat;
 import io.github.zhitaocai.accessibilitydispatcher.businss.security.OnSecurityCallBack;
 import io.github.zhitaocai.accessibilitydispatcher.businss.security.SecurityTarget;
 

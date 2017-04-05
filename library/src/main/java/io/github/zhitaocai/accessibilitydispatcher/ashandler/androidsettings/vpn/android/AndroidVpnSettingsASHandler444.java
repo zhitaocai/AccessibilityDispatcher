@@ -1,4 +1,4 @@
-package io.github.zhitaocai.accessibilitydispatcher.androidsettings.vpn.android;
+package io.github.zhitaocai.accessibilitydispatcher.ashandler.androidsettings.vpn.android;
 
 import android.annotation.TargetApi;
 import android.os.Build;

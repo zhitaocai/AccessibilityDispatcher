@@ -1,10 +1,10 @@
-package io.github.zhitaocai.accessibilitydispatcher.androidsettings.vpn.android;
+package io.github.zhitaocai.accessibilitydispatcher.ashandler.androidsettings.vpn.android;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import io.github.zhitaocai.accessibilitydispatcher.androidsettings.vpn.AbsVpnSettingsASHandler;
+import io.github.zhitaocai.accessibilitydispatcher.ashandler.androidsettings.vpn.AbsVpnSettingsASHandler;
 import io.github.zhitaocai.accessibilitydispatcher.businss.vpn.OnVpnCallBack;
 import io.github.zhitaocai.accessibilitydispatcher.businss.vpn.VpnTarget;
 

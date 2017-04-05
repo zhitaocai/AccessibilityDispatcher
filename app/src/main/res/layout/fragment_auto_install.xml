@@ -28,11 +28,27 @@
 			/>
 		
 		<Button
-			android:id="@+id/btn_auto_install_apk"
+			android:id="@+id/btn_auto_install_apk_untill_installing"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="8dp"
-			android:text="自动安装apk"
+			android:text="自动安装apk——进入安装中就返回"
+			/>
+		
+		<Button
+			android:id="@+id/btn_auto_install_apk_untill_finish"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:text="自动安装apk——安装完成后点击完成"
+			/>
+		
+		<Button
+			android:id="@+id/btn_auto_install_apk_untill_open"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:text="自动安装apk——安装完成后点击打开"
 			/>
 		
 		<Button

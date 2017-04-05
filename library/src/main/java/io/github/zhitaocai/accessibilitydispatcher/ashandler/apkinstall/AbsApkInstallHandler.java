@@ -1,4 +1,4 @@
-package io.github.zhitaocai.accessibilitydispatcher.apkinstall;
+package io.github.zhitaocai.accessibilitydispatcher.ashandler.apkinstall;
 
 import java.util.List;
 

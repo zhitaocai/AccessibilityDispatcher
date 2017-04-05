@@ -1,8 +1,8 @@
-package io.github.zhitaocai.accessibilitydispatcher.apkinstall.android;
+package io.github.zhitaocai.accessibilitydispatcher.ashandler.apkinstall.android;
 
 import android.view.accessibility.AccessibilityEvent;
 
-import io.github.zhitaocai.accessibilitydispatcher.apkinstall.AbsApkInstallHandler;
+import io.github.zhitaocai.accessibilitydispatcher.ashandler.apkinstall.AbsApkInstallHandler;
 import io.github.zhitaocai.accessibilitydispatcher.businss.apkinstall.ApkInstallTarget;
 import io.github.zhitaocai.accessibilitydispatcher.log.DLog;
 

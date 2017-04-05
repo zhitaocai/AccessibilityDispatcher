@@ -1,8 +1,8 @@
-//package io.github.zhitaocai.accessibilitydispatcher.apkinstall.samsung;
+//package io.github.zhitaocai.accessibilitydispatcher.ashandler.apkinstall.samsung;
 //
 //import android.view.accessibility.AccessibilityEvent;
 //
-//import io.github.zhitaocai.accessibilitydispatcher.apkinstall.AbsApkInstallHandler;
+//import io.github.zhitaocai.accessibilitydispatcher.ashandler.apkinstall.AbsApkInstallHandler;
 //
 //import static android.content.Intent.ACTION_DELETE;
 //import static io.github.zhitaocai.accessibilitydispatcher.businss.apkinstall.ApkInstallTarget.ACTION_CAN_NOT_DELETE;

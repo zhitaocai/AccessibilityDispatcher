@@ -1,4 +1,4 @@
-package io.github.zhitaocai.accessibilitydispatcher.androidsettings.security.unknownsources.fuzzy;
+package io.github.zhitaocai.accessibilitydispatcher.ashandler.androidsettings.security.unknownsources.fuzzy;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -11,7 +11,7 @@ import android.widget.Switch;
 import java.util.List;
 
 import io.github.zhitaocai.accessibilitydispatcher.R;
-import io.github.zhitaocai.accessibilitydispatcher.androidsettings.security.AbsSecuritySettingsASHandler;
+import io.github.zhitaocai.accessibilitydispatcher.ashandler.androidsettings.security.AbsSecuritySettingsASHandler;
 import io.github.zhitaocai.accessibilitydispatcher.businss.security.SecurityTarget;
 import io.github.zhitaocai.accessibilitydispatcher.log.DLog;
 

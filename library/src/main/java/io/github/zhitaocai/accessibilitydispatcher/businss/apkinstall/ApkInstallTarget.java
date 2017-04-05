@@ -28,22 +28,22 @@ public class ApkInstallTarget implements ITarget {
 	/**
 	 * 安装完成时的界面，点击完成
 	 */
-	public final static int ACTION_CLICK_FINISH = 2;
+	public final static int ACTION_CLICK_FINISH = 4;
 	
 	/**
 	 * 安装完成时的界面，点击打开
 	 */
-	public final static int ACTION_CLICK_OPEN = 4;
+	public final static int ACTION_CLICK_OPEN = 8;
 	
 	/**
 	 * 自动卸载
 	 */
-	public final static int ACTION_AUTO_DELETE = 8;
+	public final static int ACTION_AUTO_DELETE = 16;
 	
 	/**
 	 * 不能卸载
 	 */
-	public final static int ACTION_CAN_NOT_DELETE = 16;
+	public final static int ACTION_CAN_NOT_DELETE = 32;
 	
 	/**
 	 * 安装的应用名字（不是包名是因为界面上不会显示包名）

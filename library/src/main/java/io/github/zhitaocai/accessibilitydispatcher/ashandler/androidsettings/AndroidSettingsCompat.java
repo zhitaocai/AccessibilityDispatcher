@@ -1,4 +1,4 @@
-package io.github.zhitaocai.accessibilitydispatcher.androidsettings;
+package io.github.zhitaocai.accessibilitydispatcher.ashandler.androidsettings;
 
 /**
  * @author zhitao
