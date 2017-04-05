@@ -17,7 +17,6 @@ public class ApkInstallTarget implements ITarget {
 	
 	/**
 	 * 是否等待安装完成
-	 * <p>
 	 * <ul>
 	 * <li>如果存在此ACTION，那么点击安装之后就会等待安装完成</li>
 	 * <li>如果不存在此ACTION，那么点击安装之后就会自动返回</li>
