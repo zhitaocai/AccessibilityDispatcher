@@ -3,7 +3,7 @@ package io.github.zhitaocai.accessibilitydispatcher.businss.vpn;
 import java.util.ArrayList;
 
 import io.github.zhitaocai.accessibilitydispatcher.AbsASHandler;
-import io.github.zhitaocai.accessibilitydispatcher.androidsettings.vpn.android.AndroidVpnSettingsASHandler444;
+import io.github.zhitaocai.accessibilitydispatcher.ashandler.androidsettings.vpn.android.AndroidVpnSettingsASHandler444;
 import io.github.zhitaocai.accessibilitydispatcher.businss.IHandlerFactory;
 
 /**

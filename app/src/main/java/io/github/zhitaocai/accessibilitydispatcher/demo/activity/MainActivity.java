@@ -21,7 +21,7 @@ import butterknife.OnClick;
 import io.github.zhitaocai.accessibilitydispatcher.AccessibilityDispatcher;
 import io.github.zhitaocai.accessibilitydispatcher.AccessibilityServiceUtils;
 import io.github.zhitaocai.accessibilitydispatcher.demo.R;
-import io.github.zhitaocai.accessibilitydispatcher.demo.fragment.AutoInstallFragment;
+import io.github.zhitaocai.accessibilitydispatcher.demo.fragment.AutoApkInstallFragment;
 import io.github.zhitaocai.accessibilitydispatcher.demo.fragment.AutoVpnConfigFragment;
 import io.github.zhitaocai.accessibilitydispatcher.demo.fragment.BaseFragment;
 import io.github.zhitaocai.accessibilitydispatcher.demo.fragment.BasePagerAdapter;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	private BasePagerAdapter mViewPagerAdapter;
 	
-	private AutoInstallFragment mAutoInstallFragment;
+	private AutoApkInstallFragment mAutoApkInstallFragment;
 	
 	private AutoVpnConfigFragment mAutoVpnConfigFragment;
 	
@@ -76,10 +76,10 @@ public class MainActivity extends AppCompatActivity {
 	
 	private void initViewPageAndTabLayout() {
 		mAutoVpnConfigFragment = new AutoVpnConfigFragment();
-		mAutoInstallFragment = new AutoInstallFragment();
+		mAutoApkInstallFragment = new AutoApkInstallFragment();
 		List<BaseFragment> mLists = new ArrayList<>();
 		mLists.add(mAutoVpnConfigFragment);
-		mLists.add(mAutoInstallFragment);
+		mLists.add(mAutoApkInstallFragment);
 		mViewPagerAdapter = new BasePagerAdapter(getSupportFragmentManager(), mLists);
 		mViewpager.setAdapter(mViewPagerAdapter);
 		mViewpager.setCurrentItem(0);

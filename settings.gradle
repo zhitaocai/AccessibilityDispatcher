@@ -1,4 +1,4 @@
-include ':app'
+include ':app', ':targetapk'
 include ':library'
 
 // https://github.com/dcendents/android-maven-gradle-plugin
