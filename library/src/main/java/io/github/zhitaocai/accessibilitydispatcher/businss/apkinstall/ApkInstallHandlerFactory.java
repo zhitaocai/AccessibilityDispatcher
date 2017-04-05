@@ -6,6 +6,11 @@ import java.util.ArrayList;
 
 import io.github.zhitaocai.accessibilitydispatcher.AbsASHandler;
 import io.github.zhitaocai.accessibilitydispatcher.ashandler.apkinstall.android.AndroidApkInstallASHandler444;
+import io.github.zhitaocai.accessibilitydispatcher.ashandler.apkinstall.android.AndroidApkInstallASHandler500;
+import io.github.zhitaocai.accessibilitydispatcher.ashandler.apkinstall.android.AndroidApkInstallASHandler501;
+import io.github.zhitaocai.accessibilitydispatcher.ashandler.apkinstall.android.AndroidApkInstallASHandler510;
+import io.github.zhitaocai.accessibilitydispatcher.ashandler.apkinstall.android.AndroidApkInstallASHandler601;
+import io.github.zhitaocai.accessibilitydispatcher.ashandler.apkinstall.android.AndroidApkInstallASHandler700;
 import io.github.zhitaocai.accessibilitydispatcher.businss.IHandlerFactory;
 
 /**
@@ -25,26 +30,26 @@ public class ApkInstallHandlerFactory implements IHandlerFactory {
 		//		handlers.add(new SamsungApkInstallASHandler501());
 		//		handlers.add(new FuzzyApkInstallASHandler(AndroidApkInstallViewCompat.PKGNAME));
 		//		handlers.add(new FuzzyApkInstallASHandler(AndroidApkInstallViewCompat.PKGNAME_601));
-		//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-		//			handlers.add(new AndroidApkInstallASHandler700());
-		//			return handlers;
-		//		}
-		//		if ("6.0.1".equals(Build.VERSION.RELEASE)) {
-		//			handlers.add(new AndroidApkInstallASHandler601());
-		//			return handlers;
-		//		}
-		//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-		//			handlers.add(new AndroidApkInstallASHandler510());
-		//			return handlers;
-		//		}
-		//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-		//			if ("5.0.1".equals(Build.VERSION.RELEASE)) {
-		//				handlers.add(new AndroidApkInstallASHandler501());
-		//				return handlers;
-		//			}
-		//			handlers.add(new AndroidApkInstallASHandler500());
-		//			return handlers;
-		//		}
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			handlers.add(new AndroidApkInstallASHandler700());
+			return handlers;
+		}
+		if ("6.0.1".equals(Build.VERSION.RELEASE)) {
+			handlers.add(new AndroidApkInstallASHandler601());
+			return handlers;
+		}
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+			handlers.add(new AndroidApkInstallASHandler510());
+			return handlers;
+		}
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			if ("5.0.1".equals(Build.VERSION.RELEASE)) {
+				handlers.add(new AndroidApkInstallASHandler501());
+				return handlers;
+			}
+			handlers.add(new AndroidApkInstallASHandler500());
+			return handlers;
+		}
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			handlers.add(new AndroidApkInstallASHandler444());
 			return handlers;
