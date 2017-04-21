@@ -53,7 +53,7 @@ public class AutoVpnConfigFragment extends BaseFragment {
 			
 			// 不管配置是否成功，建议都取消自动配置，这样子，如果用户自己从设置中打开VPN配置的话，我们的自动点击程序就不会影响到用户的操作了
 			//if (resultCode == RESULT_OK) { }
-			AccessibilityHelper.newVpnHelper().reset().active();
+			AccessibilityHelper.vpnHelper().reset().active();
 			break;
 		default:
 			break;
@@ -63,8 +63,8 @@ public class AutoVpnConfigFragment extends BaseFragment {
 	@OnClick(R.id.btn_create_l2tp)
 	protected void createL2TP() {
 		// 在打开VPN界面之前，设置我们需要自动操作的内容
-		AccessibilityHelper.newVpnHelper()
-		
+		AccessibilityHelper.vpnHelper()
+		                   
 		                   // 创建一个新的或者更新现有的一个L2TP连接
 		                   .withTargets(new VpnTarget.Builder().setVpnName("L2TP VPN Demo")
 		                                                       .setAction(VpnTarget.ACTION_CREATE_VPN_CONFIG |
@@ -109,7 +109,7 @@ public class AutoVpnConfigFragment extends BaseFragment {
 	protected void createPPTP() {
 		
 		// 在打开VPN界面之前，设置我们需要自动操作的内容
-		AccessibilityHelper.newVpnHelper()
+		AccessibilityHelper.vpnHelper()
 		
 		                   // 创建一个新的或者更新现有的一个PPTP连接
 		                   .withTargets(new VpnTarget.Builder().setVpnName("PPTP VPN Demo")

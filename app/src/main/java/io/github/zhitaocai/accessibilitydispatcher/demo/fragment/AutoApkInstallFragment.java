@@ -72,10 +72,10 @@ public class AutoApkInstallFragment extends BaseFragment {
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (requestCode) {
 		case REQ_SECURITY_UNKNOWN_SOURCES:
-			AccessibilityHelper.newSecurityHelper().reset().active();
+			AccessibilityHelper.securityHelper().reset().active();
 			break;
 		case REQ_APK_INSTALL:
-			AccessibilityHelper.newApkInstallHelper().reset().active();
+			AccessibilityHelper.apkInstallHelper().reset().active();
 			break;
 		default:
 			break;
@@ -89,7 +89,7 @@ public class AutoApkInstallFragment extends BaseFragment {
 			return;
 		}
 		
-		AccessibilityHelper.newSecurityHelper()
+		AccessibilityHelper.securityHelper()
 		                   .withTargets(new SecurityTarget.Builder().setAction(SecurityTarget.ACTION_TURN_ON_UNKNOWNSOURCES)
 		                                                            .build())
 		                   .withCallBacks(new OnSecurityCallBack() {
@@ -116,7 +116,7 @@ public class AutoApkInstallFragment extends BaseFragment {
 			return;
 		}
 		
-		AccessibilityHelper.newSecurityHelper()
+		AccessibilityHelper.securityHelper()
 		                   .withTargets(new SecurityTarget.Builder().setAction(SecurityTarget.ACTION_TURN_OFF_UNKNOWNSOURCES)
 		                                                            .build())
 		                   .withCallBacks(new OnSecurityCallBackAdapter() {
@@ -182,7 +182,7 @@ public class AutoApkInstallFragment extends BaseFragment {
 				FileUtils.cpFromAssets(applicationContext, TEST_APP_FILE_NAME_IN_ASSETS, file);
 				
 				// 安装之前配置自动点击行为
-				AccessibilityHelper.newApkInstallHelper()
+				AccessibilityHelper.apkInstallHelper()
 				                   .withTargets(new ApkInstallTarget.Builder().setAppName(TEST_APP_NAME)
 				                                                              .setAction(actions)
 				                                                              .build())
@@ -241,7 +241,7 @@ public class AutoApkInstallFragment extends BaseFragment {
 			toast("目标应用还没有安装");
 			return;
 		}
-		AccessibilityHelper.newApkInstallHelper()
+		AccessibilityHelper.apkInstallHelper()
 		                   .withTargets(new ApkInstallTarget.Builder().setAppName(TEST_APP_NAME)
 		                                                              .setAction(ApkInstallTarget.ACTION_AUTO_DELETE)
 		                                                              .build())
@@ -272,7 +272,7 @@ public class AutoApkInstallFragment extends BaseFragment {
 			toast("目标应用还没有安装");
 			return;
 		}
-		AccessibilityHelper.newApkInstallHelper()
+		AccessibilityHelper.apkInstallHelper()
 		                   .withTargets(new ApkInstallTarget.Builder().setAppName(TEST_APP_NAME)
 		                                                              .setAction(ApkInstallTarget.ACTION_CAN_NOT_DELETE)
 		                                                              .build())
