@@ -62,7 +62,6 @@ public class AutoVpnConfigFragment extends BaseFragment {
 	
 	@OnClick(R.id.btn_create_l2tp)
 	protected void createL2TP() {
-		
 		// 在打开VPN界面之前，设置我们需要自动操作的内容
 		AccessibilityHelper.newVpnHelper()
 		

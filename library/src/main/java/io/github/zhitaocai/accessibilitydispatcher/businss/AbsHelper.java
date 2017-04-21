@@ -21,20 +21,18 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	
 	@Nullable private H mHandlerFactory;
 	
-	protected AbsHelper() {
-	}
+	@NonNull private String mIdentify;
 	
 	/**
-	 * 业务唯一标识
-	 *
-	 * @return 业务唯一表示，分发器依据此来识别不同的辅助业务
+	 * @param identify 助手的唯一标识
 	 */
-	@NonNull
-	public abstract String getIdentify();
+	protected AbsHelper(@NonNull String identify) {
+		mIdentify = identify;
+	}
 	
 	@Override
 	public int hashCode() {
-		return getIdentify().hashCode();
+		return mIdentify.hashCode();
 	}
 	
 	@Override
@@ -42,12 +40,22 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 		return obj != null && hashCode() == obj.hashCode();
 	}
 	
+	/**
+	 * 重置所有参数
+	 *
+	 * @return this
+	 */
 	public AbsHelper<T, C, H> reset() {
 		mIsEnable = false;
 		mTargets = null;
 		mCallBacks = null;
 		return this;
 	}
+	
+	/**
+	 * 创建一个默认的工厂对象，如果没有调用 {@link #withHandlerFactory(IHandlerFactory)} 方法设置工厂，那么就会使用这个方法创建的默认工厂
+	 */
+	protected abstract H newDefaultHandlerFactory();
 	
 	/**
 	 * 创建需要的业务对象的工厂
@@ -65,7 +73,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *
 	 * @param handlerFactory 具体业务创建的工厂
 	 *
-	 * @return 自身对象
+	 * @return this
 	 */
 	public AbsHelper<T, C, H> withHandlerFactory(H handlerFactory) {
 		mHandlerFactory = handlerFactory;
@@ -73,30 +81,27 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	}
 	
 	/**
-	 * 获取默认的业务对象工厂
-	 *
-	 * @return 如果没有调用 {@link #withHandlerFactory(IHandlerFactory)} 方法设置工厂的话，那么就会调用这个方法来设置
-	 *
-	 * @see #withHandlerFactory(IHandlerFactory)
-	 */
-	protected abstract H newDefaultHandlerFactory();
-	
-	/**
 	 * 是否激活这个业务
 	 *
 	 * @param enable 是否激活
 	 *
-	 * @return 自身对象
+	 * @return this
 	 */
 	public AbsHelper<T, C, H> enable(boolean enable) {
 		mIsEnable = enable;
 		return this;
 	}
 	
+	/**
+	 * @return 当前是否激活这个业务
+	 */
 	public boolean isEnable() {
 		return mIsEnable;
 	}
 	
+	/**
+	 * @return 获取回调监听器列表
+	 */
 	public ArrayList<C> getCallBacks() {
 		return mCallBacks;
 	}
@@ -110,7 +115,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *
 	 * @param callBacks 监听器
 	 *
-	 * @return 自身对象
+	 * @return this
 	 *
 	 * @see #removeCallBacks(OnCallBack[])
 	 */
@@ -136,7 +141,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *
 	 * @param callBacks 监听器
 	 *
-	 * @return 自身对象
+	 * @return this
 	 */
 	public AbsHelper<T, C, H> removeCallBacks(C... callBacks) {
 		if (callBacks == null || callBacks.length == 0) {
@@ -151,6 +156,9 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 		return this;
 	}
 	
+	/**
+	 * @return 获取当前的业务目标
+	 */
 	public ArrayList<T> getTargets() {
 		return mTargets;
 	}
@@ -170,7 +178,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *
 	 * @param targets 业务目标
 	 *
-	 * @return 自身对象
+	 * @return this
 	 */
 	public AbsHelper<T, C, H> withTargets(T... targets) {
 		if (targets == null || targets.length == 0) {
@@ -204,7 +212,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *
 	 * @param targets 业务目标
 	 *
-	 * @return 自身对象
+	 * @return this
 	 */
 	public AbsHelper<T, C, H> removeTargets(T... targets) {
 		if (targets == null || targets.length == 0) {
