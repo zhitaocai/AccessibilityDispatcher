@@ -9,8 +9,8 @@ ext {
 
 	publishedGroupId = 'io.github.zhitaocai'    // 项目组ID(e.g 包名为io.github.zhitaocai.toastcompat, 那么这里就是io.github.zhitaocai)
 	artifact = 'accessibilitydispatcher'        // 项目ID  (e.g 包名为io.github.zhitaocai.toastcompat, 那么这里就是toastcompat)
-	libraryVersionName = '0.3.0'                // 对应的versionname
-	libraryVersionCode = 3
+	libraryVersionName = '0.4.0'                // 对应的versionname
+	libraryVersionCode = 4
 
 	libDesc = 'an library for using accessibility service more convenient'  // 项目描述
 	libraryVersionDesc = libDesc                                            // 当前版本下的项目描述
