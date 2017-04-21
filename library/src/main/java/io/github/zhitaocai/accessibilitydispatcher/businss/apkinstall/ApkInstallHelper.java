@@ -4,26 +4,13 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import io.github.zhitaocai.accessibilitydispatcher.businss.AbsHelper;
+import io.github.zhitaocai.accessibilitydispatcher.businss.IHandlerFactory;
 
 /**
  * @author zhitao
  * @since 2017-04-01 09:34
  */
 public class ApkInstallHelper extends AbsHelper<ApkInstallTarget, OnApkInstallCallBack, ApkInstallHandlerFactory> {
-	
-	private static ApkInstallHelper sInstance;
-	
-	private ApkInstallHelper() {
-		super();
-		initHandlerFactory(new ApkInstallHandlerFactory());
-	}
-	
-	public static ApkInstallHelper getInstance() {
-		if (sInstance == null) {
-			sInstance = new ApkInstallHelper();
-		}
-		return sInstance;
-	}
 	
 	/**
 	 * 业务唯一标识
@@ -34,5 +21,17 @@ public class ApkInstallHelper extends AbsHelper<ApkInstallTarget, OnApkInstallCa
 	@Override
 	public String getIdentify() {
 		return Intent.ACTION_INSTALL_PACKAGE;
+	}
+	
+	/**
+	 * 获取默认的业务对象工厂
+	 *
+	 * @return 如果没有调用 {@link #withHandlerFactory(IHandlerFactory)} 方法设置工厂的话，那么就会调用这个方法来设置
+	 *
+	 * @see #withHandlerFactory(IHandlerFactory)
+	 */
+	@Override
+	protected ApkInstallHandlerFactory newDefaultHandlerFactory() {
+		return new ApkInstallHandlerFactory();
 	}
 }

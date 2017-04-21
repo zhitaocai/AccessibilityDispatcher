@@ -22,8 +22,6 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	@Nullable private H mHandlerFactory;
 	
 	protected AbsHelper() {
-		super();
-		mIsEnable = false;
 	}
 	
 	/**
@@ -69,10 +67,19 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *
 	 * @return 自身对象
 	 */
-	public AbsHelper<T, C, H> initHandlerFactory(H handlerFactory) {
+	public AbsHelper<T, C, H> withHandlerFactory(H handlerFactory) {
 		mHandlerFactory = handlerFactory;
 		return this;
 	}
+	
+	/**
+	 * 获取默认的业务对象工厂
+	 *
+	 * @return 如果没有调用 {@link #withHandlerFactory(IHandlerFactory)} 方法设置工厂的话，那么就会调用这个方法来设置
+	 *
+	 * @see #withHandlerFactory(IHandlerFactory)
+	 */
+	protected abstract H newDefaultHandlerFactory();
 	
 	/**
 	 * 是否激活这个业务
@@ -81,7 +88,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *
 	 * @return 自身对象
 	 */
-	public AbsHelper<T, C, H> setEnable(boolean enable) {
+	public AbsHelper<T, C, H> enable(boolean enable) {
 		mIsEnable = enable;
 		return this;
 	}
@@ -94,23 +101,8 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 		return mCallBacks;
 	}
 	
-	public AbsHelper<T, C, H> setCallBacks(ArrayList<C> callBacks) {
-		mCallBacks = callBacks;
-		return this;
-	}
-	
-	public AbsHelper<T, C, H> setCallBack(C callBack) {
-		if (mCallBacks == null) {
-			mCallBacks = new ArrayList<>();
-		} else {
-			mCallBacks.clear();
-		}
-		mCallBacks.add(callBack);
-		return this;
-	}
-	
 	/**
-	 * 添加回调监听器(请记得在适当的位置调用 {@link #removeCallBack(OnCallBack[])} 释放监听)
+	 * 添加回调监听器(请记得在适当的位置调用 {@link #removeCallBacks(OnCallBack[])} 释放监听)
 	 * <p>
 	 * e.g.
 	 * <p>
@@ -120,9 +112,9 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *
 	 * @return 自身对象
 	 *
-	 * @see #removeCallBack(OnCallBack[])
+	 * @see #removeCallBacks(OnCallBack[])
 	 */
-	public AbsHelper<T, C, H> addCallBacks(C... callBacks) {
+	public AbsHelper<T, C, H> withCallBacks(C... callBacks) {
 		if (callBacks == null || callBacks.length == 0) {
 			return this;
 		}
@@ -146,7 +138,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *
 	 * @return 自身对象
 	 */
-	public AbsHelper<T, C, H> removeCallBack(C... callBacks) {
+	public AbsHelper<T, C, H> removeCallBacks(C... callBacks) {
 		if (callBacks == null || callBacks.length == 0) {
 			return this;
 		}
@@ -161,21 +153,6 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	
 	public ArrayList<T> getTargets() {
 		return mTargets;
-	}
-	
-	public AbsHelper<T, C, H> setTargets(ArrayList<T> targets) {
-		mTargets = targets;
-		return this;
-	}
-	
-	public AbsHelper<T, C, H> setTarget(T target) {
-		if (mTargets == null) {
-			mTargets = new ArrayList<>();
-		} else {
-			mTargets.clear();
-		}
-		mTargets.add(target);
-		return this;
 	}
 	
 	/**
@@ -195,7 +172,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *
 	 * @return 自身对象
 	 */
- 	public AbsHelper<T, C, H> addTargets(T... targets) {
+	public AbsHelper<T, C, H> withTargets(T... targets) {
 		if (targets == null || targets.length == 0) {
 			return this;
 		}
@@ -229,7 +206,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 *
 	 * @return 自身对象
 	 */
-	public AbsHelper<T, C, H> removeTarget(T... targets) {
+	public AbsHelper<T, C, H> removeTargets(T... targets) {
 		if (targets == null || targets.length == 0) {
 			return this;
 		}
@@ -248,6 +225,9 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	 * 注意：配置完毕之后，必须要调用这个方法，才会真的令辅助功能服务生效，不然你只是在瞎逼逼 ^_^
 	 */
 	public void active() {
+		if (mHandlerFactory == null) {
+			mHandlerFactory = newDefaultHandlerFactory();
+		}
 		AccessibilityDispatcher.updateHelper(this);
 	}
 	
