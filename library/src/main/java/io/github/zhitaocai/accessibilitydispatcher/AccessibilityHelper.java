@@ -42,7 +42,7 @@ public class AccessibilityHelper {
 				absHelper = new AbsHelper<VpnTarget, OnVpnCallBack, VpnHandlerFactory>("android.net.vpn.SETTINGS") {
 					
 					/**
-					 * 创建一个默认的工厂对象，如果没有调用 {@link #withHandlerFactory(IHandlerFactory)} 方法设置工厂，那么就会使用这个方法创建的默认工厂
+					 * @return 创建一个默认的工厂对象，如果没有调用 {@link #withHandlerFactory(IHandlerFactory)} 方法设置工厂，那么就会使用这个方法创建的默认工厂
 					 */
 					@Override
 					protected VpnHandlerFactory newDefaultHandlerFactory() {
@@ -68,7 +68,7 @@ public class AccessibilityHelper {
 				absHelper = new AbsHelper<SecurityTarget, OnSecurityCallBack, SecurityHandlerFactory>(IDENTIFY_SECURITY) {
 					
 					/**
-					 * 创建一个默认的工厂对象，如果没有调用 {@link #withHandlerFactory(IHandlerFactory)} 方法设置工厂，那么就会使用这个方法创建的默认工厂
+					 * @return 创建一个默认的工厂对象，如果没有调用 {@link #withHandlerFactory(IHandlerFactory)} 方法设置工厂，那么就会使用这个方法创建的默认工厂
 					 */
 					@Override
 					protected SecurityHandlerFactory newDefaultHandlerFactory() {
@@ -93,7 +93,7 @@ public class AccessibilityHelper {
 						new AbsHelper<ApkInstallTarget, OnApkInstallCallBack, ApkInstallHandlerFactory>(IDENTIFY_APK_INSTALL) {
 							
 							/**
-							 * 创建一个默认的工厂对象，如果没有调用 {@link #withHandlerFactory(IHandlerFactory)} 方法设置工厂，那么就会使用这个方法创建的默认工厂
+							 * @return 创建一个默认的工厂对象，如果没有调用 {@link #withHandlerFactory(IHandlerFactory)} 方法设置工厂，那么就会使用这个方法创建的默认工厂
 							 */
 							@Override
 							protected ApkInstallHandlerFactory newDefaultHandlerFactory() {

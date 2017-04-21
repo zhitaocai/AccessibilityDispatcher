@@ -53,7 +53,7 @@ public abstract class AbsHelper<T extends ITarget, C extends OnCallBack, H exten
 	}
 	
 	/**
-	 * 创建一个默认的工厂对象，如果没有调用 {@link #withHandlerFactory(IHandlerFactory)} 方法设置工厂，那么就会使用这个方法创建的默认工厂
+	 * @return 创建一个默认的工厂对象，如果没有调用 {@link #withHandlerFactory(IHandlerFactory)} 方法设置工厂，那么就会使用这个方法创建的默认工厂
 	 */
 	protected abstract H newDefaultHandlerFactory();
 	
