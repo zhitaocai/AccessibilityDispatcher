@@ -22,12 +22,12 @@
 
 ```gradle
 
-compile 'io.github.zhitaocai:accessibilitydispatcher:0.3.0@aar'
+compile 'io.github.zhitaocai:accessibilitydispatcher:0.4.0@aar'
 
 // or
 // 如果你的项目本身已经集成了 support-annotations 
 // 如果出现兼容问题，可移除本类库中本身所依赖的 support-annotations
-compile ('io.github.zhitaocai:accessibilitydispatcher:0.3.0@aar') {
+compile ('io.github.zhitaocai:accessibilitydispatcher:0.4.0@aar') {
     exclude group: 'com.android.support', module: 'support-annotations'
 }
 

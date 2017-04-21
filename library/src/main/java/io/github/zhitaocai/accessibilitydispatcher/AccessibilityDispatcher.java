@@ -11,7 +11,6 @@ import android.view.accessibility.AccessibilityEvent;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -41,7 +40,7 @@ public final class AccessibilityDispatcher {
 	 * （尽管准确度可能存在问题，但是这里我们出现一个明显不适配的场合了，所以用上这种兼容性处理就比较好了）</li>
 	 * </ul>
 	 */
-	private static HashMap<String, ArrayList<AbsASHandler>> sAbsASHandlers;
+	private static SparseArray<ArrayList<AbsASHandler>> sAbsASHandlers;
 	
 	/**
 	 * 耗时任务运行的线程池
@@ -97,9 +96,9 @@ public final class AccessibilityDispatcher {
 		return sUIHandler;
 	}
 	
-	static HashMap<String, ArrayList<AbsASHandler>> getAbsASHandlers() {
+	static SparseArray<ArrayList<AbsASHandler>> getAbsASHandlers() {
 		if (sAbsASHandlers == null) {
-			sAbsASHandlers = new HashMap<>();
+			sAbsASHandlers = new SparseArray<>();
 		}
 		return sAbsASHandlers;
 	}
@@ -115,7 +114,7 @@ public final class AccessibilityDispatcher {
 		}
 		synchronized (SYNC) {
 			// 先看看当前支持的列表中是否有
-			ArrayList<AbsASHandler> handlers = getAbsASHandlers().get(helper.getIdentify());
+			ArrayList<AbsASHandler> handlers = getAbsASHandlers().get(helper.hashCode());
 			if (handlers == null || handlers.isEmpty()) {
 				// 如果列表没有的话，检查是否需要开启，如果不需要开启的话，那么也就没必要创建对象
 				if (!helper.isEnable()) {
@@ -128,7 +127,7 @@ public final class AccessibilityDispatcher {
 				handler.setCallBacks(helper.getCallBacks());
 				handler.setTargets(helper.getTargets());
 			}
-			sAbsASHandlers.put(helper.getIdentify(), handlers);
+			sAbsASHandlers.put(helper.hashCode(), handlers);
 			return;
 		}
 	}
@@ -141,10 +140,11 @@ public final class AccessibilityDispatcher {
 				if (sConfig.isShowDebugLog()) {
 					DLog.i(">>>>>>>>>>>>>>>>>> 辅助功能服务连接 >>>>>>>>>>>>>>>>>>");
 				}
-				if (sAbsASHandlers == null || sAbsASHandlers.isEmpty()) {
+				if (sAbsASHandlers == null || sAbsASHandlers.size() == 0) {
 					return;
 				}
-				for (ArrayList<AbsASHandler> handlers : sAbsASHandlers.values()) {
+				for (int i = 0; i < sAbsASHandlers.size(); i++) {
+					ArrayList<AbsASHandler> handlers = sAbsASHandlers.valueAt(i);
 					if (handlers == null || handlers.isEmpty()) {
 						continue;
 					}
@@ -169,10 +169,11 @@ public final class AccessibilityDispatcher {
 				if (sConfig.isShowDebugLog()) {
 					DLog.i(">>>>>>>>>>>>>>>>>> 辅助功能服务被中断 >>>>>>>>>>>>>>>>>>");
 				}
-				if (sAbsASHandlers == null || sAbsASHandlers.isEmpty()) {
+				if (sAbsASHandlers == null || sAbsASHandlers.size() == 0) {
 					return;
 				}
-				for (ArrayList<AbsASHandler> handlers : sAbsASHandlers.values()) {
+				for (int i = 0; i < sAbsASHandlers.size(); i++) {
+					ArrayList<AbsASHandler> handlers = sAbsASHandlers.valueAt(i);
 					if (handlers == null || handlers.isEmpty()) {
 						continue;
 					}
@@ -205,10 +206,11 @@ public final class AccessibilityDispatcher {
 							sConfig.isShowEventSourceLog() ? event.getSource() : "暂时不输出"
 					);
 				}
-				if (sAbsASHandlers == null || sAbsASHandlers.isEmpty()) {
+				if (sAbsASHandlers == null || sAbsASHandlers.size() == 0) {
 					return;
 				}
-				for (ArrayList<AbsASHandler> handlers : sAbsASHandlers.values()) {
+				for (int i = 0; i < sAbsASHandlers.size(); i++) {
+					ArrayList<AbsASHandler> handlers = sAbsASHandlers.valueAt(i);
 					if (handlers == null || handlers.isEmpty()) {
 						continue;
 					}

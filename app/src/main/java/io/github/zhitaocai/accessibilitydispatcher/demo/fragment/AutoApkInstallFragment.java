@@ -16,13 +16,12 @@ import java.io.File;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import io.github.zhitaocai.accessibilitydispatcher.businss.apkinstall.ApkInstallHelper;
+import io.github.zhitaocai.accessibilitydispatcher.AccessibilityHelper;
 import io.github.zhitaocai.accessibilitydispatcher.businss.apkinstall.ApkInstallTarget;
 import io.github.zhitaocai.accessibilitydispatcher.businss.apkinstall.OnApkInstallCallBack;
 import io.github.zhitaocai.accessibilitydispatcher.businss.apkinstall.OnApkInstallCallBackAdapter;
 import io.github.zhitaocai.accessibilitydispatcher.businss.security.OnSecurityCallBack;
 import io.github.zhitaocai.accessibilitydispatcher.businss.security.OnSecurityCallBackAdapter;
-import io.github.zhitaocai.accessibilitydispatcher.businss.security.SecurityHelper;
 import io.github.zhitaocai.accessibilitydispatcher.businss.security.SecurityTarget;
 import io.github.zhitaocai.accessibilitydispatcher.demo.BuildConfig;
 import io.github.zhitaocai.accessibilitydispatcher.demo.R;
@@ -73,10 +72,10 @@ public class AutoApkInstallFragment extends BaseFragment {
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (requestCode) {
 		case REQ_SECURITY_UNKNOWN_SOURCES:
-			SecurityHelper.getInstance().reset().active();
+			AccessibilityHelper.securityHelper().reset().active();
 			break;
 		case REQ_APK_INSTALL:
-			ApkInstallHelper.getInstance().reset().active();
+			AccessibilityHelper.apkInstallHelper().reset().active();
 			break;
 		default:
 			break;
@@ -90,21 +89,22 @@ public class AutoApkInstallFragment extends BaseFragment {
 			return;
 		}
 		
-		SecurityHelper.getInstance()
-		              .setTarget(new SecurityTarget.Builder().setAction(SecurityTarget.ACTION_TURN_ON_UNKNOWNSOURCES).build())
-		              .setCallBack(new OnSecurityCallBack() {
-			              @Override
-			              public void onUnknownSourceItemClick() {
-				              toast("%1$tH:%1$tM:%1$tS 点击了\"未知来源\"所在的item", System.currentTimeMillis());
-			              }
+		AccessibilityHelper.securityHelper()
+		                   .withTargets(new SecurityTarget.Builder().setAction(SecurityTarget.ACTION_TURN_ON_UNKNOWNSOURCES)
+		                                                            .build())
+		                   .withCallBacks(new OnSecurityCallBack() {
+			                   @Override
+			                   public void onUnknownSourceItemClick() {
+				                   toast("%1$tH:%1$tM:%1$tS 点击了\"未知来源\"所在的item", System.currentTimeMillis());
+			                   }
 			
-			              @Override
-			              public void onUnknownSourceDialogConfirm() {
-				              toast("%1$tH:%1$tM:%1$tS 点击了开启\"未知来源\"时对话框中的确认按钮", System.currentTimeMillis());
-			              }
-		              })
-		              .setEnable(true)
-		              .active();
+			                   @Override
+			                   public void onUnknownSourceDialogConfirm() {
+				                   toast("%1$tH:%1$tM:%1$tS 点击了开启\"未知来源\"时对话框中的确认按钮", System.currentTimeMillis());
+			                   }
+		                   })
+		                   .enable(true)
+		                   .active();
 		
 		startActivity2SecuritySettings();
 	}
@@ -116,19 +116,20 @@ public class AutoApkInstallFragment extends BaseFragment {
 			return;
 		}
 		
-		SecurityHelper.getInstance()
-		              .setTarget(new SecurityTarget.Builder().setAction(SecurityTarget.ACTION_TURN_OFF_UNKNOWNSOURCES).build())
-		              .setCallBack(new OnSecurityCallBackAdapter() {
-			              /**
-			               * 点击了 未知来源 所在的item时的回调
-			               */
-			              @Override
-			              public void onUnknownSourceItemClick() {
-				              toast("%1$tH:%1$tM:%1$tS 点击了\"未知来源\"所在的item", System.currentTimeMillis());
-			              }
-		              })
-		              .setEnable(true)
-		              .active();
+		AccessibilityHelper.securityHelper()
+		                   .withTargets(new SecurityTarget.Builder().setAction(SecurityTarget.ACTION_TURN_OFF_UNKNOWNSOURCES)
+		                                                            .build())
+		                   .withCallBacks(new OnSecurityCallBackAdapter() {
+			                   /**
+			                    * 点击了 未知来源 所在的item时的回调
+			                    */
+			                   @Override
+			                   public void onUnknownSourceItemClick() {
+				                   toast("%1$tH:%1$tM:%1$tS 点击了\"未知来源\"所在的item", System.currentTimeMillis());
+			                   }
+		                   })
+		                   .enable(true)
+		                   .active();
 		
 		startActivity2SecuritySettings();
 	}
@@ -181,41 +182,43 @@ public class AutoApkInstallFragment extends BaseFragment {
 				FileUtils.cpFromAssets(applicationContext, TEST_APP_FILE_NAME_IN_ASSETS, file);
 				
 				// 安装之前配置自动点击行为
-				ApkInstallHelper.getInstance()
-				                .setTarget(new ApkInstallTarget.Builder().setAppName(TEST_APP_NAME).setAction(actions).build())
-				                .setCallBack(new OnApkInstallCallBack() {
-					                @Override
-					                public void onApkInstallBtnClick(ApkInstallTarget target) {
-						                toast("%1$tH:%1$tM:%1$tS 点击了\"下一步/安装\"按钮", System.currentTimeMillis());
-					                }
+				AccessibilityHelper.apkInstallHelper()
+				                   .withTargets(new ApkInstallTarget.Builder().setAppName(TEST_APP_NAME)
+				                                                              .setAction(actions)
+				                                                              .build())
+				                   .withCallBacks(new OnApkInstallCallBack() {
+					                   @Override
+					                   public void onApkInstallBtnClick(ApkInstallTarget target) {
+						                   toast("%1$tH:%1$tM:%1$tS 点击了\"下一步/安装\"按钮", System.currentTimeMillis());
+					                   }
 					
-					                @Override
-					                public void onApkInstalling(ApkInstallTarget target) {
-						                toast("%1$tH:%1$tM:%1$tS 安装中", System.currentTimeMillis());
-					                }
+					                   @Override
+					                   public void onApkInstalling(ApkInstallTarget target) {
+						                   toast("%1$tH:%1$tM:%1$tS 安装中", System.currentTimeMillis());
+					                   }
 					
-					                @Override
-					                public void onApkInstallFinish(ApkInstallTarget target) {
-						                toast("%1$tH:%1$tM:%1$tS 点击了安装完成界面中的\"完成\"", System.currentTimeMillis());
-					                }
+					                   @Override
+					                   public void onApkInstallFinish(ApkInstallTarget target) {
+						                   toast("%1$tH:%1$tM:%1$tS 点击了安装完成界面中的\"完成\"", System.currentTimeMillis());
+					                   }
 					
-					                @Override
-					                public void onApkInstallLaunch(ApkInstallTarget target) {
-						                toast("%1$tH:%1$tM:%1$tS 点击了安装完成界面中的\"打开\"", System.currentTimeMillis());
-					                }
+					                   @Override
+					                   public void onApkInstallLaunch(ApkInstallTarget target) {
+						                   toast("%1$tH:%1$tM:%1$tS 点击了安装完成界面中的\"打开\"", System.currentTimeMillis());
+					                   }
 					
-					                @Override
-					                public void onApkUninstallConfirm(ApkInstallTarget target) {
-						                toast("%1$tH:%1$tM:%1$tS 点击了卸载界面中的\"确认\"", System.currentTimeMillis());
-					                }
+					                   @Override
+					                   public void onApkUninstallConfirm(ApkInstallTarget target) {
+						                   toast("%1$tH:%1$tM:%1$tS 点击了卸载界面中的\"确认\"", System.currentTimeMillis());
+					                   }
 					
-					                @Override
-					                public void onApkUninstallCancel(ApkInstallTarget target) {
-						                toast("%1$tH:%1$tM:%1$tS 点击了卸载界面中的\"取消\"", System.currentTimeMillis());
-					                }
-				                })
-				                .setEnable(true)
-				                .active();
+					                   @Override
+					                   public void onApkUninstallCancel(ApkInstallTarget target) {
+						                   toast("%1$tH:%1$tM:%1$tS 点击了卸载界面中的\"取消\"", System.currentTimeMillis());
+					                   }
+				                   })
+				                   .enable(true)
+				                   .active();
 				
 				Intent intent = new Intent(Intent.ACTION_VIEW);
 				Uri uri;
@@ -238,24 +241,24 @@ public class AutoApkInstallFragment extends BaseFragment {
 			toast("目标应用还没有安装");
 			return;
 		}
-		ApkInstallHelper.getInstance()
-		                .setTarget(new ApkInstallTarget.Builder().setAppName(TEST_APP_NAME)
-		                                                         .setAction(ApkInstallTarget.ACTION_AUTO_DELETE)
-		                                                         .build())
-		                .setCallBack(new OnApkInstallCallBackAdapter() {
+		AccessibilityHelper.apkInstallHelper()
+		                   .withTargets(new ApkInstallTarget.Builder().setAppName(TEST_APP_NAME)
+		                                                              .setAction(ApkInstallTarget.ACTION_AUTO_DELETE)
+		                                                              .build())
+		                   .withCallBacks(new OnApkInstallCallBackAdapter() {
 			
-			                /**
-			                 * 点击了apk卸载界面中"确认"按钮
-			                 *
-			                 * @param target 目标应用
-			                 */
-			                @Override
-			                public void onApkUninstallConfirm(ApkInstallTarget target) {
-				                toast("%1$tH:%1$tM:%1$tS 点击了卸载界面中的\"确定\"", System.currentTimeMillis());
-			                }
-		                })
-		                .setEnable(true)
-		                .active();
+			                   /**
+			                    * 点击了apk卸载界面中"确认"按钮
+			                    *
+			                    * @param target 目标应用
+			                    */
+			                   @Override
+			                   public void onApkUninstallConfirm(ApkInstallTarget target) {
+				                   toast("%1$tH:%1$tM:%1$tS 点击了卸载界面中的\"确定\"", System.currentTimeMillis());
+			                   }
+		                   })
+		                   .enable(true)
+		                   .active();
 		
 		Uri uri = Uri.parse("package:" + TEST_APP_PKG_NAME);
 		Intent intent = new Intent(Intent.ACTION_DELETE, uri);
@@ -269,25 +272,25 @@ public class AutoApkInstallFragment extends BaseFragment {
 			toast("目标应用还没有安装");
 			return;
 		}
-		ApkInstallHelper.getInstance()
-		                .setTarget(new ApkInstallTarget.Builder().setAppName(TEST_APP_NAME)
-		                                                         .setAction(ApkInstallTarget.ACTION_CAN_NOT_DELETE)
-		                                                         .build())
-		                .setCallBack(new OnApkInstallCallBackAdapter() {
+		AccessibilityHelper.apkInstallHelper()
+		                   .withTargets(new ApkInstallTarget.Builder().setAppName(TEST_APP_NAME)
+		                                                              .setAction(ApkInstallTarget.ACTION_CAN_NOT_DELETE)
+		                                                              .build())
+		                   .withCallBacks(new OnApkInstallCallBackAdapter() {
 			
-			                /**
-			                 * 点击了apk卸载界面中"取消"按钮
-			                 *
-			                 * @param target 目标应用
-			                 */
-			                @Override
-			                public void onApkUninstallCancel(ApkInstallTarget target) {
-				                toast("%1$tH:%1$tM:%1$tS 点击了卸载界面中的\"取消\"", System.currentTimeMillis());
-			                }
+			                   /**
+			                    * 点击了apk卸载界面中"取消"按钮
+			                    *
+			                    * @param target 目标应用
+			                    */
+			                   @Override
+			                   public void onApkUninstallCancel(ApkInstallTarget target) {
+				                   toast("%1$tH:%1$tM:%1$tS 点击了卸载界面中的\"取消\"", System.currentTimeMillis());
+			                   }
 			
-		                })
-		                .setEnable(true)
-		                .active();
+		                   })
+		                   .enable(true)
+		                   .active();
 		
 		Uri uri = Uri.parse("package:" + TEST_APP_PKG_NAME);
 		Intent intent = new Intent(Intent.ACTION_DELETE, uri);
